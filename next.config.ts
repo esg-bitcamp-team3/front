@@ -4,4 +4,12 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 
-export default nextConfig;
+export default {
+  experimental: {
+    optimizePackageImports: [
+      "@mantine/core",
+      "@mantine/hooks",
+      "@chakra-ui/react",
+    ],
+  },
+};
