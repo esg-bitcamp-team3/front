@@ -9,10 +9,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       flexDirection={{ base: "column", md: "row" }}
       overflow="hidden"
     >
-      <Box w="full" flex="none" md={{ w: "64" }}>
+      {/* Fix: Use proper responsive syntax */}
+      <Box w={{ base: "full", md: "64" }} flex="none">
         <SideNav />
       </Box>
-      <Box flexGrow={1} p={6} md={{ overflowY: "auto", p: 12 }}>
+
+      {/* Fix: Use proper responsive syntax */}
+      <Box flexGrow={1} p={{ base: 6, md: 12 }} overflowY={{ md: "auto" }}>
         {children}
       </Box>
     </Box>

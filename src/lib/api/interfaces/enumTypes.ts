@@ -1,0 +1,121 @@
+export enum EmissionActivityTypeForMobileCombustion {
+  Aviation = "이동연소(항공)",
+  Rail = "이동연소(철도)",
+  Shipping = "이동연소(선박)",
+  Road = "이동연소(도로)",
+}
+
+export enum ActivityDataForMobileCombustion {
+  CNG_Vehicle = "CNG(차량)",
+  LNG_Vehicle = "LNG(차량)",
+  LPG_Vehicle = "LPG(차량)",
+  Diesel = "경유",
+  Kerosene = "실내등유",
+  BoilerFuel = "보일러등유",
+  LubricantOil = "윤활유",
+  Gasoline = "휘발유",
+}
+
+export enum IndirectEmissionActivityTypeForElectricity {
+  Indirect_ExternalElectricityUse = "간접배출(외부전기사용)",
+}
+
+export enum ActivityDataForElectricity {
+  Electricity = "전기",
+}
+
+export enum EmissionActivityTypeForStationaryCombustion {
+  Gas = "기체연료연소",
+  Liquid = "액체연료연소",
+  Solid = "고체연료연소",
+}
+
+export enum ActivityDataForStationaryCombustion {
+  CrudeOil = "원유",
+  Orimulsion = "오리멀전",
+  LiquefiedNaturalGas_Liquid = "천연가스 액",
+  Gasoline = "휘발유",
+  AviationFuel = "항공유",
+  JetFuel_IP8 = "제트용 가솔린(IP-8)",
+  JetFuel_JETA1 = "제트용 등유(JET A-1)",
+  Kerosene = "실내등유",
+  OilSands = "혈암유",
+  Diesel = "경유",
+  BoilerFuel = "보일러 등유",
+  LPG = "액화석유가스(LPG)",
+  Ethane = "에탄",
+  Naphtha = "나프타(납사)",
+  Asphalt = "역청(아스팔트)",
+  LubricantOil = "윤활유",
+  PetroleumCoke = "석유 코크스(석유코크)",
+  RefinedFuel = "정유공장 원료(정제연료)",
+  RefinedGas = "정유가스(정제가스)",
+  AdhesiveParaffinWax = "접착제(파라핀왁스)",
+  SolventWhiteSpirit = "백유(용제)",
+  B_AFuel = "B-A유",
+  B_BFuel = "B-B유",
+  B_CFuel = "B-C유",
+  Propane = "프로판",
+  Butane = "부탄",
+  OtherOilProducts = "기타석유제품(기타)",
+  OtherLiquidFuels = "기타액체연료",
+  DomesticAnthracite = "국내무연탄",
+  ImportedAnthracite = "수입무연탄",
+  RawCoalForMaterials = "원료용 유연탄",
+  FuelCoal = "연료용 유연탄",
+  SubbituminousCoal = "하위 역청탄(아역청탄)",
+  Lignite = "갈탄",
+  Coke = "코크스",
+  OtherSolidFuels = "기타 고체연료",
+  OilShaleAndTar = "유혈암 및 역청탄",
+  LigniteAndAnthracite = "갈탄 연탄",
+  CoalTar = "콜타르",
+  NaturalGas_LNG = "천연가스(LNG)",
+  CokeGas = "코크스가스",
+  BlastFurnaceGas = "고로가스",
+  ConverterGas = "전로가스",
+  CityGas_LNG = "도시가스(LNG)",
+  CityGas_LPG = "도시가스(LPG)",
+  ByproductFuel1 = "부생연료 1호",
+  ByproductFuel2 = "부생연료 2호",
+  OtherGasFuels = "기타 기체연료",
+  GasPlantGas = "가스공장가스(파생가스)",
+  OxygenSteelGas = "산소 강철로 가스(파생가스)",
+  Electricity = "전기",
+  Steam = "스팀",
+  AgriculturalCrops = "농업작물(유채, 옥수수 등) 형태",
+  ForestByproducts = "농임산부산물 형태",
+  ThinningWood = "간벌목",
+  RiceHusk = "볏집",
+  Straw = "왕겨",
+  Hay = "건초",
+  Bark = "수피",
+  WasteWood = "폐목재",
+  PulpAndPaper = "펄프 및 제지",
+  VegetableOil = "동/식물성 기름",
+  FoodWaste = "음식물쓰레기",
+  LivestockManure = "축산분뇨",
+  SewageSludge = "하수슬러지 등",
+  Algae = "해조류, 조류",
+  AquaticPlants = "수생식물 등",
+  Biogas = "바이오가스",
+  Bioethanol = "바이오에탄올",
+  BioLiquidAndSyngas = "바이오액화유 및 합성가스",
+  LandfillGas_LFG = "매립지가스(LFG)",
+  Biodiesel = "바이오디젤",
+  Firewood = "땔감",
+  WoodChips = "우드칩",
+  Charcoal = "목탄",
+  RDF = "RDF",
+  RPF = "RPF",
+  WasteOilGasification = "폐기물 유화/가스화 등",
+}
+
+export enum IndirectEmissionActivityTypeForSteam {
+  Indirect_ExternalSteamUse = "간접배출(외부 열사용)",
+}
+
+export enum ActivityDataForSteam {
+  Steam = "스팀",
+  Heat = "열",
+}
