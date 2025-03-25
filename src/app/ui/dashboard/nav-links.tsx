@@ -11,6 +11,7 @@ const links = [
     href: "/dashboard/emmition-factory",
     icon: DocumentDuplicateIcon,
   },
+  { name: "기업", href: "/dashboard/oganization", icon: DocumentDuplicateIcon },
 ];
 
 export default function NavLinks() {

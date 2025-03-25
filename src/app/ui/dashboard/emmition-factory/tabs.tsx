@@ -2,12 +2,16 @@
 
 import { Button, CloseButton, Heading, Tabs, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { LuPlus } from "react-icons/lu";
+import AddEmmition from "./addDetail/emmition_name";
+import { useRouter } from "next/router";
 
 interface Item {
   id: string;
   title: string;
   content: React.ReactNode;
+}
+interface AddTabParams {
+  tabName: string;
 }
 
 const items: Item[] = [{ id: "1", title: "Tab", content: "Tab Content" }];
@@ -19,18 +23,19 @@ const uuid = () => {
 const AddEmmitionFactory = () => {
   const [tabs, setTabs] = useState<Item[]>(items);
   const [selectedTab, setSelectedTab] = useState<string | null>(items[0].id);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const addTab = () => {
+  const addTab = (tabName: AddTabParams["tabName"]): void => {
     const newTabs = [...tabs];
-
     const uid = uuid();
+
+    if (!tabName.trim()) return; // 빈 값 방지
 
     newTabs.push({
       id: uid,
-      title: `Tab`,
+      title: `${tabName}`,
       content: `Tab Body`,
     });
-
     setTabs(newTabs);
     setSelectedTab(newTabs[newTabs.length - 1].id);
   };
@@ -46,7 +51,7 @@ const AddEmmitionFactory = () => {
     <Tabs.Root
       value={selectedTab}
       variant="outline"
-      size="sm"
+      size="lg"
       onValueChange={(e) => setSelectedTab(e.value)}
     >
       <Tabs.List flex="1 1 auto">
@@ -56,7 +61,7 @@ const AddEmmitionFactory = () => {
             <CloseButton
               as="span"
               role="button"
-              size="2xs"
+              size="sm"
               me="-2"
               onClick={(e) => {
                 e.stopPropagation();
@@ -65,14 +70,8 @@ const AddEmmitionFactory = () => {
             />
           </Tabs.Trigger>
         ))}
-        <Button
-          alignSelf="center"
-          ms="2"
-          size="2xs"
-          variant="ghost"
-          onClick={addTab}
-        >
-          <LuPlus /> Add Tab
+        <Button alignSelf="center" ms="2" size="lg" variant="ghost">
+          <AddEmmition confirm={addTab} />
         </Button>
       </Tabs.List>
 
@@ -82,14 +81,6 @@ const AddEmmitionFactory = () => {
             <Heading size="xl" my="6">
               {item.content} {item.id}
             </Heading>
-            <Text>
-              Dolore ex esse laboris elit magna esse sunt. Pariatur in veniam
-              Lorem est occaecat do magna nisi mollit ipsum sit adipisicing
-              fugiat ex. Pariatur ullamco exercitation ea qui adipisicing. Id
-              cupidatat aute id ut excepteur exercitation magna pariatur. Mollit
-              irure irure reprehenderit pariatur eiusmod proident Lorem deserunt
-              duis cillum mollit.
-            </Text>
           </Tabs.Content>
         ))}
       </Tabs.ContentGroup>
