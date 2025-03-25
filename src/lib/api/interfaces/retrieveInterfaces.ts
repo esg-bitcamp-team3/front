@@ -18,21 +18,21 @@ export interface IOrganization {
 }
 
 export interface ISubsidiary {
-  _id: string;
+  _id?: string;
   organization: string; // 소속 법인
   name: string; // 사업장명
-  representative: string; // 대표자
-  registrationNumber: string; // 사업자 등록번호
-  industryType: string; // 대표업종
-  phoneNumber: string; // 사업장 전화번호
-  address: string; // 사업장 소재지
-  mainProducts: string; // 주 생산품(처리물질)
-  productionVolume: number; // 생산량(처리량)
-  unit: string; // 단위 (예: 톤, 리터 등)
-  numberOfEmployees: number; // 상시종업원수
-  capital: number; // 자본금(원)
-  annualRevenue: number; // 당해연도 매출액(원)
-  annualEnergyCost: number; // 당해연도 에너지 비용(원)
+  representative?: string; // 대표자
+  registrationNumber?: string; // 사업자 등록번호
+  industryType?: string; // 대표업종
+  phoneNumber?: string; // 사업장 전화번호
+  address?: string; // 사업장 소재지
+  mainProducts?: string; // 주 생산품(처리물질)
+  productionVolume?: number; // 생산량(처리량)
+  unit?: string; // 단위 (예: 톤, 리터 등)
+  numberOfEmployees?: number; // 상시종업원수
+  capital?: number; // 자본금(원)
+  annualRevenue?: number; // 당해연도 매출액(원)
+  annualEnergyCost?: number; // 당해연도 에너지 비용(원)
 }
 
 export interface IFuel {
