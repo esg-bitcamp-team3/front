@@ -18,7 +18,7 @@ export interface IOrganization {
 }
 
 export interface ISubsidiary {
-  _id?: string;
+  _id: string;
   organization: string; // 소속 법인
   name: string; // 사업장명
   representative?: string; // 대표자
