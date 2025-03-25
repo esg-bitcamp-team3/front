@@ -9,18 +9,34 @@ import {
 } from "@chakra-ui/react";
 import { FileUpload } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { ISubsidiary } from "@/lib/api/interfaces/retrieveInterfaces";
+import { createSubsidiary } from "@/lib/api/post";
+import { toaster } from "@/components/ui/toaster";
 
 interface AddEmmitionProps {
   confirm: (tabName: string) => void;
 }
 
-const AddEmmition: React.FC<AddEmmitionProps> = ({ confirm }) => {
+const AddEmmition: React.FC<AddEmmitionProps> = () => {
   const dialog = useDialog();
-  let registrationNumber = "";
-  let industryType = "";
-  let emmitionName = "";
-
+  const { register, handleSubmit } = useForm<ISubsidiary>({
+    defaultValues: { organization: "67e2270b5a8ed00799f03758" },
+  });
+  const onSubmit = async (data: ISubsidiary) => {
+    const response = createSubsidiary(data);
+    toaster.promise(response, {
+      success: {
+        title: "Successfully uploaded!",
+        description: "Looks great",
+      },
+      error: {
+        title: "Upload failed",
+        description: "Something wrong with the upload",
+      },
+      loading: { title: "Uploading...", description: "Please wait" },
+    });
+  };
   return (
     <form>
       <Dialog.RootProvider value={dialog} size={"lg"}>
@@ -42,32 +58,32 @@ const AddEmmition: React.FC<AddEmmitionProps> = ({ confirm }) => {
                 <Box m={2}>
                   <Input
                     display="flex"
-                    id="registrationNumber"
-                    name="registrationNumber"
                     type="string"
                     placeholder="법인 등록 번호"
                     _placeholder={{ color: "skyblue" }}
-                    onChange={(e) => (registrationNumber = e.target.value)}
+                    {...register("registrationNumber", {
+                      required: "This is required",
+                    })}
                   />
                 </Box>
                 <Box m={2}>
                   <Input
-                    id="industryType"
-                    name="industryType"
                     type="string"
                     placeholder="업종"
                     _placeholder={{ color: "skyblue" }}
-                    onChange={(e) => (industryType = e.target.value)}
+                    {...register("industryType", {
+                      required: "This is required",
+                    })}
                   />
                 </Box>
                 <Box m={2}>
                   <Input
-                    id="emmitionName"
-                    name="emmitionName"
                     type="string"
                     placeholder="사업장 명"
                     _placeholder={{ color: "skyblue" }}
-                    onChange={(e) => (emmitionName = e.target.value)}
+                    {...register("name", {
+                      required: "This is required",
+                    })}
                   />
                 </Box>
                 <FileUpload.Root accept={["image/png"]}>
@@ -87,14 +103,7 @@ const AddEmmition: React.FC<AddEmmitionProps> = ({ confirm }) => {
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button
-                    type="submit"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      confirm(emmitionName);
-                    }}
-                    m={2}
-                  >
+                  <Button onClick={handleSubmit(onSubmit)} m={2}>
                     Save
                   </Button>
                 </Dialog.ActionTrigger>

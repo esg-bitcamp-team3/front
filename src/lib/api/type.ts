@@ -18,6 +18,11 @@ export interface Response<T> {
   data: T;
 }
 
+export interface AuthResponse {
+  ok: boolean;
+  body: string;
+}
+
 export interface ErrorResponse {
   error: string;
   message: string;
