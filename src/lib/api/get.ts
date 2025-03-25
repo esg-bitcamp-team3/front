@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import { IOrganization } from "./interfaces/retrieveInterfaces";
+import { IOrganization, ISubsidiary } from "./interfaces/retrieveInterfaces";
 import { PaginatedResponse, PaginationParams, Response } from "./type";
 
 export async function getOrganizaionList(params?: PaginationParams) {
@@ -14,6 +14,18 @@ export async function getOrganizaionList(params?: PaginationParams) {
 
 export async function getOrganizaionById(id: string) {
   return await apiClient.get<Response<IOrganization>>(`/organizations/${id}`, {
+    withAuth: true,
+  });
+}
+
+export async function getSubsidiaryList(params?: PaginationParams) {
+  return await apiClient.get<PaginatedResponse<ISubsidiary>>(`/subsidiaries`, {
+    withAuth: true,
+  });
+}
+
+export async function getSubsidiary(organizations: string) {
+  return await apiClient.get<Response<ISubsidiary>>(`/subsidiaries/`, {
     withAuth: true,
   });
 }
