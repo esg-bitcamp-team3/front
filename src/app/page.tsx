@@ -44,7 +44,7 @@ export default function Page() {
             </Link>
             , brought to you by Vercel.
           </Text>
-          <Link href="/dashboard">
+          <Link href="/login">
             <Box
               display="flex"
               alignItems="center"
