@@ -22,6 +22,7 @@ import {Dataform_Station} from './addDetail/dataform/dataform_Station'
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
   const [organization, setOrganization] = useState<IOrganization>()
+  const [open, setOpen] = useState<boolean>(false)
   const router = useRouter()
 
   const fetchSubsidiaryList = async () => {
@@ -84,8 +85,8 @@ const AddEmmitionFactory = () => {
                   {item.name} ( {item?.registrationNumber} )
                 </Text>
               </Heading>
-              <Dialog.Root size="full">
-                <Dialog.Trigger asChild>
+              <Dialog.Root size="full" open={open}>
+                <Dialog.Trigger asChild onClick={() => setOpen(true)}>
                   <Button>Add Data</Button>
                 </Dialog.Trigger>
                 <Dialog.Backdrop />
@@ -98,7 +99,10 @@ const AddEmmitionFactory = () => {
                       <Dialog.Title />
                     </Dialog.Header>
                     <Dialog.Body>
-                      <Dataform_Station subsidaryId={item._id} />
+                      <Dataform_Station
+                        subsidaryId={item._id}
+                        onClose={() => setOpen(false)}
+                      />
                     </Dialog.Body>
                     <Dialog.Footer />
                   </Dialog.Content>

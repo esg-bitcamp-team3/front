@@ -31,36 +31,57 @@ const year: number[] = [2020, 2021, 2022, 2023, 2024, 2025]
 
 const emissionActivity = Object.values(EmissionActivityTypeForStationaryCombustion)
 
-export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
+export function Dataform_Station({
+  subsidaryId,
+  onClose
+}: {
+  subsidaryId: string
+  onClose: () => void
+}) {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
   const [fuel, setFuel] = useState<IFuelInfo[]>()
-
+  const [formatted, setFormatted] = useState<IEmissionFromStationaryCombustion[]>()
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
   }
+
   type subdata = IEmissionFromStationaryCombustion
-  const {register, handleSubmit} = useForm<subdata>({
-    defaultValues: {
-      subsidiary: '67e3769e02d20f2bd8da5008'
-    }
+  const {register, handleSubmit} = useForm<{
+    data: subdata[]
+  }>({
+    defaultValues: {data: []}
   })
 
-  const onSubmit = async (data: IEmissionFromStationaryCombustion) => {
-    data.subsidiary = subsidaryId
-    const response = createStationaryCombustion(data)
-    console.log('register: ', data)
+  const onSubmit = async ({data}: {data: subdata[]}) => {
+    try {
+      const requestData = data.map(item => ({
+        ...item,
+        subsidiary: subsidaryId
+      }))
 
-    toaster.promise(response, {
-      success: {
-        title: 'Successfully uploaded!',
-        description: 'Looks great'
-      },
-      error: {
-        title: 'Upload failed',
-        description: 'Something wrong with the upload'
-      },
-      loading: {title: 'Uploading...', description: 'Please wait'}
-    })
+      const promises = requestData.map(item => createStationaryCombustion(item))
+
+      // Use Promise.all to wait for all requests to complete
+      const response = Promise.all(promises)
+
+      toaster.promise(response, {
+        success: {
+          title: 'Successfully uploaded!',
+          description: 'Looks great'
+        },
+        error: {
+          title: 'Upload failed',
+          description: 'Something wrong with the upload'
+        },
+        loading: {title: 'Uploading...', description: 'Please wait'}
+      })
+
+      onClose()
+    } catch {
+      toaster.error({
+        title: '데이터 생성 중 문제가 발생했습니다.'
+      })
+    }
   }
 
   useEffect(() => {
@@ -104,7 +125,7 @@ export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
                 {/* year */}
                 <NativeSelect.Root>
                   <NativeSelect.Field
-                    {...register('year', {
+                    {...register(`data.${index}.year`, {
                       required: 'This is required'
                     })}>
                     <For each={year}>
@@ -123,7 +144,7 @@ export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
               <Table.Cell px="1" py="3">
                 <Input
                   placeholder="ex) CHP1호기"
-                  {...register('facilityName', {
+                  {...register(`data.${index}.facilityName`, {
                     required: 'This is required'
                   })}
                 />
@@ -133,7 +154,7 @@ export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
               <Table.Cell px="1" py="3">
                 <NativeSelect.Root>
                   <NativeSelect.Field
-                    {...register('emissionActivity', {
+                    {...register(`data.${index}.emissionActivity`, {
                       required: 'This is required'
                     })}>
                     <For each={emissionActivity}>
@@ -152,7 +173,7 @@ export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
               <Table.Cell px="1" py="3">
                 <NativeSelect.Root>
                   <NativeSelect.Field
-                    {...register('activityData', {
+                    {...register(`data.${index}.activityData`, {
                       required: 'This is required'
                     })}>
                     <For each={fuel}>
@@ -170,12 +191,12 @@ export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
               {/* month_data */}
               <Table.Cell px="1" py="3">
                 <HStack>
-                  {Array.from({length: 12}).map((_, index) => (
+                  {Array.from({length: 12}).map((_, month) => (
                     <Input
-                      key={index}
-                      placeholder={`${index + 1}월`}
+                      key={month}
+                      placeholder={`${month + 1}월`}
                       type="number"
-                      {...register(`data.${index}`, {
+                      {...register(`data.${index}.data.${month}`, {
                         required: 'This is required',
                         valueAsNumber: true // Ensure the value is treated as a number
                       })}
