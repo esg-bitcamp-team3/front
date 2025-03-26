@@ -31,9 +31,8 @@ const year: number[] = [2020, 2021, 2022, 2023, 2024, 2025]
 
 const emissionActivity = Object.values(EmissionActivityTypeForStationaryCombustion)
 
-export function Dataform_Station(subsidaryId: string) {
+export function Dataform_Station({subsidaryId}: {subsidaryId: string}) {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
-
   const [fuel, setFuel] = useState<IFuelInfo[]>()
 
   const addRow = () => {

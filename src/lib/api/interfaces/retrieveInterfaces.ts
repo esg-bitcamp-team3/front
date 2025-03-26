@@ -17,12 +17,12 @@ export interface IOrganization {
   annualEnergyCost: number // 당해연도 에너지 비용(원)
 }
 export interface IOrganizationInfo {
-  organization: IOrganization;
-  subsidiaries: ISubsidiary[];
+  organization: IOrganization
+  subsidiaries: ISubsidiary[]
 }
 
 export interface ISubsidiary {
-  _id?: string
+  _id: string
   organization?: string // 소속 법인
   name?: string // 사업장명
   representative?: string // 대표자

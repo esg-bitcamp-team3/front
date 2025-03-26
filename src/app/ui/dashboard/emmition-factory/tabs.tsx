@@ -3,11 +3,21 @@
 import {deleteSubsidiary} from '@/lib/api/delete'
 import {toaster} from '@/components/ui/toaster'
 import {IOrganization, ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
-import {Button, CloseButton, Heading, Tabs, Text, For, SimpleGrid} from '@chakra-ui/react'
+import {
+  Button,
+  CloseButton,
+  Heading,
+  Tabs,
+  Text,
+  For,
+  SimpleGrid,
+  Dialog
+} from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import AddEmmition from './addDetail/emmition_name'
 import {getMyOrganizations} from '@/lib/api/my'
 import {useRouter} from 'next/navigation'
+import {Dataform_Station} from './addDetail/dataform/dataform_Station'
 
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
@@ -74,6 +84,26 @@ const AddEmmitionFactory = () => {
                   {item.name} ( {item?.registrationNumber} )
                 </Text>
               </Heading>
+              <Dialog.Root size="full">
+                <Dialog.Trigger asChild>
+                  <Button>Add Data</Button>
+                </Dialog.Trigger>
+                <Dialog.Backdrop />
+                <Dialog.Positioner>
+                  <Dialog.Content>
+                    <Dialog.CloseTrigger asChild>
+                      <CloseButton size="sm" />
+                    </Dialog.CloseTrigger>
+                    <Dialog.Header>
+                      <Dialog.Title />
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      <Dataform_Station subsidaryId={item._id} />
+                    </Dialog.Body>
+                    <Dialog.Footer />
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Dialog.Root>
             </Tabs.Content>
           ))}
         </Tabs.ContentGroup>
