@@ -5,6 +5,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/api/auth";
+import { getMyOrganizations } from "@/lib/api/my";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -21,13 +22,11 @@ const LoginPage = () => {
     }
     try {
       const response = await login({ username: username, password: password });
-      if (response.ok) {
-        router.push("/dashboard");
-      }
+      console.log(response.data);
+      router.push("/dashboard");
     } catch (error) {
       console.log("error");
     }
-    console.log("로그인 시도:", { username, password });
   };
 
   return (
