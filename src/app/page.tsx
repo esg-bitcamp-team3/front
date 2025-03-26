@@ -1,8 +1,11 @@
+
 import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
 import { Box, Text, Button, Stack, Flex, Heading } from "@chakra-ui/react";
 import { LuArrowRight, LuTreeDeciduous } from "react-icons/lu";
 import { BsTree } from "react-icons/bs";
+
+
 export default function Page() {
   return (
     <Box
@@ -107,5 +110,6 @@ export default function Page() {
       </Box>
       {/* 푸터 끝 */}
     </Box>
-  );
+  )
 }
+;``

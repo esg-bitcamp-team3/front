@@ -1,84 +1,135 @@
-"use client";
+'use client'
 
-import { getSubsidiaryList } from "@/lib/api/get";
-import { deleteSubsidiary } from "@/lib/api/delete";
-import { toaster } from "@/components/ui/toaster";
-import { ISubsidiary } from "@/lib/api/interfaces/retrieveInterfaces";
-import { Button, CloseButton, Heading, Tabs, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import AddEmmition from "./addDetail/emmition_name";
-import { Box } from "@chakra-ui/react";
-
-const uuid = () => {
-  return Math.random().toString(36).substring(2, 15);
-};
+import {deleteSubsidiary} from '@/lib/api/delete'
+import {toaster} from '@/components/ui/toaster'
+import {IOrganization, ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
+import {
+  Button,
+  CloseButton,
+  Heading,
+  Tabs,
+  Text,
+  For,
+  SimpleGrid,
+  Dialog,
+  Flex
+} from '@chakra-ui/react'
+import {useEffect, useState} from 'react'
+import AddEmmition from './addDetail/emmition_name'
+import {getMyOrganizations} from '@/lib/api/my'
+import {useRouter} from 'next/navigation'
+import {Dataform_Station} from './addDetail/dataform/dataform_Station'
+import {SelectYear} from './tab_page'
 
 const AddEmmitionFactory = () => {
-  const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([]);
-  const [page, setPage] = useState(1);
+  const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
+  const [organization, setOrganization] = useState<IOrganization>()
+  const [open, setOpen] = useState<boolean>(false)
+  const router = useRouter()
+
   const fetchSubsidiaryList = async () => {
     try {
-      const response = await getSubsidiaryList();
-      setSubsidiaryList(response.data);
-    } catch (error) {}
-  };
+      const response = await getMyOrganizations()
+      setSubsidiaryList(response.data.subsidiaries)
+      setOrganization(response.data.organization)
+    } catch (error) {
+      router.push('/login')
+    }
+  }
 
   useEffect(() => {
-    const fetchSubsidiaryList = async () => {
-      try {
-        const response = await getSubsidiaryList();
-        setSubsidiaryList(response.data);
-      } catch (error) {}
-    };
-    fetchSubsidiaryList();
-  }, []);
+    fetchSubsidiaryList()
+  }, [])
 
-  const [selectedTab, setSelectedTab] = useState<string | null>();
+  const [selectedTab, setSelectedTab] = useState<string | null>()
 
   const removeTab = async (_id: string) => {
-    deleteSubsidiary(_id);
-    fetchSubsidiaryList();
-  };
+    deleteSubsidiary(_id)
+    fetchSubsidiaryList()
+  }
 
   return (
-    <Tabs.Root
-      value={selectedTab}
-      variant="outline"
-      size="lg"
-      onValueChange={(e) => setSelectedTab(e.value)}
-    >
-      <Tabs.List flex="1 1 auto">
-        {subsidiaryList.map((item) => (
-          <Tabs.Trigger value={item._id} key={item._id}>
-            {item.name}{" "}
-            <CloseButton
-              as="span"
-              role="button"
-              size="lg"
-              me="-2"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeTab(item._id);
-              }}
-            />
-          </Tabs.Trigger>
-        ))}
+    <SimpleGrid columns={2} gap="14" width="full">
+      <Tabs.Root
+        value={selectedTab}
+        variant="subtle"
+        size="lg"
+        onValueChange={e => setSelectedTab(e.value)}>
+        <Tabs.List flex="1 1 auto" overflowX="auto">
+          {subsidiaryList.map(item => (
+            <Tabs.Trigger
+              display="flex"
+              padding={4}
+              value={item._id}
+              key={item._id}
+              maxWidth="200px">
+              <Text
+                overflow="hidden"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+                flexGrow={1}>
+                {' '}
+                {item.name}{' '}
+              </Text>
 
-        <AddEmmition />
-      </Tabs.List>
+              <CloseButton
+                as="span"
+                role="button"
+                ml={2}
+                size="sm"
+                me="-2"
+                onClick={e => {
+                  e.stopPropagation()
+                  removeTab(item._id)
+                }}
+              />
+            </Tabs.Trigger>
+          ))}
 
-      <Tabs.ContentGroup>
-        {subsidiaryList.map((item) => (
-          <Tabs.Content value={item._id} key={item._id}>
-            <Heading size="xl" my="6">
-              {item._id}
-            </Heading>
-            <Text></Text>
-          </Tabs.Content>
-        ))}
-      </Tabs.ContentGroup>
-    </Tabs.Root>
-  );
-};
+          <AddEmmition />
+        </Tabs.List>
 
-export default AddEmmitionFactory;
+        <Tabs.ContentGroup>
+          {subsidiaryList.map(item => (
+            <Tabs.Content value={item._id} key={item._id}>
+              <Heading size="xl" my="6">
+                <Text m="5" fontSize="3xl">
+                  {organization?.name} {item.industryType}
+                </Text>
+                <Text m="5">
+                  {item.name} ( {item?.registrationNumber} )
+                </Text>
+              </Heading>
+              <Dialog.Root size="full" open={open}>
+                <Dialog.Trigger asChild onClick={() => setOpen(true)}>
+                  <Button>Add Data</Button>
+                </Dialog.Trigger>
+                <Dialog.Backdrop />
+                <Dialog.Positioner>
+                  <Dialog.Content>
+                    <Dialog.CloseTrigger asChild>
+                      <CloseButton size="sm" />
+                    </Dialog.CloseTrigger>
+                    <Dialog.Header>
+                      <Dialog.Title />
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      <Dataform_Station
+                        subsidaryId={item._id}
+                        onClose={() => setOpen(false)}
+                      />
+                    </Dialog.Body>
+                    <Dialog.Footer />
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Dialog.Root>
+              <SelectYear subsidiaryId={item._id} />
+            </Tabs.Content>
+          ))}
+        </Tabs.ContentGroup>
+      </Tabs.Root>
+    </SimpleGrid>
+  )
+}
+
+export default AddEmmitionFactory
