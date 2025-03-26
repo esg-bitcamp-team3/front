@@ -3,20 +3,20 @@ import {Table, TableCell, Badge, Stat, VStack} from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 
 export function Show_Data(subsidary: string) {
-  // const [data, setData] = useState<Array<{ year: number; total: number }> | null>(null)
+  const [data, setData] = useState<Array<{year: number; total: number}> | null>(null)
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const result = await getStationaryData(subsidary)
-  //     // year와 total만 추출
-  //     const filteredData = result.map((item: any) => ({
-  //       year: item.year,
-  //       total: item.total,
-  //     }))
-  //     setData(filteredData)
-  //   }
-  //   fetchData()
-  // }, [subsidary])
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getStationaryData(subsidary)
+      // year와 total만 추출
+      const filteredData = result.map((item: any) => ({
+        year: item.year,
+        total: item.total
+      }))
+      setData(filteredData)
+    }
+    fetchData()
+  }, [subsidary])
 
   return (
     <VStack>

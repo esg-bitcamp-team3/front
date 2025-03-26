@@ -73,6 +73,12 @@ export interface ICalorificValue {
   ncv: number
 }
 
+export interface IFuelInfo {
+  fuel: IFuel
+  calorificValue: ICalorificValue | null
+  emissionFactor: IEmissionFactor | null
+}
+
 export interface IIndirectEmissionFromSteam {
   _id?: string
   subsidiary?: string // 사업장

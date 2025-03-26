@@ -1,6 +1,9 @@
 'use client'
 
-import {IEmissionFromStationaryCombustion} from '@/lib/api/interfaces/retrieveInterfaces'
+import {
+  IEmissionFromStationaryCombustion,
+  IFuelInfo
+} from '@/lib/api/interfaces/retrieveInterfaces'
 import {createStationaryCombustion} from '@/lib/api/post'
 import {
   Button,
@@ -15,13 +18,14 @@ import {
 
 import {useForm} from 'react-hook-form'
 
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {toaster} from '@/components/ui/toaster'
 import {register} from 'module'
 import {
   ActivityDataForStationaryCombustion,
   EmissionActivityTypeForStationaryCombustion
 } from '@/lib/api/interfaces/enumTypes'
+import {getStationaryActivityData} from '@/lib/api/get'
 
 const year: string[] = ['2020', '2021', '2022', '2023', '2024', '2025']
 
@@ -30,6 +34,8 @@ const emissionActivity = Object.values(EmissionActivityTypeForStationaryCombusti
 
 export function Dataform_Station() {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
+
+  const [fuel, setFuel] = useState<IFuelInfo[]>()
 
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
@@ -53,6 +59,18 @@ export function Dataform_Station() {
       loading: {title: 'Uploading...', description: 'Please wait'}
     })
   }
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getStationaryActivityData()
+        setFuel(result.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <Stack gap="10" px="8">
@@ -134,10 +152,10 @@ export function Dataform_Station() {
                     {...register('activityData', {
                       required: 'This is required'
                     })}>
-                    <For each={activityData}>
+                    <For each={fuel}>
                       {item => (
-                        <option key={item} value={item}>
-                          {item}
+                        <option key={item.fuel._id} value={item.fuel._id}>
+                          {item.fuel.name}
                         </option>
                       )}
                     </For>

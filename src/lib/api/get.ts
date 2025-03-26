@@ -1,9 +1,10 @@
 import apiClient from './apiClient'
 import {
   IEmissionFromStationaryCombustion,
+  IFuelInfo,
   IOrganization
 } from './interfaces/retrieveInterfaces'
-import {PaginatedResponse, PaginationParams, Response} from './type'
+import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
 export async function getOrganizaionList(params?: PaginationParams) {
   return await apiClient.get<PaginatedResponse<IOrganization>>(`/organizations`, {
@@ -18,11 +19,8 @@ export async function getOrganizaionById(id: string) {
   })
 }
 
-export async function getStationaryData(id: string) {
-  return await apiClient.get<Response<IEmissionFromStationaryCombustion>>(
-    `/data/stationary-combustion/${id}`,
-    {
-      withAuth: true
-    }
-  )
+export async function getStationaryActivityData() {
+  return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/stationary`, {
+    withAuth: true
+  })
 }

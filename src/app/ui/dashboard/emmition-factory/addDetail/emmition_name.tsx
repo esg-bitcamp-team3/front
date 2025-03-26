@@ -14,28 +14,24 @@ import { ISubsidiary } from "@/lib/api/interfaces/retrieveInterfaces";
 import { createSubsidiary } from "@/lib/api/post";
 import { toaster } from "@/components/ui/toaster";
 
-interface AddEmmitionProps {
-  confirm: (tabName: string) => void;
-}
-
-const AddEmmition: React.FC<AddEmmitionProps> = () => {
+const AddEmmition = () => {
   const dialog = useDialog();
   const { register, handleSubmit } = useForm<ISubsidiary>({
     defaultValues: { organization: "67e2270b5a8ed00799f03758" },
   });
   const onSubmit = async (data: ISubsidiary) => {
-    const response = createSubsidiary(data);
-    toaster.promise(response, {
-      success: {
-        title: "Successfully uploaded!",
-        description: "Looks great",
-      },
-      error: {
-        title: "Upload failed",
-        description: "Something wrong with the upload",
-      },
-      loading: { title: "Uploading...", description: "Please wait" },
-    });
+    const response = await createSubsidiary(data);
+    // toaster.promise(response, {
+    //   success: {
+    //     title: "Successfully uploaded!",
+    //     description: "Looks great",
+    //   },
+    //   error: {
+    //     title: "Upload failed",
+    //     description: "Something wrong with the upload",
+    //   },
+    //   loading: { title: "Uploading...", description: "Please wait" },
+    // });
   };
 
   return (
@@ -104,7 +100,7 @@ const AddEmmition: React.FC<AddEmmitionProps> = () => {
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button onClick={handleSubmit(onSubmit)} m={2}>
+                  <Button onClick={handleSubmit(onSubmit())} m={2}>
                     Save
                   </Button>
                 </Dialog.ActionTrigger>
