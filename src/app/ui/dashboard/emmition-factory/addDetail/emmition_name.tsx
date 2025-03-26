@@ -58,6 +58,7 @@ const AddEmmition = () => {
     //   loading: { title: "Uploading...", description: "Please wait" },
     // });
   };
+
   return (
     <form>
       <Dialog.RootProvider value={dialog} size={"lg"}>
