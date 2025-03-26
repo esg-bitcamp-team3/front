@@ -19,6 +19,13 @@ export async function getOrganizaionById(id: string) {
   })
 }
 
+export async function getSubsidiaryList(params?: PaginationParams) {
+  return await apiClient.get<PaginatedResponse<Partial<ISubsidiary>>>(
+    `/subsidiaries`,
+    {
+      withAuth: true,
+    }
+  );
 export async function getStationaryActivityData() {
   return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/stationary`, {
     withAuth: true
@@ -31,6 +38,10 @@ export async function getMobileActivityData() {
   })
 }
 
+export async function getSubsidiaryById(organizations: string) {
+  return await apiClient.get<Response<ISubsidiary>>(`/subsidiaries/`, {
+    withAuth: true,
+  });
 export async function getElectricityActivityData() {
   return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/electricity`, {
     withAuth: true
