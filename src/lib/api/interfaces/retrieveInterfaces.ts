@@ -128,3 +128,8 @@ export interface IIndirectEmissionFromElectricity {
   uncertainty: number; // 불확도
   data: number[]; // 월별 배출량
 }
+
+export interface IScopeData {
+  scope1: string;
+  scope2: string;
+}

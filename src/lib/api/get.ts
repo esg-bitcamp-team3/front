@@ -1,5 +1,9 @@
 import apiClient from "./apiClient";
-import { IOrganization, ISubsidiary } from "./interfaces/retrieveInterfaces";
+import {
+  IOrganization,
+  IScopeData,
+  ISubsidiary,
+} from "./interfaces/retrieveInterfaces";
 import { PaginatedResponse, PaginationParams, Response } from "./type";
 
 export async function getOrganizaionList(params?: PaginationParams) {
@@ -28,4 +32,22 @@ export async function getSubsidiary(organizations: string) {
   return await apiClient.get<Response<ISubsidiary>>(`/subsidiaries/`, {
     withAuth: true,
   });
+}
+
+export async function getCalculatedEmissionOfSubsidary(id: string) {
+  return await apiClient.get<Response<IScopeData>>(
+    `/calculate/subsidiaries/${id}`,
+    {
+      withAuth: true,
+    }
+  );
+}
+
+export async function getCalculatedEmissionOfOrganiation(id: string) {
+  return await apiClient.get<Response<IScopeData>>(
+    `/calculate/organization/${id}`,
+    {
+      withAuth: true,
+    }
+  );
 }
