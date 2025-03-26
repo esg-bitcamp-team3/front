@@ -3,6 +3,7 @@ import {
   IEmissionFromStationaryCombustion,
   IFuelInfo,
   IOrganization,
+  IScopeData,
   ISubsidiary
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
@@ -50,6 +51,18 @@ export async function getElectricityActivityData() {
 
 export async function getSteamActivityData() {
   return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/steam`, {
+    withAuth: true
+  })
+}
+
+export async function getCalculatedEmissionOfSubsidary(id: string) {
+  return await apiClient.get<Response<IScopeData>>(`/calculate/subsidiaries/${id}`, {
+    withAuth: true
+  })
+}
+
+export async function getCalculatedEmissionOfOrganiation(id: string) {
+  return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
     withAuth: true
   })
 }
