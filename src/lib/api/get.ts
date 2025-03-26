@@ -8,12 +8,12 @@ import {
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
-export async function getOrganizaionList(params?: PaginationParams) {
-  return await apiClient.get<PaginatedResponse<IOrganization>>(`/organizations`, {
-    params: params,
-    withAuth: true
-  })
-}
+// export async function getOrganizaionList(params?: PaginationParams) {
+//   return await apiClient.get<PaginatedResponse<IOrganization>>(`/organizations`, {
+//     params: params,
+//     withAuth: true
+//   })
+// }
 
 export async function getOrganizaionById(id: string) {
   return await apiClient.get<Response<IOrganization>>(`/organizations/${id}`, {
@@ -55,6 +55,18 @@ export async function getSteamActivityData() {
   })
 }
 
+
+export async function getStationaryCombustion(id: string, year?: string) {
+  return await apiClient.get<ListResponse<IEmissionFromStationaryCombustion>>(
+    `/data/stationary-combustion/subsidiary/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
+    }
+  )
+}
 export async function getCalculatedEmissionOfSubsidary(id: string) {
   return await apiClient.get<Response<IScopeData>>(`/calculate/subsidiaries/${id}`, {
     withAuth: true

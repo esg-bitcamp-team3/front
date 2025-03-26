@@ -106,7 +106,7 @@ export interface IEmissionFromStationaryCombustion {
   activityData?: E.ActivityDataForStationaryCombustion // 활동자료
   total?: number // 합계 배출량
   uncertainty?: number // 불확도
-  data?: number[] // 월별 배출량
+  data?: number[] // 월별 배
 }
 
 export interface IEmissionFromMobileCombustion {

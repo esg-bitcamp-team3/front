@@ -11,13 +11,15 @@ import {
   Text,
   For,
   SimpleGrid,
-  Dialog
+  Dialog,
+  Flex
 } from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import AddEmmition from './addDetail/emmition_name'
 import {getMyOrganizations} from '@/lib/api/my'
 import {useRouter} from 'next/navigation'
 import {Dataform_Station} from './addDetail/dataform/dataform_Station'
+import {SelectYear} from './tab_page'
 
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
@@ -55,8 +57,21 @@ const AddEmmitionFactory = () => {
         onValueChange={e => setSelectedTab(e.value)}>
         <Tabs.List flex="1 1 auto" overflowX="auto">
           {subsidiaryList.map(item => (
-            <Tabs.Trigger value={item._id} key={item._id}>
-              {item.name}
+            <Tabs.Trigger
+              display="flex"
+              padding={4}
+              value={item._id}
+              key={item._id}
+              maxWidth="200px">
+              <Text
+                overflow="hidden"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+                flexGrow={1}>
+                {' '}
+                {item.name}{' '}
+              </Text>
+
               <CloseButton
                 as="span"
                 role="button"
@@ -108,6 +123,7 @@ const AddEmmitionFactory = () => {
                   </Dialog.Content>
                 </Dialog.Positioner>
               </Dialog.Root>
+              <SelectYear subsidiaryId={item._id} />
             </Tabs.Content>
           ))}
         </Tabs.ContentGroup>
