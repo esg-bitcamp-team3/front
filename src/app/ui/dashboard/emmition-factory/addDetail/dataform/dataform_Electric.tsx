@@ -1,33 +1,72 @@
 'use client'
 
 import {
+  IEmissionFromMobileCombustion,
+  IEmissionFromStationaryCombustion,
+  IIndirectEmissionFromElectricity,
+  IIndirectEmissionFromSteam
+} from '@/lib/api/interfaces/retrieveInterfaces'
+import {
+  createElectricity,
+  createMobileCombustion,
+  createStationaryCombustion,
+  createSteam
+} from '@/lib/api/post'
+import {
   Button,
   Center,
-  Field,
-  Fieldset,
-  Flex,
   For,
   HStack,
   Input,
   NativeSelect,
   Stack,
-  VStack,
-  IconButton,
-  chakra,
-  Table,
-  TableBody
+  Table
 } from '@chakra-ui/react'
 
+import {useForm} from 'react-hook-form'
+
 import {useState} from 'react'
-import {activityData} from '@/app/data/datas'
+import {toaster} from '@/components/ui/toaster'
+import {register} from 'module'
+import {
+  ActivityDataForElectricity,
+  ActivityDataForMobileCombustion,
+  ActivityDataForSteam,
+  EmissionActivityTypeForMobileCombustion,
+  IndirectEmissionActivityTypeForElectricity,
+  IndirectEmissionActivityTypeForSteam
+} from '@/lib/api/interfaces/enumTypes'
 
 const year: string[] = ['2020', '2021', '2022', '2023', '2024', '2025']
 
-export function Dataform() {
+const activityData = Object.values(ActivityDataForElectricity)
+const emissionActivity = Object.values(IndirectEmissionActivityTypeForElectricity)
+
+export function Dataform_Electric() {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
 
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
+  }
+  type subdata = IIndirectEmissionFromElectricity
+  const {register, handleSubmit} = useForm<subdata>({
+    defaultValues: {_id: '67e2270b5a8ed00799f03758'}
+  })
+
+  const onSubmit = async (data: IIndirectEmissionFromElectricity) => {
+    const response = createElectricity(data)
+
+    toaster.promise(response, {
+      success: {
+        title: 'Successfully uploaded!',
+        description: 'Looks great'
+      },
+      error: {
+        title: 'Upload failed',
+        description: 'Something wrong with the upload'
+      },
+      loading: {title: 'Uploading...', description: 'Please wait'}
+    })
   }
 
   return (
@@ -57,7 +96,10 @@ export function Dataform() {
             <Table.Row backgroundColor={index % 2 !== 0 ? 'blue.50' : 'white'}>
               <Table.Cell px="1" py="3">
                 {/* year */}
-                <NativeSelect.Root>
+                <NativeSelect.Root
+                  {...register('year', {
+                    required: 'This is required'
+                  })}>
                   <NativeSelect.Field name={`year_${index}`}>
                     <For each={year}>
                       {item => (
@@ -73,14 +115,23 @@ export function Dataform() {
 
               {/* facilityName */}
               <Table.Cell px="1" py="3">
-                <Input name={`facilityName_${index}`} placeholder="ex) CHP1호기" />
+                <Input
+                  placeholder="ex) CHP1호기"
+                  {...register('facilityName', {
+                    required: 'This is required'
+                  })}
+                  name={`facility_${index}`}
+                />
               </Table.Cell>
 
               {/* emissionActivity */}
               <Table.Cell px="1" py="3">
-                <NativeSelect.Root>
+                <NativeSelect.Root
+                  {...register('emissionActivity', {
+                    required: 'This is required'
+                  })}>
                   <NativeSelect.Field name={`emissionActivity_${index}`}>
-                    <For each={['고체연료연소', '액체연료연소', '기체연료연소']}>
+                    <For each={emissionActivity}>
                       {item => (
                         <option key={item} value={item}>
                           {item}
@@ -94,7 +145,10 @@ export function Dataform() {
 
               {/* activityData */}
               <Table.Cell px="1" py="3">
-                <NativeSelect.Root>
+                <NativeSelect.Root
+                  {...register('activityData', {
+                    required: 'This is required'
+                  })}>
                   <NativeSelect.Field name={`activityData_${index}`}>
                     <For each={activityData}>
                       {item => (
@@ -126,9 +180,6 @@ export function Dataform() {
                 </HStack>
               </Table.Cell>
             </Table.Row>
-            {/* <Button type="submit" alignSelf="flex">
-          Submit
-        </Button> */}
           </Table.Body>
         ))}
       </Table.Root>
@@ -136,6 +187,9 @@ export function Dataform() {
       <Center>
         <Button onClick={addRow} variant="outline">
           +
+        </Button>
+        <Button onClick={handleSubmit(onSubmit)} alignSelf="flex">
+          Submit
         </Button>
       </Center>
     </Stack>

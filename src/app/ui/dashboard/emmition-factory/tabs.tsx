@@ -3,7 +3,6 @@
 import { Button, CloseButton, Heading, Tabs, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import AddEmmition from "./addDetail/emmition_name";
-import { useRouter } from "next/router";
 
 interface Item {
   id: string;
@@ -23,7 +22,6 @@ const uuid = () => {
 const AddEmmitionFactory = () => {
   const [tabs, setTabs] = useState<Item[]>(items);
   const [selectedTab, setSelectedTab] = useState<string | null>(items[0].id);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const addTab = (tabName: AddTabParams["tabName"]): void => {
     const newTabs = [...tabs];

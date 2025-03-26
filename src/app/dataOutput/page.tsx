@@ -1,14 +1,19 @@
-import {DataList} from '@chakra-ui/react'
+import {Blockquote, Stack, Text} from '@chakra-ui/react'
 
 export default function Page() {
   return (
-    <DataList.Root>
-      {data.map(item => (
-        <DataList.Item key={item.label}>
-          <DataList.ItemLabel>{item.label}</DataList.ItemLabel>
-          <DataList.ItemValue>{item.value}</DataList.ItemValue>
-        </DataList.Item>
-      ))}
-    </DataList.Root>
+    <Stack align="center" direction="row" gap="10" px="4" width="full">
+      <Text minW="8ch">사업장 이름</Text>
+      <Blockquote.Root>
+        <Blockquote.Content cite="Uzumaki Naruto">
+          If anyone thinks he is something when he is nothing, he deceives himself. Each
+          one should test his own actions. Then he can take pride in himself, without
+          comparing himself to anyone else.
+        </Blockquote.Content>
+        <Blockquote.Caption>
+          — <cite>Uzumaki Naruto</cite>
+        </Blockquote.Caption>
+      </Blockquote.Root>
+    </Stack>
   )
 }
