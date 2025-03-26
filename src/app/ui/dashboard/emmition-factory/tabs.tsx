@@ -9,13 +9,8 @@ import { useEffect, useState } from "react";
 import AddEmmition from "./addDetail/emmition_name";
 import { Box } from "@chakra-ui/react";
 
-const uuid = () => {
-  return Math.random().toString(36).substring(2, 15);
-};
-
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([]);
-  const [page, setPage] = useState(1);
   const fetchSubsidiaryList = async () => {
     try {
       const response = await getSubsidiaryList();
@@ -71,9 +66,14 @@ const AddEmmitionFactory = () => {
         {subsidiaryList.map((item) => (
           <Tabs.Content value={item._id} key={item._id}>
             <Heading size="xl" my="6">
-              {item._id}
+              <Text m="5">
+                {" "}
+                {item.name} ( {item?.registrationNumber} )
+              </Text>
+              <Text m="5" fontSize="3xl">
+                {item.industryType}
+              </Text>
             </Heading>
-            <Text></Text>
           </Tabs.Content>
         ))}
       </Tabs.ContentGroup>

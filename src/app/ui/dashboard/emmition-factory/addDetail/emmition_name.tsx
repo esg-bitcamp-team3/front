@@ -20,7 +20,7 @@ const AddEmmition = () => {
     defaultValues: { organization: "67e2270b5a8ed00799f03758" },
   });
   const onSubmit = async (data: ISubsidiary) => {
-    const response = await createSubsidiary(data);
+    await createSubsidiary(data);
     // toaster.promise(response, {
     //   success: {
     //     title: "Successfully uploaded!",
@@ -99,7 +99,7 @@ const AddEmmition = () => {
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button onClick={handleSubmit(onSubmit())} m={2}>
+                  <Button onClick={handleSubmit(onSubmit)} m={2}>
                     Save
                   </Button>
                 </Dialog.ActionTrigger>

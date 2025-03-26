@@ -69,9 +69,9 @@ export class FetchClient {
 
     const data = await response.json();
     console.log(data);
-    if (!data.ok) {
-      throw new ApiError(data.status, data.errorMessage);
-    }
+    // if (!data.ok) {
+    //   throw new ApiError(data.status, data.errorMessage);
+    // }
 
     return data;
   }

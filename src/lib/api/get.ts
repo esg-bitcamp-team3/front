@@ -19,9 +19,12 @@ export async function getOrganizaionById(id: string) {
 }
 
 export async function getSubsidiaryList(params?: PaginationParams) {
-  return await apiClient.get<PaginatedResponse<ISubsidiary>>(`/subsidiaries`, {
-    withAuth: true,
-  });
+  return await apiClient.get<PaginatedResponse<Partial<ISubsidiary>>>(
+    `/subsidiaries`,
+    {
+      withAuth: true,
+    }
+  );
 }
 
 export async function getSubsidiary(organizations: string) {
