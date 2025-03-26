@@ -14,10 +14,6 @@ const handler = NextAuth({
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
-        const response = await login(credentials as LoginForm);
-        if (response.ok) {
-          return decodeJwt(response.body);
-        }
         return null;
       },
     }),

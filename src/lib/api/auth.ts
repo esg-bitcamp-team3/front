@@ -1,6 +1,11 @@
 import apiClient from "./apiClient";
 import { LoginForm, SignupForm } from "./interfaces/auth";
-import { AuthResponse, PaginatedResponse, PaginationParams } from "./type";
+import {
+  AuthResponse,
+  PaginatedResponse,
+  PaginationParams,
+  Response,
+} from "./type";
 
 export async function signup(data: Partial<SignupForm>) {
   return await apiClient.post<AuthResponse, Partial<SignupForm>>(
@@ -13,10 +18,13 @@ export async function signup(data: Partial<SignupForm>) {
 }
 
 export async function login(data: Partial<LoginForm>) {
-  return await apiClient.post<AuthResponse, Partial<LoginForm>>(`/auth/login`, {
-    body: data,
-    withAuth: true,
-  });
+  return await apiClient.post<Response<string>, Partial<LoginForm>>(
+    `/auth/login`,
+    {
+      body: data,
+      withAuth: true,
+    }
+  );
 }
 
 export async function userSearch(params?: PaginationParams) {
