@@ -24,3 +24,21 @@ export async function getStationaryActivityData() {
     withAuth: true
   })
 }
+
+export async function getMobileActivityData() {
+  return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/mobile`, {
+    withAuth: true
+  })
+}
+
+export async function getElectricityActivityData() {
+  return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/electricity`, {
+    withAuth: true
+  })
+}
+
+export async function getSteamActivityData() {
+  return await apiClient.get<ListResponse<IFuelInfo>>(`/activity-data/steam`, {
+    withAuth: true
+  })
+}

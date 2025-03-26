@@ -27,9 +27,8 @@ import {
 } from '@/lib/api/interfaces/enumTypes'
 import {getStationaryActivityData} from '@/lib/api/get'
 
-const year: string[] = ['2020', '2021', '2022', '2023', '2024', '2025']
+const year: number[] = [2020, 2021, 2022, 2023, 2024, 2025]
 
-const activityData = Object.values(ActivityDataForStationaryCombustion)
 const emissionActivity = Object.values(EmissionActivityTypeForStationaryCombustion)
 
 export function Dataform_Station() {
@@ -41,9 +40,14 @@ export function Dataform_Station() {
     setRows([...rows, rows.length]) // 새로운 줄 추가
   }
   type subdata = IEmissionFromStationaryCombustion
-  const {register, handleSubmit} = useForm<subdata>({})
+  const {register, handleSubmit} = useForm<subdata>({
+    defaultValues: {
+      subsidiary: '67e3769e02d20f2bd8da5008'
+    }
+  })
 
   const onSubmit = async (data: IEmissionFromStationaryCombustion) => {
+    data.subsidiary = '67e3769e02d20f2bd8da5008'
     const response = createStationaryCombustion(data)
     console.log('register: ', data)
 
