@@ -8,7 +8,7 @@ import {
 } from "./type";
 
 export async function signup(data: Partial<SignupForm>) {
-  return await apiClient.post<AuthResponse, Partial<SignupForm>>(
+  return await apiClient.post<Response<string>, Partial<SignupForm>>(
     `/auth/signup`,
     {
       body: data,

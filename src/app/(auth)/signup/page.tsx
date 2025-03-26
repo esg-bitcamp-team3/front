@@ -5,6 +5,18 @@ import { useRouter } from "next/navigation";
 import { signup, checkUsername, checkEmail } from "@/lib/api/auth"; // checkEmail 추가
 import { toaster } from "@/components/ui/toaster";
 import { ApiError } from "next/dist/server/api-utils";
+import {
+  Box,
+  Button,
+  Flex,
+  FieldLabel,
+  Fieldset,
+  Input,
+  Stack,
+  Text,
+  useBreakpointValue,
+  Field,
+} from "@chakra-ui/react";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
@@ -46,16 +58,10 @@ const SignUpPage = () => {
         password: password,
         organization: organization,
       });
-
-      if (response.ok) {
-        router.push("/login");
-        toaster.success({
-          title: "회원가입입 성공",
-        });
-      }
-      toaster.error({
-        title: "회원가입입 실패",
+      toaster.success({
+        title: response.data,
       });
+      router.push("/dashboard");
     } catch (error) {
       toaster.error({
         title:
@@ -99,168 +105,131 @@ const SignUpPage = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.header}>회원가입</h2>
+    <Flex
+      direction="column"
+      justify="center"
+      align="center"
+      minHeight="100vh"
+      bg="#f7f7f7"
+      p={5}
+    >
+      <Box
+        w="100%"
+        maxW="600px"
+        bg="white"
+        p={8}
+        borderRadius="8px"
+        boxShadow="lg"
+        textAlign="center"
+      >
+        <Text fontSize="2xl" fontWeight="bold" mb={6}>
+          회원가입
+        </Text>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.inputRow}>
-            <div style={styles.inputContainer}>
-              <label style={styles.label}>이메일</label>
-              <input
-                type="email"
-                value={email}
-                onChange={handleEmailChange} // 이메일 중복 체크
-                placeholder="이메일을 입력하세요"
-                style={styles.input}
-              />
-              {emailError && <div style={styles.error}>{emailError}</div>}
-            </div>
+        <form onSubmit={handleSubmit}>
+          <Stack gap={4}>
+            {/* 첫 번째 줄 */}
+            <Flex justify="space-between" gap={4}>
+              <Field.Root w="48%">
+                <FieldLabel htmlFor="email">이메일</FieldLabel>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  placeholder="이메일을 입력하세요"
+                />
+                {emailError && <Text color="red.500">{emailError}</Text>}
+              </Field.Root>
 
-            <div style={styles.inputContainer}>
-              <label style={styles.label}>이름</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="이름을 입력하세요"
-                style={styles.input}
-              />
-            </div>
-          </div>
+              <Field.Root w="48%">
+                <FieldLabel htmlFor="name">이름</FieldLabel>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="이름을 입력하세요"
+                />
+              </Field.Root>
+            </Flex>
 
-          <div style={styles.inputRow}>
-            <div style={styles.inputContainer}>
-              <label style={styles.label}>아이디</label>
-              <input
-                type="text"
-                value={username}
-                onChange={handleUsernameChange} // 아이디 변경 시 중복 체크
-                placeholder="아이디를 입력하세요"
-                style={styles.input}
-              />
-              {usernameError && <div style={styles.error}>{usernameError}</div>}
-            </div>
+            {/* 두 번째 줄 */}
+            <Flex justify="space-between" gap={4}>
+              <Field.Root w="48%">
+                <FieldLabel htmlFor="username">아이디</FieldLabel>
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  placeholder="아이디를 입력하세요"
+                />
+                {usernameError && <Text color="red.500">{usernameError}</Text>}
+              </Field.Root>
 
-            <div style={styles.inputContainer}>
-              <label style={styles.label}>조직명</label>
-              <input
-                type="text"
-                value={organization}
-                onChange={(e) => setOrganization(e.target.value)}
-                placeholder="조직명을 입력하세요"
-                style={styles.input}
-              />
-            </div>
-          </div>
+              <Field.Root w="48%">
+                <FieldLabel htmlFor="organization">조직명</FieldLabel>
+                <Input
+                  id="organization"
+                  type="text"
+                  value={organization}
+                  onChange={(e) => setOrganization(e.target.value)}
+                  placeholder="조직명을 입력하세요"
+                />
+              </Field.Root>
+            </Flex>
 
-          <div style={styles.inputRow}>
-            <div style={styles.inputContainer}>
-              <label style={styles.label}>비밀번호</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="비밀번호를 입력하세요"
-                style={styles.input}
-              />
-            </div>
+            {/* 세 번째 줄 */}
+            <Flex justify="space-between" gap={4}>
+              <Field.Root w="48%">
+                <FieldLabel htmlFor="password">비밀번호</FieldLabel>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="비밀번호를 입력하세요"
+                />
+              </Field.Root>
 
-            <div style={styles.inputContainer}>
-              <label style={styles.label}>비밀번호 확인</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="비밀번호를 확인하세요"
-                style={styles.input}
-              />
-            </div>
-          </div>
+              <Field.Root w="48%">
+                <FieldLabel htmlFor="confirmPassword">비밀번호 확인</FieldLabel>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="비밀번호를 확인하세요"
+                />
+              </Field.Root>
+            </Flex>
 
-          {error && <div style={styles.error}>{error}</div>}
-          <button type="submit" style={styles.button}>
-            회원가입
-          </button>
+            {/* 오류 메시지 */}
+            {error && <Text color="red.500">{error}</Text>}
+
+            {/* 회원가입 버튼 */}
+            <Button type="submit" colorScheme="blue" width="full" mt={4}>
+              회원가입
+            </Button>
+          </Stack>
         </form>
-      </div>
-    </div>
-  );
-};
 
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
-    backgroundColor: "#f0f4f8",
-    padding: "20px",
-  },
-  card: {
-    width: "100%",
-    maxWidth: "600px",
-    backgroundColor: "#fff",
-    padding: "30px 40px",
-    borderRadius: "8px",
-    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-    textAlign: "center" as const,
-  },
-  header: {
-    fontSize: "24px",
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column" as "column",
-    gap: "20px",
-  },
-  inputRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "20px",
-  },
-  inputContainer: {
-    display: "flex",
-    flexDirection: "column" as const,
-    alignItems: "flex-start",
-    width: "48%", // Each input container takes 48% of the row
-  },
-  label: {
-    fontSize: "14px",
-    color: "#555",
-    marginBottom: "8px",
-    fontWeight: "500",
-  },
-  input: {
-    width: "100%",
-    padding: "12px",
-    borderRadius: "4px",
-    border: "1px solid #ddd",
-    fontSize: "16px",
-    color: "#333",
-    outline: "none",
-    transition: "border-color 0.3s ease-in-out",
-  },
-  button: {
-    padding: "14px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    fontSize: "16px",
-    fontWeight: "600",
-    transition: "background-color 0.3s ease",
-  },
-  error: {
-    color: "red",
-    fontSize: "14px",
-    fontWeight: "500",
-    marginTop: "10px",
-  },
+        {/* 로그인 페이지 링크 */}
+        <Box mt={4}>
+          <Text fontSize="sm" color="gray.600">
+            이미 회원이신가요?{" "}
+            <a
+              href="/login"
+              style={{ color: "#007bff", textDecoration: "none" }}
+            >
+              로그인
+            </a>
+          </Text>
+        </Box>
+      </Box>
+    </Flex>
+  );
 };
 
 export default SignUpPage;
