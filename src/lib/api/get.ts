@@ -27,7 +27,7 @@ export async function getSubsidiaryList(params?: PaginationParams) {
   );
 }
 
-export async function getSubsidiary(organizations: string) {
+export async function getSubsidiaryById(organizations: string) {
   return await apiClient.get<Response<ISubsidiary>>(`/subsidiaries/`, {
     withAuth: true,
   });
