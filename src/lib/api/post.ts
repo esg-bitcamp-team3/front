@@ -25,7 +25,7 @@ export async function createStationaryCombustion(
   return await apiClient.post<
     Response<IEmissionFromStationaryCombustion>,
     Partial<IEmissionFromStationaryCombustion>
-  >('/data/stationary-combustion/', {
+  >('/data/stationary-combustion', {
     body: data,
     withAuth: true
   })
