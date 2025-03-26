@@ -16,6 +16,10 @@ export interface IOrganization {
   annualRevenue: number; // 당해연도 매출액(원)
   annualEnergyCost: number; // 당해연도 에너지 비용(원)
 }
+export interface IOrganizationInfo {
+  organization: IOrganization;
+  subsidiaries: ISubsidiary[];
+}
 
 export interface ISubsidiary {
   _id: string;
