@@ -133,11 +133,13 @@ const Page = () => {
           }}
         />
       </SimpleGrid>
-      <SimpleGrid width="full" columns={2} alignItems="flex-end">
-        <GridItem colSpan={{base: 1, md: 1}}>
+      <SimpleGrid width="full" columns={2} alignItems="flex-end" gap={4}>
+        <GridItem>
           <ScopeBox data={data} />
         </GridItem>
-        <EmissionBar data={yearlyData} />
+        <GridItem>
+          <EmissionBar data={yearlyData} />
+        </GridItem>
       </SimpleGrid>
     </div>
   )

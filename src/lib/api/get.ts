@@ -40,8 +40,8 @@ export async function getMobileActivityData() {
   })
 }
 
-export async function getSubsidiaryById(organizations: string) {
-  return await apiClient.get<Response<ISubsidiary>>(`/subsidiaries/`, {
+export async function getSubsidiaryById(id: string) {
+  return await apiClient.get<Response<ISubsidiary>>(`/subsidiaries/${id}`, {
     withAuth: true
   })
 }
@@ -101,6 +101,15 @@ export async function getCalculatedMonthlyEmissionOfOrganiation(
 export async function getCalculatedYearlyEmissionOfOrganiation(id: string) {
   return await apiClient.get<Response<IYearlyEmissionData>>(
     `/calculate/yearly/organization/${id}`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getCalculatedYearlyEmissionOfSubsidiary(id: string) {
+  return await apiClient.get<Response<IYearlyEmissionData>>(
+    `/calculate/yearly/subsidiary/${id}`,
     {
       withAuth: true
     }

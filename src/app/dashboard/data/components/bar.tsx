@@ -11,7 +11,7 @@ import {
   Title
 } from 'chart.js'
 import {IYearlyEmissionData} from '@/lib/api/interfaces/retrieveInterfaces'
-import {Box} from '@chakra-ui/react'
+import {Box, Text, VStack} from '@chakra-ui/react'
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title)
 
@@ -55,7 +55,15 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
   }
 
   return (
-    <Box width="lg">
+    <Box
+      width="xl"
+      height="sm"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between">
+      <Text textStyle="md" fontWeight="bold" m={4} p={4}>
+        연간 배출량
+      </Text>
       <Bar data={chartData} options={options} />
     </Box>
   )
