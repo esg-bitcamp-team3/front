@@ -1,17 +1,27 @@
 'use client'
 
-import {Box, Portal, Select, createListCollection} from '@chakra-ui/react'
+import {Box, HStack, Portal, Select, VStack, createListCollection} from '@chakra-ui/react'
 import {useMemo, useState, useEffect} from 'react'
-import {getStationaryCombustion} from '@/lib/api/get'
+import {
+  getCalculatedEmissionTotalOfSubsidary,
+  getCalculatedMothlyTotal,
+  getStationaryCombustion
+} from '@/lib/api/get'
 import {
   IEmissionFromStationaryCombustion,
-  IEmissionInfo
+  IEmissionInfo,
+  IMothlyData,
+  ITotalData
 } from '@/lib/api/interfaces/retrieveInterfaces'
 import {StationTable} from './addDetail/drawComponent/table'
+import {ChartforSubsidary} from './addDetail/drawComponent/chart'
+import {TotalState} from './addDetail/drawComponent/state'
 
 export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
   const [value, setValue] = useState<string[]>(['2023'])
   const [data, setData] = useState<IEmissionInfo[] | null>(null)
+  const [monthlyTotal, setMonthlyTotal] = useState<IMothlyData>()
+  const [total, setTotal] = useState<ITotalData>()
 
   const year = ['2020', '2021', '2022', '2023', '2024', '2025']
 
@@ -19,6 +29,22 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
     try {
       const response = await getStationaryCombustion(subsidiaryId, value[0])
       setData(response.data)
+      console.log(response.data)
+    } catch (error) {}
+  }
+
+  const pullMothlyTotalData = async () => {
+    try {
+      const response = await getCalculatedMothlyTotal(subsidiaryId, value[0])
+      setMonthlyTotal(response.data)
+      console.log(response.data)
+    } catch (error) {}
+  }
+
+  const pullTotalData = async () => {
+    try {
+      const response = await getCalculatedEmissionTotalOfSubsidary(subsidiaryId, value[0])
+      setMonthlyTotal(response.data)
       console.log(response.data)
     } catch (error) {}
   }
@@ -32,7 +58,7 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
   }, [])
 
   useEffect(() => {
-    pullData()
+    pullData(), pullMothlyTotalData()
   }, [value])
 
   return (
@@ -65,6 +91,10 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
           </Select.Positioner>
         </Portal>
       </Select.Root>
+      <HStack>
+        <Box>{monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}</Box>
+        <Box>{monthlyTotal && <TotalState total={monthlyTotal} />}</Box>
+      </HStack>
       <Box>{data && <StationTable stationData={data} />}</Box>
     </>
   )

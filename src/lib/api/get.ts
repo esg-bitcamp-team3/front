@@ -3,9 +3,11 @@ import {
   IEmissionFromStationaryCombustion,
   IEmissionInfo,
   IFuelInfo,
+  IMothlyData,
   IOrganization,
   IScopeData,
-  ISubsidiary
+  ISubsidiary,
+  ITotalData
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -67,9 +69,12 @@ export async function getStationaryCombustion(id: string, year?: string) {
     }
   )
 }
-export async function getCalculatedEmissionOfSubsidary(id: string) {
-  return await apiClient.get<Response<IScopeData>>(`/calculate/subsidiaries/${id}`, {
-    withAuth: true
+export async function getCalculatedEmissionTotalOfSubsidary(id: string, year?: string) {
+  return await apiClient.get<Response<ITotalData>>(`/calculate/subsidiaries/${id}`, {
+    withAuth: true,
+    params: {
+      ...(year && {year})
+    }
   })
 }
 
@@ -77,4 +82,16 @@ export async function getCalculatedEmissionOfOrganiation(id: string) {
   return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
     withAuth: true
   })
+}
+
+export async function getCalculatedMothlyTotal(id: string, year?: string) {
+  return await apiClient.get<Response<IMothlyData>>(
+    `/calculate/monthly/subsidiary/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
+    }
+  )
 }

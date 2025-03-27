@@ -148,7 +148,12 @@ export interface IIndirectEmissionFromElectricity {
   data: number[] // 월별 배출량
 }
 
-export interface IScopeData {
-  scope1: string
-  scope2: string
+export interface ITotalData {
+  stationaryTotal: string
+  mobileTotal: string
+}
+
+export interface IMothlyData {
+  stationary: number[]
+  mobile: number[]
 }
