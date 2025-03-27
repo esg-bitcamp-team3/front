@@ -2,11 +2,9 @@
 
 import NavLinks from '@/app/ui/dashboard/nav-links'
 import {logout} from '@/lib/api/auth'
-// import { signOut } from '@/auth';
-import {Box, Link, Flex, Button, Text} from '@chakra-ui/react'
+import {Box, Link, Flex, Button} from '@chakra-ui/react'
 import {useRouter} from 'next/navigation'
 import {FiPower} from 'react-icons/fi' // Using react-icons for the power icon
-import {LuLogOut} from 'react-icons/lu'
 
 export default function SideNav() {
   const router = useRouter()
@@ -20,7 +18,7 @@ export default function SideNav() {
   }
   return (
     <Box display="flex" h="full" flexDirection="column" px={3} py={4} md={{px: 2}}>
-      <Link
+      <Box
         display="flex"
         alignItems="end"
         justifyContent="start"
@@ -28,10 +26,16 @@ export default function SideNav() {
         h={{base: '20', md: '40'}}
         p={4}
         rounded="md"
-        bg="blue.600"
-        href="/">
-        <Box w={{base: '32', md: '40'}} bg="black" color="white" />
-      </Link>
+        bg="white">
+        <Link href="/">
+          {/* Update logo source to the transparent one */}
+          <img
+            src="/gglogo.png"
+            alt="Green Gauge Logo"
+            style={{width: '130px', height: '130px'}}
+          />{' '}
+        </Link>
+      </Box>
 
       <Flex
         direction={{base: 'row', md: 'column'}}
@@ -47,13 +51,6 @@ export default function SideNav() {
           rounded="md"
           bg="gray.50"
         />
-
-        {/* <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            // await signOut({ redirectTo: '/' });
-          }}
-        > */}
         <Button
           onClick={handleLogout}
           display="flex"
@@ -69,10 +66,9 @@ export default function SideNav() {
           fontWeight="medium"
           _hover={{bg: 'sky.100', color: 'black'}}
           md={{display: 'flex', justifyContent: 'start', px: 3, p: 2}}>
-          <LuLogOut size={24} />
-          <Box display={{base: 'none', md: 'block'}}>로그아웃</Box>
+          <FiPower size={24} />
+          <Box display={{base: 'none', md: 'block'}}>Sign Out</Box>
         </Button>
-        {/* </form> */}
       </Flex>
     </Box>
   )

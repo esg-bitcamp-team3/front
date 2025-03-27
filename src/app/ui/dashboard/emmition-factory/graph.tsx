@@ -99,7 +99,6 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
           )}
         </Box>
       </HStack>
-      <Box>{data && <StationTable stationData={data} />}</Box>
     </>
   )
 }

@@ -59,13 +59,26 @@ export async function getSteamActivityData() {
   })
 }
 
-export async function getStationaryCombustion(id: string, year?: string) {
-  return await apiClient.get<ListResponse<IEmissionInfo>>(
+export async function getStationaryCombustion(id: string, year?: string, page?: number) {
+  return await apiClient.get<PaginatedResponse<IEmissionInfo>>(
     `/data/stationary-combustion/subsidiary/${id}`,
     {
       withAuth: true,
       params: {
-        ...(year && {year})
+        ...(year && {year}),
+        ...(page && {page})
+      }
+    }
+  )
+}
+export async function getMobileCombustion(id: string, year?: string, page?: number) {
+  return await apiClient.get<PaginatedResponse<IEmissionInfo>>(
+    `/data/mobile-combustion/subsidiary/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year}),
+        ...(page && {page})
       }
     }
   )
