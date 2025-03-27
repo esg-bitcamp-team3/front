@@ -12,7 +12,8 @@ import {
   For,
   SimpleGrid,
   Dialog,
-  Flex
+  Flex,
+  Portal
 } from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import AddEmmition from './addDetail/emmition_name'
@@ -104,25 +105,28 @@ const AddEmmitionFactory = () => {
                 <Dialog.Trigger asChild onClick={() => setOpen(true)}>
                   <Button>Add Data</Button>
                 </Dialog.Trigger>
-                <Dialog.Backdrop />
-                <Dialog.Positioner>
-                  <Dialog.Content>
-                    <Dialog.CloseTrigger asChild>
-                      <CloseButton size="sm" />
-                    </Dialog.CloseTrigger>
-                    <Dialog.Header>
-                      <Dialog.Title />
-                    </Dialog.Header>
-                    <Dialog.Body>
-                      <Dataform_Station
-                        subsidaryId={item._id}
-                        onClose={() => setOpen(false)}
-                      />
-                    </Dialog.Body>
-                    <Dialog.Footer />
-                  </Dialog.Content>
-                </Dialog.Positioner>
+                <Portal>
+                  <Dialog.Backdrop />
+                  <Dialog.Positioner>
+                    <Dialog.Content>
+                      <Dialog.CloseTrigger asChild>
+                        <CloseButton size="sm" />
+                      </Dialog.CloseTrigger>
+                      <Dialog.Header>
+                        <Dialog.Title />
+                      </Dialog.Header>
+                      <Dialog.Body>
+                        <Dataform_Station
+                          subsidaryId={item._id}
+                          onClose={() => setOpen(false)}
+                        />
+                      </Dialog.Body>
+                      <Dialog.Footer />
+                    </Dialog.Content>
+                  </Dialog.Positioner>
+                </Portal>
               </Dialog.Root>
+
               <SelectYear subsidiaryId={item._id} />
             </Tabs.Content>
           ))}
