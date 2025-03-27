@@ -157,3 +157,10 @@ export interface IMonthlyEmissionData {
   stationary: number[]
   mobile: number[]
 }
+export interface IYearlyEmissionData {
+  [year: number]: {
+    stationary: number
+    mobile: number
+    total: number
+  }
+}

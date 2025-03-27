@@ -1,22 +1,25 @@
 'use client'
 
-import {Box, HStack, SimpleGrid} from '@chakra-ui/react'
+import {Box, GridItem, HStack, SimpleGrid} from '@chakra-ui/react'
 import {ScopeChart, ScopeBarChart, ScopeBox} from './components/scopeChart'
 import {
   IMonthlyEmissionData,
   IOrganization,
   IRevenueRecord,
   IScopeData,
-  ISubsidiary
+  ISubsidiary,
+  IYearlyEmissionData
 } from '@/lib/api/interfaces/retrieveInterfaces'
 import {useEffect, useState} from 'react'
 import {getMyOrganizations} from '@/lib/api/my'
 import {
   getCalculatedEmissionOfOrganiation,
-  getCalculatedMonthlyEmissionOfOrganiation
+  getCalculatedMonthlyEmissionOfOrganiation,
+  getCalculatedYearlyEmissionOfOrganiation
 } from '@/lib/api/get'
 import {toaster} from '@/components/ui/toaster'
 import {EmissionStat} from './components/stats'
+import {EmissionBar} from './components/bar'
 
 const Page = () => {
   const [organization, setOrganization] = useState<IOrganization>()
@@ -26,6 +29,7 @@ const Page = () => {
   const [previousData, setPreviousData] = useState<IScopeData>()
   const [monthlyData, setMonthlyData] = useState<IMonthlyEmissionData>()
   const [previousMonthlyData, setPreviousMonthlyData] = useState<IMonthlyEmissionData>()
+  const [yearlyData, setYearlyData] = useState<IYearlyEmissionData>()
   const today = new Date()
   const year = 2023
   const month = 3
@@ -57,6 +61,9 @@ const Page = () => {
         (year - 1).toString()
       )
       setPreviousMonthlyData(result4.data)
+
+      const result5 = await getCalculatedYearlyEmissionOfOrganiation(id)
+      setYearlyData(result5.data)
     } catch (error) {
       toaster.error({
         title: '데이터를 가져오는 데 실패했습니다.'
@@ -80,7 +87,8 @@ const Page = () => {
     !monthlyData ||
     !previousMonthlyData ||
     !organization ||
-    !revenueRecordList
+    !revenueRecordList ||
+    !yearlyData
   ) {
     console.log('data', data)
     console.log('previousData', previousData)
@@ -125,8 +133,11 @@ const Page = () => {
           }}
         />
       </SimpleGrid>
-      <SimpleGrid width="full" columns={2}>
-        <ScopeBox data={data} />
+      <SimpleGrid width="full" columns={2} alignItems="flex-end">
+        <GridItem colSpan={{base: 1, md: 1}}>
+          <ScopeBox data={data} />
+        </GridItem>
+        <EmissionBar data={yearlyData} />
       </SimpleGrid>
     </div>
   )

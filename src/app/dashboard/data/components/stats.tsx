@@ -1,4 +1,6 @@
+import {IRevenueRecord, IScopeData} from '@/lib/api/interfaces/retrieveInterfaces'
 import {Badge, Box, Stat} from '@chakra-ui/react'
+import {useState} from 'react'
 
 interface DataProps {
   label: string
@@ -38,4 +40,5 @@ const EmissionStat = ({data}: {data: DataProps}) => {
     </Box>
   )
 }
+
 export {EmissionStat}
