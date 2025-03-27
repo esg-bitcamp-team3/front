@@ -1,8 +1,13 @@
+'use effect'
+
+import {YearSelector} from '@/lib/api/components/yearSelector'
+import {getStationaryCombustion} from '@/lib/api/get'
 import {
   IEmissionFromStationaryCombustion,
   IEmissionInfo
 } from '@/lib/api/interfaces/retrieveInterfaces'
 import {
+  Button,
   ButtonGroup,
   HStack,
   IconButton,
@@ -11,75 +16,149 @@ import {
   Table,
   Text
 } from '@chakra-ui/react'
+import {useEffect, useState} from 'react'
 import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
 
-export const StationTable = ({stationData}: {stationData: IEmissionInfo[]}) => {
+const months = Array.from({length: 12}, (_, i) => `${i + 1}월`)
+
+export const StationTable = ({subsidiaryId}: {subsidiaryId: string}) => {
+  const [value, setValue] = useState<string>('2023')
+  const year = ['2020', '2021', '2022', '2023', '2024', '2025']
+  const [page, setPage] = useState<number>(1)
+  const [total, setTotal] = useState<number>()
+
+  const [data, setData] = useState<IEmissionInfo[]>()
+
+  const pullData = async () => {
+    try {
+      const response = await getStationaryCombustion(subsidiaryId, value, page)
+      setData(response.data)
+      setTotal(response.total)
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    pullData()
+  }, [value, page])
+
   return (
-    <Stack width="full" gap="5">
-      <Table.Root size="sm" variant="outline" striped>
+    <Stack width="full" gap="5" justifyContent="center" alignItems="center">
+      <YearSelector props={{value: value, valueList: year, onValueChange: setValue}} />
+      <Table.Root
+        variant="outline"
+        size="sm"
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        showColumnBorder>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              padding={3}
+              w="auto"
+              minW="max-content"
+              whiteSpace="nowrap"
+              color="blue.500"
+              textAlign="center">
               내부시설명
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              padding={3}
+              w="auto"
+              minW="max-content"
+              whiteSpace="nowrap"
+              color="blue.500"
+              textAlign="center">
               배출활동
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="8rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              padding={3}
+              w="auto"
+              minW="max-content"
+              whiteSpace="nowrap"
+              color="blue.500"
+              textAlign="center">
               활동자료
             </Table.ColumnHeader>
-            <Table.ColumnHeader color="blue.500" textAlign="center">
-              월별 배출량
-            </Table.ColumnHeader>
+
+            {months.map(month => (
+              <Table.ColumnHeader
+                key={month}
+                padding={3}
+                w="auto"
+                minW="max-content"
+                whiteSpace="nowrap"
+                color="blue.500"
+                textAlign="center">
+                {month}
+              </Table.ColumnHeader>
+            ))}
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {stationData.map(item => (
-            <Table.Row key={item._id}>
-              <Table.Cell px="1" py="3">
-                {item.facilityName}
-              </Table.Cell>
-              <Table.Cell px="1" py="3">
-                {item.emissionActivity}
-              </Table.Cell>
-              <Table.Cell px="1" py="3">
-                {item.activityData?.name}
-              </Table.Cell>
-              <Table.Cell px="1" py="3">
-                <HStack>
-                  {item.data?.map(month => (
-                    <Text>{month}</Text>
-                  ))}
-                </HStack>
-              </Table.Cell>
-            </Table.Row>
-          ))}
+          {data &&
+            data.map(item => (
+              <Table.Row key={item._id} _hover={{bg: 'gray.100'}}>
+                <Table.Cell
+                  padding={3}
+                  textAlign="center"
+                  whiteSpace="normal"
+                  wordBreak="break-word">
+                  {item.facilityName}
+                </Table.Cell>
+                <Table.Cell
+                  padding={3}
+                  textAlign="center"
+                  whiteSpace="normal"
+                  wordBreak="break-word">
+                  {item.emissionActivity}
+                </Table.Cell>
+                <Table.Cell
+                  padding={3}
+                  textAlign="center"
+                  whiteSpace="normal"
+                  wordBreak="break-word">
+                  {item.activityData?.name}
+                </Table.Cell>
+                {item.data?.map(month => (
+                  <Table.Cell
+                    key={month}
+                    fontSize="sm"
+                    textAlign="center"
+                    color="gray.700">
+                    {month.toFixed(1)}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table.Root>
-      <Pagination.Root count={stationData.length * 5} pageSize={5} page={1}>
-        <ButtonGroup variant="ghost" size="sm" wrap="wrap">
-          <Pagination.PrevTrigger asChild>
-            <IconButton>
-              <LuChevronLeft />
-            </IconButton>
-          </Pagination.PrevTrigger>
-
-          <Pagination.Items
-            render={page => (
-              <IconButton variant={{base: 'ghost', _selected: 'outline'}}>
-                {page.value}
+      {total && total > 0 && (
+        <Pagination.Root page={page} count={total} pageSize={10} defaultPage={1}>
+          <ButtonGroup variant="ghost" size="sm">
+            <Pagination.PrevTrigger asChild>
+              <IconButton>
+                <LuChevronLeft />
               </IconButton>
-            )}
-          />
+            </Pagination.PrevTrigger>
 
-          <Pagination.NextTrigger asChild>
-            <IconButton>
-              <LuChevronRight />
-            </IconButton>
-          </Pagination.NextTrigger>
-        </ButtonGroup>
-      </Pagination.Root>
+            <Pagination.Items
+              render={page => (
+                <IconButton variant={{base: 'ghost', _selected: 'outline'}}>
+                  {page.value}
+                </IconButton>
+              )}
+            />
+
+            <Pagination.NextTrigger asChild>
+              <IconButton>
+                <LuChevronRight />
+              </IconButton>
+            </Pagination.NextTrigger>
+          </ButtonGroup>
+        </Pagination.Root>
+      )}
     </Stack>
   )
 }

@@ -21,6 +21,7 @@ import {getMyOrganizations} from '@/lib/api/my'
 import {useRouter} from 'next/navigation'
 import {Dataform_Station} from './addDetail/dataform/dataform_Station'
 import {SelectYear} from './tab_page'
+import {Dataform_Mobile} from './addDetail/dataform/dataform_Mobile'
 
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
@@ -105,14 +106,14 @@ const AddEmmitionFactory = () => {
                   </Heading>
                   <Dialog.Root size="full" open={open}>
                     <Dialog.Trigger asChild onClick={() => setOpen(true)}>
-                      <Button>Add Data</Button>
+                      <Button bg="blue.500">고정 연소</Button>
                     </Dialog.Trigger>
                     <Portal>
                       <Dialog.Backdrop />
                       <Dialog.Positioner>
                         <Dialog.Content>
                           <Dialog.CloseTrigger asChild>
-                            <CloseButton size="sm" />
+                            <CloseButton size="sm" onClick={() => setOpen(false)} />
                           </Dialog.CloseTrigger>
                           <Dialog.Header>
                             <Dialog.Title />
@@ -128,6 +129,7 @@ const AddEmmitionFactory = () => {
                       </Dialog.Positioner>
                     </Portal>
                   </Dialog.Root>
+                  <Dataform_Mobile subsidaryId={item._id} />
 
                   <SelectYear subsidiaryId={item._id} />
                 </>

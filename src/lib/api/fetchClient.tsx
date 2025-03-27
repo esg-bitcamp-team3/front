@@ -14,7 +14,7 @@ type FetchOptions<TBody = unknown> = Omit<RequestInit, 'headers' | 'body'> & {
   body?: TBody
   withAuth?: boolean
   contentType?: string
-  params?: Record<string, string>
+  params?: Record<string, string | number>
 }
 
 export class FetchClient {
@@ -63,7 +63,7 @@ export class FetchClient {
       body: body ? JSON.stringify(body) : undefined,
       credentials: 'include'
     })
-    
+
     if (!response.ok) {
       const errorData: ErrorResponse = await response.json()
       throw new ApiError(errorData.status, errorData.message)
