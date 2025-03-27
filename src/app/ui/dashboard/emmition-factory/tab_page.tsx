@@ -3,15 +3,15 @@
 import {Box, HStack, Portal, Select, VStack, createListCollection} from '@chakra-ui/react'
 import {useMemo, useState, useEffect} from 'react'
 import {
-  getCalculatedEmissionTotalOfSubsidary,
   getCalculatedMothlyTotal,
+  getCalculatedYearlyEmissionOfSubsidiary,
   getStationaryCombustion
 } from '@/lib/api/get'
 import {
   IEmissionFromStationaryCombustion,
   IEmissionInfo,
   IMothlyData,
-  ITotalData
+  IYearlyEmissionData
 } from '@/lib/api/interfaces/retrieveInterfaces'
 import {StationTable} from './addDetail/drawComponent/table'
 import {ChartforSubsidary} from './addDetail/drawComponent/chart'
@@ -21,7 +21,7 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
   const [value, setValue] = useState<string[]>(['2023'])
   const [data, setData] = useState<IEmissionInfo[] | null>(null)
   const [monthlyTotal, setMonthlyTotal] = useState<IMothlyData>()
-  const [total, setTotal] = useState<ITotalData>()
+  const [yearlyTotal, setYearlyTotal] = useState<IYearlyEmissionData>()
 
   const year = ['2020', '2021', '2022', '2023', '2024', '2025']
 
@@ -41,11 +41,11 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
     } catch (error) {}
   }
 
-  const pullTotalData = async () => {
+  const pullYearlyTotalData = async () => {
     try {
-      const response = await getCalculatedEmissionTotalOfSubsidary(subsidiaryId, value[0])
-      setMonthlyTotal(response.data)
-      console.log(response.data)
+      const response = await getCalculatedYearlyEmissionOfSubsidiary(subsidiaryId)
+      setYearlyTotal(response.data)
+      console.log('year', response.data)
     } catch (error) {}
   }
 
@@ -58,7 +58,7 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
   }, [])
 
   useEffect(() => {
-    pullData(), pullMothlyTotalData()
+    pullData(), pullMothlyTotalData(), pullYearlyTotalData()
   }, [value])
 
   return (
@@ -93,7 +93,11 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
       </Select.Root>
       <HStack>
         <Box>{monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}</Box>
-        <Box>{monthlyTotal && <TotalState total={monthlyTotal} />}</Box>
+        <Box>
+          {yearlyTotal && (
+            <TotalState total={yearlyTotal} yearChoice={parseInt(value[0])} />
+          )}
+        </Box>
       </HStack>
       <Box>{data && <StationTable stationData={data} />}</Box>
     </>

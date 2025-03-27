@@ -66,9 +66,6 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
   const processedStationData = labels.map((_, index) => stationData[index] || 0)
   const processedMobileData = labels.map((_, index) => mobileData[index] || 0)
 
-  console.log('stationData: ', stationData)
-  console.log('mobileData: ', mobileData)
-
   const options: ChartOptions<'line'> = {
     responsive: true, // 반응형 지원
     interaction: {

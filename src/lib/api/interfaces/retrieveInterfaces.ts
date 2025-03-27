@@ -177,10 +177,6 @@ export interface IYearlyEmissionData {
     total: number
   }
 }
-export interface ITotalData {
-  stationaryTotal: string
-  mobileTotal: string
-}
 
 export interface IMothlyData {
   stationary: number[]
