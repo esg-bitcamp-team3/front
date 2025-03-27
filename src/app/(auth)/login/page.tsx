@@ -1,11 +1,11 @@
 // src/app/auth/login/page.tsx
 
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { login } from "@/lib/api/auth";
-import { getMyOrganizations } from "@/lib/api/my";
+import React, {useState} from 'react'
+import {useRouter} from 'next/navigation'
+import {login} from '@/lib/api/auth'
+import {getMyOrganizations} from '@/lib/api/my'
 import {
   Box,
   Button,
@@ -16,30 +16,30 @@ import {
   Heading,
   Input,
   Stack,
-  Text,
-} from "@chakra-ui/react";
+  Text
+} from '@chakra-ui/react'
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!username || !password) {
-      setError("아이디와 비밀번호를 모두 입력해주세요.");
-      return;
+      setError('아이디와 비밀번호를 모두 입력해주세요.')
+      return
     }
     try {
-      const response = await login({ username: username, password: password });
-      console.log(response.data);
-      router.push("/dashboard");
+      const response = await login({username: username, password: password})
+      console.log(response.data)
+      router.push('/dashboard')
     } catch (error) {
-      console.log("error");
+      console.log('error')
     }
-  };
+  }
 
   return (
     <Flex
@@ -48,8 +48,7 @@ const LoginPage = () => {
       align="center"
       minHeight="100vh"
       bg="#f7f7f7"
-      p={5}
-    >
+      p={5}>
       <Box
         w="100%"
         maxW="400px"
@@ -57,8 +56,7 @@ const LoginPage = () => {
         p={8}
         borderRadius="8px"
         boxShadow="lg"
-        textAlign="center"
-      >
+        textAlign="center">
         <Heading as="h2" size="lg" mb={6}>
           로그인
         </Heading>
@@ -70,7 +68,7 @@ const LoginPage = () => {
                 id="username"
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={e => setUsername(e.target.value)}
                 placeholder="아이디를 입력하세요"
               />
             </Field.Root>
@@ -80,7 +78,7 @@ const LoginPage = () => {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 placeholder="비밀번호를 입력하세요"
               />
             </Field.Root>
@@ -96,18 +94,15 @@ const LoginPage = () => {
         </form>
         <Box mt={4}>
           <Text fontSize="sm" color="gray.600">
-            아직 회원이 아니신가요?{" "}
-            <a
-              href="/signup"
-              style={{ color: "#007bff", textDecoration: "none" }}
-            >
+            아직 회원이 아니신가요?{' '}
+            <a href="/signup" style={{color: '#007bff', textDecoration: 'none'}}>
               회원가입
             </a>
           </Text>
         </Box>
       </Box>
     </Flex>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
