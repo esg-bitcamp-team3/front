@@ -93,7 +93,7 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
     <Dialog.RootProvider value={dialog} size="full" motionPreset="slide-in-bottom">
       <Dialog.Trigger asChild>
         <Button variant="outline" size="sm">
-          간접 연소
+          이동 연소
         </Button>
       </Dialog.Trigger>
       <Portal>
@@ -101,7 +101,7 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header display="flex" justifyContent="center" alignItems="center">
-              <Dialog.Title textAlign="center">간접 연소</Dialog.Title>
+              <Dialog.Title textAlign="center">이동동 연소</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
               <Stack gap="10" px="8">

@@ -1,17 +1,17 @@
 import {createListCollection, Portal, Select} from '@chakra-ui/react'
 import {useMemo} from 'react'
 
-interface YearSelectorProps {
+interface SelectorProps {
   value: string
   onValueChange: (value: string) => void
 }
 
-const YearSelector = ({props}: {props: YearSelectorProps}) => {
+const TypeSelector = ({props}: {props: SelectorProps}) => {
   const {value, onValueChange} = props
-  const year = ['2020', '2021', '2022', '2023', '2024', '2025']
-  const yearList = useMemo(() => {
+  const dataType = ['station', 'mobile']
+  const list = useMemo(() => {
     return createListCollection({
-      items: year || [],
+      items: dataType || [],
       itemToString: (item: string) => item,
       itemToValue: (item: string) => item
     })
@@ -19,12 +19,12 @@ const YearSelector = ({props}: {props: YearSelectorProps}) => {
 
   return (
     <Select.Root
-      collection={yearList}
+      collection={list}
       width="320px"
       value={[value]}
       onValueChange={e => onValueChange(e.value[0])}>
       <Select.HiddenSelect />
-      <Select.Label>선택 연도</Select.Label>
+
       <Select.Control>
         <Select.Trigger>
           <Select.ValueText placeholder="Select Year" />
@@ -36,9 +36,9 @@ const YearSelector = ({props}: {props: YearSelectorProps}) => {
       <Portal>
         <Select.Positioner>
           <Select.Content>
-            {yearList.items.map(year => (
-              <Select.Item item={year} key={year}>
-                {year}
+            {list.items.map(data => (
+              <Select.Item item={data} key={data}>
+                {data}
                 <Select.ItemIndicator />
               </Select.Item>
             ))}
@@ -49,4 +49,4 @@ const YearSelector = ({props}: {props: YearSelectorProps}) => {
   )
 }
 
-export {YearSelector}
+export {TypeSelector}

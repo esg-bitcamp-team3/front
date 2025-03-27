@@ -1,29 +1,21 @@
 'use effect'
 
-import {YearSelector} from '@/lib/api/components/yearSelector'
-import {getStationaryCombustion} from '@/lib/api/get'
-import {
-  IEmissionFromStationaryCombustion,
-  IEmissionInfo
-} from '@/lib/api/interfaces/retrieveInterfaces'
-import {
-  Button,
-  ButtonGroup,
-  HStack,
-  IconButton,
-  Pagination,
-  Stack,
-  Table,
-  Text
-} from '@chakra-ui/react'
+import {getStationaryCombustion, getMobileCombustion} from '@/lib/api/get'
+import {IEmissionInfo} from '@/lib/api/interfaces/retrieveInterfaces'
+import {ButtonGroup, IconButton, Pagination, Stack, Table} from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
 
+interface YearAndData {
+  year: string
+  subsidiaryId: string
+  dataType: string
+}
+
 const months = Array.from({length: 12}, (_, i) => `${i + 1}월`)
 
-export const StationTable = ({subsidiaryId}: {subsidiaryId: string}) => {
-  const [value, setValue] = useState<string>('2023')
-  const year = ['2020', '2021', '2022', '2023', '2024', '2025']
+export const StationTable = ({props}: {props: YearAndData}) => {
+  const {year, subsidiaryId, dataType} = props
   const [page, setPage] = useState<number>(1)
   const [total, setTotal] = useState<number>()
 
@@ -31,7 +23,12 @@ export const StationTable = ({subsidiaryId}: {subsidiaryId: string}) => {
 
   const pullData = async () => {
     try {
-      const response = await getStationaryCombustion(subsidiaryId, value, page)
+      let response
+      if (dataType === 'station') {
+        response = await getStationaryCombustion(subsidiaryId, year, page)
+      } else if (dataType === 'mobile') {
+        response = await getMobileCombustion(subsidiaryId, year, page)
+      }
       setData(response.data)
       setTotal(response.total)
     } catch (error) {}
@@ -39,11 +36,10 @@ export const StationTable = ({subsidiaryId}: {subsidiaryId: string}) => {
 
   useEffect(() => {
     pullData()
-  }, [value, page])
+  }, [year, page, dataType])
 
   return (
     <Stack width="full" gap="5" justifyContent="center" alignItems="center">
-      <YearSelector props={{value: value, valueList: year, onValueChange: setValue}} />
       <Table.Root
         variant="outline"
         size="sm"

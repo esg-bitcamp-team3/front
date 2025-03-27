@@ -13,15 +13,16 @@ import {
   SimpleGrid,
   Dialog,
   Flex,
-  Portal
+  Portal,
+  Box
 } from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import AddEmmition from './addDetail/emmition_name'
 import {getMyOrganizations} from '@/lib/api/my'
 import {useRouter} from 'next/navigation'
 import {Dataform_Station} from './addDetail/dataform/dataform_Station'
-import {SelectYear} from './tab_page'
 import {Dataform_Mobile} from './addDetail/dataform/dataform_Mobile'
+import {TabContent} from './tabs_page'
 
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
@@ -57,21 +58,28 @@ const AddEmmitionFactory = () => {
         variant="subtle"
         size="lg"
         onValueChange={e => setSelectedTab(e.value)}>
-        <Tabs.List flex="1 1 auto" overflowX="auto">
+        <Tabs.List
+          display="flex"
+          flex="1 1 auto"
+          overflowX="auto"
+          borderY="2px solid #E2E8F0"
+          borderRadius="lg"
+          justifyContent="center"
+          alignItems="center"
+          gap="4">
           {subsidiaryList.map(item => (
             <Tabs.Trigger
-              display="flex"
               padding={4}
               value={item._id}
               key={item._id}
-              maxWidth="200px">
+              maxWidth="200px"
+              flexGrow={0}>
               <Text
                 overflow="hidden"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 flexGrow={1}>
-                {' '}
-                {item.name}{' '}
+                {item.name}
               </Text>
 
               <CloseButton
@@ -130,8 +138,7 @@ const AddEmmitionFactory = () => {
                     </Portal>
                   </Dialog.Root>
                   <Dataform_Mobile subsidaryId={item._id} />
-
-                  <SelectYear subsidiaryId={item._id} />
+                  <TabContent subsidiaryId={item._id} />
                 </>
               )}
             </Tabs.Content>
