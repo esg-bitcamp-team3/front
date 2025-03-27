@@ -23,7 +23,7 @@ const AddEmmition = () => {
   const fetchSubsidiaryList = async () => {
     try {
       const response = await getMyOrganizations()
-      setOrganization(response.data.organization)
+      setOrganization(response.data.organization.organization)
     } catch (error) {}
   }
 
