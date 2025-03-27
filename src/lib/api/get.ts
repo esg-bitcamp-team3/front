@@ -2,6 +2,7 @@ import apiClient from './apiClient'
 import {
   IEmissionFromStationaryCombustion,
   IFuelInfo,
+  IMonthlyEmissionData,
   IOrganization,
   IScopeData,
   ISubsidiary
@@ -55,7 +56,6 @@ export async function getSteamActivityData() {
   })
 }
 
-
 export async function getStationaryCombustion(id: string, year?: string) {
   return await apiClient.get<ListResponse<IEmissionFromStationaryCombustion>>(
     `/data/stationary-combustion/subsidiary/${id}`,
@@ -73,8 +73,26 @@ export async function getCalculatedEmissionOfSubsidary(id: string) {
   })
 }
 
-export async function getCalculatedEmissionOfOrganiation(id: string) {
+export async function getCalculatedEmissionOfOrganiation(id: string, year?: string) {
   return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
-    withAuth: true
+    withAuth: true,
+    params: {
+      ...(year && {year})
+    }
   })
+}
+
+export async function getCalculatedMonthlyEmissionOfOrganiation(
+  id: string,
+  year?: string
+) {
+  return await apiClient.get<Response<IMonthlyEmissionData>>(
+    `/calculate/monthly/organization/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
+    }
+  )
 }

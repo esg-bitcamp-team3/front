@@ -1,67 +1,135 @@
-"use client";
+'use client'
 
-import { Box } from "@chakra-ui/react";
-import { ScopeChart, ScopeBarChart, ScopeBox } from "./components/scopeChart";
+import {Box, HStack, SimpleGrid} from '@chakra-ui/react'
+import {ScopeChart, ScopeBarChart, ScopeBox} from './components/scopeChart'
 import {
+  IMonthlyEmissionData,
   IOrganization,
+  IRevenueRecord,
   IScopeData,
-  ISubsidiary,
-} from "@/lib/api/interfaces/retrieveInterfaces";
-import { useEffect, useState } from "react";
-import { getMyOrganizations } from "@/lib/api/my";
-import { getCalculatedEmissionOfOrganiation } from "@/lib/api/get";
-import { toaster } from "@/components/ui/toaster";
+  ISubsidiary
+} from '@/lib/api/interfaces/retrieveInterfaces'
+import {useEffect, useState} from 'react'
+import {getMyOrganizations} from '@/lib/api/my'
+import {
+  getCalculatedEmissionOfOrganiation,
+  getCalculatedMonthlyEmissionOfOrganiation
+} from '@/lib/api/get'
+import {toaster} from '@/components/ui/toaster'
+import {EmissionStat} from './components/stats'
 
 const Page = () => {
-  const [organization, setOrganization] = useState<IOrganization>();
-  const [subsidaryList, setSubsidaryList] = useState<ISubsidiary[]>();
-  const [data, setData] = useState<IScopeData>();
+  const [organization, setOrganization] = useState<IOrganization>()
+  const [subsidaryList, setSubsidaryList] = useState<ISubsidiary[]>()
+  const [revenueRecordList, setRevenueRecordList] = useState<IRevenueRecord[]>()
+  const [data, setData] = useState<IScopeData>()
+  const [previousData, setPreviousData] = useState<IScopeData>()
+  const [monthlyData, setMonthlyData] = useState<IMonthlyEmissionData>()
+  const [previousMonthlyData, setPreviousMonthlyData] = useState<IMonthlyEmissionData>()
+  const today = new Date()
+  const year = 2023
+  const month = 3
 
   const fetchOrgnization = async () => {
     try {
-      const response = await getMyOrganizations();
-      console.log(response);
-      setOrganization(response.data.organization);
-      setSubsidaryList(response.data.subsidiaries);
+      const response = await getMyOrganizations()
+      setOrganization(response.data.organization.organization)
+      setSubsidaryList(response.data.subsidiaries)
+      setRevenueRecordList(response.data.organization.revenueRecords)
     } catch (error) {
       toaster.error({
-        title: "기업 데이터를 가져오는 데 실패했습니다.",
-      });
+        title: '기업 데이터를 가져오는 데 실패했습니다.'
+      })
     }
-  };
+  }
 
-  const fetchData = async (id: string) => {
+  const fetchData = async (id: string, year: number) => {
     try {
-      const response = await getCalculatedEmissionOfOrganiation(id);
-      console.log(response);
-      setData(response.data);
+      const result1 = await getCalculatedEmissionOfOrganiation(id, year.toString())
+      setData(result1.data)
+      const result2 = await getCalculatedEmissionOfOrganiation(id, (year - 1).toString())
+      setPreviousData(result2.data)
+      const result3 = await getCalculatedMonthlyEmissionOfOrganiation(id, year.toString())
+      console.log(result3)
+      setMonthlyData(result3.data)
+      const result4 = await getCalculatedMonthlyEmissionOfOrganiation(
+        id,
+        (year - 1).toString()
+      )
+      setPreviousMonthlyData(result4.data)
     } catch (error) {
       toaster.error({
-        title: "데이터를 가져오는 데 실패했습니다.",
-      });
+        title: '데이터를 가져오는 데 실패했습니다.'
+      })
     }
-  };
+  }
 
   useEffect(() => {
-    fetchOrgnization();
-  }, []);
+    fetchOrgnization()
+  }, [])
 
   useEffect(() => {
     if (organization) {
-      fetchData(organization._id);
+      fetchData(organization._id, year)
     }
-  }, [organization]);
+  }, [organization, year])
+
+  if (
+    !data ||
+    !previousData ||
+    !monthlyData ||
+    !previousMonthlyData ||
+    !organization ||
+    !revenueRecordList
+  ) {
+    console.log('data', data)
+    console.log('previousData', previousData)
+    console.log('monthlyData', monthlyData)
+    console.log('previousMonthlyData', previousMonthlyData)
+    return <div>Loading...</div>
+  }
 
   return (
     <div>
       <h1>Dashboard</h1>
-      {data && data.scope1 && data.scope2 && (
-        <Box width="md">
-          <ScopeBox data={data} />
-        </Box>
-      )}
+      <SimpleGrid width="full" columns={3}>
+        {/* 연간 매출당 배출량 */}
+        <EmissionStat
+          data={{
+            label: '연간 매출당 배출량',
+            value:
+              data.scope1 /
+              (revenueRecordList.find(record => record.year === year)?.revenue || 1),
+            previousValue:
+              previousData.scope1 /
+              (revenueRecordList.find(record => record.year === year - 1)?.revenue || 1),
+            unit: 'gCO2/원'
+          }}
+        />
+        {/* 총 배출량 */}
+        <EmissionStat
+          data={{
+            label: '총 배출량',
+            value: data.scope1,
+            previousValue: previousData.scope1,
+            unit: 'tCO2e'
+          }}
+        />
+        {/* 해당 월 배출량 */}
+        <EmissionStat
+          data={{
+            label: `${month}월 배출량`,
+            value: monthlyData.stationary[month - 1],
+            previousValue: previousMonthlyData.stationary[month - 1],
+            unit: 'tCO2e'
+          }}
+        />
+      </SimpleGrid>
+      <SimpleGrid width="full" columns={2}>
+        <ScopeBox data={data} />
+      </SimpleGrid>
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
