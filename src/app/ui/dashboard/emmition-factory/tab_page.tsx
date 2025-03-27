@@ -3,12 +3,15 @@
 import {Box, Portal, Select, createListCollection} from '@chakra-ui/react'
 import {useMemo, useState, useEffect} from 'react'
 import {getStationaryCombustion} from '@/lib/api/get'
-import {IEmissionFromStationaryCombustion} from '@/lib/api/interfaces/retrieveInterfaces'
+import {
+  IEmissionFromStationaryCombustion,
+  IEmissionInfo
+} from '@/lib/api/interfaces/retrieveInterfaces'
 import {StationTable} from './addDetail/drawComponent/table'
 
 export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
   const [value, setValue] = useState<string[]>(['2023'])
-  const [data, setData] = useState<IEmissionFromStationaryCombustion[] | null>(null)
+  const [data, setData] = useState<IEmissionInfo[] | null>(null)
 
   const year = ['2020', '2021', '2022', '2023', '2024', '2025']
 

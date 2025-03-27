@@ -1,6 +1,7 @@
 import apiClient from './apiClient'
 import {
   IEmissionFromStationaryCombustion,
+  IEmissionInfo,
   IFuelInfo,
   IOrganization,
   IScopeData,
@@ -55,9 +56,8 @@ export async function getSteamActivityData() {
   })
 }
 
-
 export async function getStationaryCombustion(id: string, year?: string) {
-  return await apiClient.get<ListResponse<IEmissionFromStationaryCombustion>>(
+  return await apiClient.get<ListResponse<IEmissionInfo>>(
     `/data/stationary-combustion/subsidiary/${id}`,
     {
       withAuth: true,

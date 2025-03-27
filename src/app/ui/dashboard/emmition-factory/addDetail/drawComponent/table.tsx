@@ -1,14 +1,22 @@
-import {IEmissionFromStationaryCombustion} from '@/lib/api/interfaces/retrieveInterfaces'
-import {HStack, Stack, Table, Text} from '@chakra-ui/react'
+import {
+  IEmissionFromStationaryCombustion,
+  IEmissionInfo
+} from '@/lib/api/interfaces/retrieveInterfaces'
+import {
+  ButtonGroup,
+  HStack,
+  IconButton,
+  Pagination,
+  Stack,
+  Table,
+  Text
+} from '@chakra-ui/react'
+import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
 
-export const StationTable = ({
-  stationData
-}: {
-  stationData: IEmissionFromStationaryCombustion[]
-}) => {
+export const StationTable = ({stationData}: {stationData: IEmissionInfo[]}) => {
   return (
-    <Stack gap="10" px="8">
-      <Table.Root size="lg">
+    <Stack width="full" gap="5">
+      <Table.Root size="sm" variant="outline" striped>
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
@@ -28,7 +36,7 @@ export const StationTable = ({
 
         <Table.Body>
           {stationData.map(item => (
-            <Table.Row>
+            <Table.Row key={item._id}>
               <Table.Cell px="1" py="3">
                 {item.facilityName}
               </Table.Cell>
@@ -36,7 +44,7 @@ export const StationTable = ({
                 {item.emissionActivity}
               </Table.Cell>
               <Table.Cell px="1" py="3">
-                {item.activityData}
+                {item.activityData?.name}
               </Table.Cell>
               <Table.Cell px="1" py="3">
                 <HStack>
@@ -49,6 +57,29 @@ export const StationTable = ({
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination.Root count={stationData.length * 5} pageSize={5} page={1}>
+        <ButtonGroup variant="ghost" size="sm" wrap="wrap">
+          <Pagination.PrevTrigger asChild>
+            <IconButton>
+              <LuChevronLeft />
+            </IconButton>
+          </Pagination.PrevTrigger>
+
+          <Pagination.Items
+            render={page => (
+              <IconButton variant={{base: 'ghost', _selected: 'outline'}}>
+                {page.value}
+              </IconButton>
+            )}
+          />
+
+          <Pagination.NextTrigger asChild>
+            <IconButton>
+              <LuChevronRight />
+            </IconButton>
+          </Pagination.NextTrigger>
+        </ButtonGroup>
+      </Pagination.Root>
     </Stack>
   )
 }
