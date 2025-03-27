@@ -57,7 +57,7 @@ const AddEmmitionFactory = () => {
   }
 
   return (
-    <SimpleGrid columns={2} gap="14" width="full">
+    <SimpleGrid width="full">
       <Tabs.Root
         value={selectedTab}
         variant="subtle"

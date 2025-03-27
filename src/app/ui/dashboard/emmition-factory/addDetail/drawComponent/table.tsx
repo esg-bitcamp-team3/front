@@ -39,7 +39,7 @@ export const StationTable = ({props}: {props: YearAndData}) => {
   }, [year, page, dataType])
 
   return (
-    <Stack width="full" gap="5" justifyContent="center" alignItems="center">
+    <Stack width="full" gap="5">
       <Table.Root
         variant="outline"
         size="sm"
@@ -131,7 +131,12 @@ export const StationTable = ({props}: {props: YearAndData}) => {
         </Table.Body>
       </Table.Root>
       {total && total > 0 && (
-        <Pagination.Root page={page} count={total} pageSize={10} defaultPage={1}>
+        <Pagination.Root
+          page={page}
+          count={total}
+          pageSize={10}
+          defaultPage={1}
+          textAlign="center">
           <ButtonGroup variant="ghost" size="sm">
             <Pagination.PrevTrigger asChild>
               <IconButton>
