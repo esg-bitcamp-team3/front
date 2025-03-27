@@ -47,13 +47,6 @@ export default function SideNav() {
           rounded="md"
           bg="gray.50"
         />
-
-        {/* <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            // await signOut({ redirectTo: '/' });
-          }}
-        > */}
         <Button
           onClick={handleLogout}
           display="flex"
@@ -72,7 +65,6 @@ export default function SideNav() {
           <LuLogOut size={24} />
           <Box display={{base: 'none', md: 'block'}}>로그아웃</Box>
         </Button>
-        {/* </form> */}
       </Flex>
     </Box>
   )

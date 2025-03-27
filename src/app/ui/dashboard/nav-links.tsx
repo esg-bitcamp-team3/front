@@ -1,26 +1,26 @@
-"use client";
+'use client'
 
-import { HomeIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { usePathname } from "next/navigation";
-import { Link, Box } from "@chakra-ui/react";
+import {HomeIcon, DocumentDuplicateIcon} from '@heroicons/react/24/outline'
+import {usePathname} from 'next/navigation'
+import {Link, Box} from '@chakra-ui/react'
 
 const links = [
-  { name: "대시보드", href: "/dashboard", icon: HomeIcon },
+  {name: '대시보드', href: '/dashboard', icon: HomeIcon},
   {
-    name: "사업장",
-    href: "/dashboard/emmition-factory",
-    icon: DocumentDuplicateIcon,
+    name: '사업장',
+    href: '/dashboard/emmition-factory',
+    icon: DocumentDuplicateIcon
   },
-  { name: "기업", href: "/dashboard/oganization", icon: DocumentDuplicateIcon },
-];
+  {name: '기업', href: '/dashboard/organization', icon: DocumentDuplicateIcon}
+]
 
 export default function NavLinks() {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <>
-      {links.map((link) => {
-        const LinkIcon = link.icon;
+      {links.map(link => {
+        const LinkIcon = link.icon
         return (
           <Link
             key={link.name}
@@ -35,27 +35,26 @@ export default function NavLinks() {
             fontSize="sm"
             fontWeight="medium"
             rounded="md"
-            _hover={{ bg: "sky.100", color: "blue.600" }}
+            _hover={{bg: 'sky.100', color: 'green.400'}}
             md={{
-              display: "flex",
-              justifyContent: "start",
+              display: 'flex',
+              justifyContent: 'start',
               px: 3,
               p: 2,
-              flex: "none",
+              flex: 'none'
             }}
-            color={pathname === link.href ? "blue.600" : "inherit"}
-            bg={pathname === link.href ? "sky.100" : "gray.50"}
-          >
+            color={pathname === link.href ? 'green.400' : 'inherit'}
+            bg={pathname === link.href ? 'sky.100' : 'gray.50'}>
             <LinkIcon width={6} />
+
             <Box
-              display={{ base: "none", md: "block" }}
-              bg={pathname === link.href ? "sky.100" : "gray.50"}
-            >
+              display={{base: 'none', md: 'block'}}
+              bg={pathname === link.href ? 'sky.100' : 'gray.50'}>
               {link.name}
             </Box>
           </Link>
-        );
+        )
       })}
     </>
-  );
+  )
 }
