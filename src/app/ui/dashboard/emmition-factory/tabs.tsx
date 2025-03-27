@@ -93,41 +93,45 @@ const AddEmmitionFactory = () => {
         <Tabs.ContentGroup>
           {subsidiaryList.map(item => (
             <Tabs.Content value={item._id} key={item._id}>
-              <Heading size="xl" my="6">
-                <Text m="5" fontSize="3xl">
-                  {organization?.name} {item.industryType}
-                </Text>
-                <Text m="5">
-                  {item.name} ( {item?.registrationNumber} )
-                </Text>
-              </Heading>
-              <Dialog.Root size="full" open={open}>
-                <Dialog.Trigger asChild onClick={() => setOpen(true)}>
-                  <Button>Add Data</Button>
-                </Dialog.Trigger>
-                <Portal>
-                  <Dialog.Backdrop />
-                  <Dialog.Positioner>
-                    <Dialog.Content>
-                      <Dialog.CloseTrigger asChild>
-                        <CloseButton size="sm" />
-                      </Dialog.CloseTrigger>
-                      <Dialog.Header>
-                        <Dialog.Title />
-                      </Dialog.Header>
-                      <Dialog.Body>
-                        <Dataform_Station
-                          subsidaryId={item._id}
-                          onClose={() => setOpen(false)}
-                        />
-                      </Dialog.Body>
-                      <Dialog.Footer />
-                    </Dialog.Content>
-                  </Dialog.Positioner>
-                </Portal>
-              </Dialog.Root>
+              {selectedTab === item._id && ( // 현재 선택된 탭만 렌더링
+                <>
+                  <Heading size="xl" my="6">
+                    <Text m="5" fontSize="3xl">
+                      {organization?.name} {item.industryType}
+                    </Text>
+                    <Text m="5">
+                      {item.name} ( {item?.registrationNumber} )
+                    </Text>
+                  </Heading>
+                  <Dialog.Root size="full" open={open}>
+                    <Dialog.Trigger asChild onClick={() => setOpen(true)}>
+                      <Button>Add Data</Button>
+                    </Dialog.Trigger>
+                    <Portal>
+                      <Dialog.Backdrop />
+                      <Dialog.Positioner>
+                        <Dialog.Content>
+                          <Dialog.CloseTrigger asChild>
+                            <CloseButton size="sm" />
+                          </Dialog.CloseTrigger>
+                          <Dialog.Header>
+                            <Dialog.Title />
+                          </Dialog.Header>
+                          <Dialog.Body>
+                            <Dataform_Station
+                              subsidaryId={item._id}
+                              onClose={() => setOpen(false)}
+                            />
+                          </Dialog.Body>
+                          <Dialog.Footer />
+                        </Dialog.Content>
+                      </Dialog.Positioner>
+                    </Portal>
+                  </Dialog.Root>
 
-              <SelectYear subsidiaryId={item._id} />
+                  <SelectYear subsidiaryId={item._id} />
+                </>
+              )}
             </Tabs.Content>
           ))}
         </Tabs.ContentGroup>

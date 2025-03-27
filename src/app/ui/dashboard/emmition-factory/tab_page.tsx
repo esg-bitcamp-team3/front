@@ -1,6 +1,6 @@
 'use client'
 
-import {Portal, Select, createListCollection} from '@chakra-ui/react'
+import {Box, Portal, Select, createListCollection} from '@chakra-ui/react'
 import {useMemo, useState, useEffect} from 'react'
 import {getStationaryCombustion} from '@/lib/api/get'
 import {IEmissionFromStationaryCombustion} from '@/lib/api/interfaces/retrieveInterfaces'
@@ -62,7 +62,7 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
           </Select.Positioner>
         </Portal>
       </Select.Root>
-      {data && <StationTable stationData={data} />}
+      <Box>{data && <StationTable stationData={data} />}</Box>
     </>
   )
 }
