@@ -122,6 +122,19 @@ export interface IEmissionFromStationaryCombustion {
   data?: number[] // 월별 배
 }
 
+export interface IEmissionInfo {
+  _id?: string
+  subsidiary?: string // 사업장
+  year?: number // 연도
+  serialNumber?: string // 일련번호
+  facilityName?: string // 내부시설명
+  emissionActivity?: string // 배출활동
+  activityData?: IFuel // 활동자료
+  total?: number // 합계 배출량
+  uncertainty?: number // 불확도
+  data?: number[] // 월별 배
+}
+
 export interface IEmissionFromMobileCombustion {
   _id: string
   subsidiary: string // 사업장
@@ -163,4 +176,9 @@ export interface IYearlyEmissionData {
     mobile: number
     total: number
   }
+}
+
+export interface IMothlyData {
+  stationary: number[]
+  mobile: number[]
 }

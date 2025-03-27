@@ -40,7 +40,6 @@ export function Dataform_Station({
 }) {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
   const [fuel, setFuel] = useState<IFuelInfo[]>()
-  const [formatted, setFormatted] = useState<IEmissionFromStationaryCombustion[]>()
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
   }
@@ -52,7 +51,9 @@ export function Dataform_Station({
     defaultValues: {data: []}
   })
 
+  // Make data array which type is subdata
   const onSubmit = async ({data}: {data: subdata[]}) => {
+    // add subsidaryId
     try {
       const requestData = data.map(item => ({
         ...item,

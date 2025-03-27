@@ -1,12 +1,14 @@
 import apiClient from './apiClient'
 import {
   IEmissionFromStationaryCombustion,
+  IEmissionInfo,
   IFuelInfo,
   IMonthlyEmissionData,
+  IMothlyData,
   IOrganization,
-  IScopeData,
   ISubsidiary,
-  IYearlyEmissionData
+  IYearlyEmissionData,
+  IScopeData
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -57,21 +59,29 @@ export async function getSteamActivityData() {
   })
 }
 
-export async function getStationaryCombustion(id: string, year?: string) {
-  return await apiClient.get<ListResponse<IEmissionFromStationaryCombustion>>(
+export async function getStationaryCombustion(id: string, year?: string, page?: number) {
+  return await apiClient.get<PaginatedResponse<IEmissionInfo>>(
     `/data/stationary-combustion/subsidiary/${id}`,
     {
       withAuth: true,
       params: {
-        ...(year && {year})
+        ...(year && {year}),
+        ...(page && {page})
       }
     }
   )
 }
-export async function getCalculatedEmissionOfSubsidary(id: string) {
-  return await apiClient.get<Response<IScopeData>>(`/calculate/subsidiaries/${id}`, {
-    withAuth: true
-  })
+export async function getMobileCombustion(id: string, year?: string, page?: number) {
+  return await apiClient.get<PaginatedResponse<IEmissionInfo>>(
+    `/data/mobile-combustion/subsidiary/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year}),
+        ...(page && {page})
+      }
+    }
+  )
 }
 
 export async function getCalculatedEmissionOfOrganiation(id: string, year?: string) {
@@ -112,6 +122,18 @@ export async function getCalculatedYearlyEmissionOfSubsidiary(id: string) {
     `/calculate/yearly/subsidiary/${id}`,
     {
       withAuth: true
+    }
+  )
+}
+
+export async function getCalculatedMothlyTotal(id: string, year?: string) {
+  return await apiClient.get<Response<IMothlyData>>(
+    `/calculate/monthly/subsidiary/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
     }
   )
 }

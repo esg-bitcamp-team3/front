@@ -2,8 +2,7 @@
 
 import NavLinks from '@/app/ui/dashboard/nav-links'
 import {logout} from '@/lib/api/auth'
-// import { signOut } from '@/auth';
-import {Box, Link, Flex, Button, Text} from '@chakra-ui/react'
+import {Box, Link, Flex, Button} from '@chakra-ui/react'
 import {useRouter} from 'next/navigation'
 import {FiPower} from 'react-icons/fi' // Using react-icons for the power icon
 import {LuLogOut} from 'react-icons/lu'
