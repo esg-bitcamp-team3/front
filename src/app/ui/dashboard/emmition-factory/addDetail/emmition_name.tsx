@@ -5,63 +5,60 @@ import {
   Dialog,
   Input,
   Portal,
-  useDialog,
-} from "@chakra-ui/react";
-import { FileUpload } from "@chakra-ui/react";
-import { HiUpload } from "react-icons/hi";
-import { useForm } from "react-hook-form";
-import {
-  IOrganization,
-  ISubsidiary,
-} from "@/lib/api/interfaces/retrieveInterfaces";
-import { createSubsidiary } from "@/lib/api/post";
-import { toaster } from "@/components/ui/toaster";
-import { getMyOrganizations } from "@/lib/api/my";
-import { useEffect, useState } from "react";
+  useDialog
+} from '@chakra-ui/react'
+import {FileUpload} from '@chakra-ui/react'
+import {HiUpload} from 'react-icons/hi'
+import {useForm} from 'react-hook-form'
+import {IOrganization, ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
+import {createSubsidiary} from '@/lib/api/post'
+import {toaster} from '@/components/ui/toaster'
+import {getMyOrganizations} from '@/lib/api/my'
+import {useEffect, useState} from 'react'
 
 const AddEmmition = () => {
-  const dialog = useDialog();
+  const dialog = useDialog()
 
-  const [organization, setOrganization] = useState<IOrganization>();
+  const [organization, setOrganization] = useState<IOrganization>()
   const fetchSubsidiaryList = async () => {
     try {
-      const response = await getMyOrganizations();
-      setOrganization(response.data.organization);
+      const response = await getMyOrganizations()
+      setOrganization(response.data.organization)
     } catch (error) {}
-  };
+  }
 
   useEffect(() => {
-    fetchSubsidiaryList();
-  }, []);
+    fetchSubsidiaryList()
+  }, [])
 
-  const { register, handleSubmit, reset } = useForm<ISubsidiary>({
-    defaultValues: { organization: organization?._id },
-  });
+  const {register, handleSubmit, reset} = useForm<ISubsidiary>({
+    defaultValues: {organization: organization?._id}
+  })
 
   useEffect(() => {
     if (organization?._id) {
-      reset({ organization: organization._id }); // `defaultValues` 업데이트
+      reset({organization: organization._id}) // `defaultValues` 업데이트
     }
-  }, [organization, reset]);
+  }, [organization, reset])
 
   const onSubmit = async (data: ISubsidiary) => {
-    await createSubsidiary(data);
-    // toaster.promise(response, {
-    //   success: {
-    //     title: "Successfully uploaded!",
-    //     description: "Looks great",
-    //   },
-    //   error: {
-    //     title: "Upload failed",
-    //     description: "Something wrong with the upload",
-    //   },
-    //   loading: { title: "Uploading...", description: "Please wait" },
-    // });
-  };
+    const response = createSubsidiary(data)
+    toaster.promise(response, {
+      success: {
+        title: 'Successfully uploaded!',
+        description: 'Looks great'
+      },
+      error: {
+        title: 'Upload failed',
+        description: 'Something wrong with the upload'
+      },
+      loading: {title: 'Uploading...', description: 'Please wait'}
+    })
+  }
 
   return (
     <form>
-      <Dialog.RootProvider value={dialog} size={"lg"}>
+      <Dialog.RootProvider value={dialog} size={'lg'}>
         <Dialog.Trigger asChild>
           <Button variant="ghost" size="xl">
             추가 하기
@@ -82,9 +79,9 @@ const AddEmmition = () => {
                     display="flex"
                     type="string"
                     placeholder="법인 등록 번호"
-                    _placeholder={{ color: "skyblue" }}
-                    {...register("registrationNumber", {
-                      required: "This is required",
+                    _placeholder={{color: 'skyblue'}}
+                    {...register('registrationNumber', {
+                      required: 'This is required'
                     })}
                   />
                 </Box>
@@ -92,9 +89,9 @@ const AddEmmition = () => {
                   <Input
                     type="string"
                     placeholder="업종"
-                    _placeholder={{ color: "skyblue" }}
-                    {...register("industryType", {
-                      required: "This is required",
+                    _placeholder={{color: 'skyblue'}}
+                    {...register('industryType', {
+                      required: 'This is required'
                     })}
                   />
                 </Box>
@@ -102,13 +99,13 @@ const AddEmmition = () => {
                   <Input
                     type="string"
                     placeholder="사업장 명"
-                    _placeholder={{ color: "skyblue" }}
-                    {...register("name", {
-                      required: "This is required",
+                    _placeholder={{color: 'skyblue'}}
+                    {...register('name', {
+                      required: 'This is required'
                     })}
                   />
                 </Box>
-                <FileUpload.Root accept={["image/png"]}>
+                <FileUpload.Root accept={['image/png']}>
                   <FileUpload.HiddenInput />
                   <FileUpload.Trigger asChild>
                     <Button variant="outline" size="sm">
@@ -138,7 +135,7 @@ const AddEmmition = () => {
         </Portal>
       </Dialog.RootProvider>
     </form>
-  );
-};
+  )
+}
 
-export default AddEmmition;
+export default AddEmmition

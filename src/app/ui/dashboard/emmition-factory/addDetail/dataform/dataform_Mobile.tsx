@@ -32,16 +32,16 @@ const year: number[] = [2020, 2021, 2022, 2023, 2024, 2025]
 const emissionActivity = Object.values(ActivityDataForMobileCombustion)
 
 export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
-  const dialog = useDialog()
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
   const [fuel, setFuel] = useState<IFuelInfo[]>()
+  const [isOpen, setIsOpen] = useState(false)
 
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
   }
 
   type subdata = IEmissionFromMobileCombustion
-  const {register, handleSubmit} = useForm<{
+  const {register, handleSubmit, reset} = useForm<{
     data: subdata[]
   }>({
     defaultValues: {data: []}
@@ -70,12 +70,22 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
         },
         loading: {title: 'Uploading...', description: 'Please wait'}
       })
+      reset({data: []})
+      setIsOpen(false)
     } catch {
       toaster.error({
         title: '데이터 생성 중 문제가 발생했습니다.'
       })
     }
   }
+
+  useEffect(() => {
+    if (isOpen == false) {
+      reset({data: []})
+      setRows([0])
+    }
+    console.log(rows)
+  }, [isOpen, reset])
 
   useEffect(() => {
     async function fetchData() {
@@ -90,9 +100,9 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
   }, [])
 
   return (
-    <Dialog.RootProvider value={dialog} size="full" motionPreset="slide-in-bottom">
+    <Dialog.Root open={isOpen} size="full" motionPreset="slide-in-bottom">
       <Dialog.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={() => setIsOpen(true)}>
           이동 연소
         </Button>
       </Dialog.Trigger>
@@ -101,7 +111,7 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header display="flex" justifyContent="center" alignItems="center">
-              <Dialog.Title textAlign="center">이동동 연소</Dialog.Title>
+              <Dialog.Title textAlign="center">이동 연소</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
               <Stack gap="10" px="8">
@@ -229,11 +239,16 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
               </Stack>
             </Dialog.Body>
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" />
+              <CloseButton
+                size="sm"
+                onClick={() => {
+                  setIsOpen(false)
+                }}
+              />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>
-    </Dialog.RootProvider>
+    </Dialog.Root>
   )
 }
