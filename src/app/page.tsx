@@ -1,10 +1,7 @@
-
-import Link from "next/link";
-import { lusitana } from "@/app/ui/fonts";
-import { Box, Text, Button, Stack, Flex, Heading } from "@chakra-ui/react";
-import { LuArrowRight, LuTreeDeciduous } from "react-icons/lu";
-import { BsTree } from "react-icons/bs";
-
+import Link from 'next/link'
+import {lusitana} from '@/app/ui/fonts'
+import {Box, Text, Button, Stack, Flex, Heading} from '@chakra-ui/react'
+import {LuArrowRight} from 'react-icons/lu'
 
 export default function Page() {
   return (
@@ -12,34 +9,29 @@ export default function Page() {
       as="main"
       display="flex"
       minH="100vh"
+      minW="100vh"
       flexDirection="column"
       p={6}
-      bg="white"
-    >
+      bg="white">
       {/* 상단 타이틀과 로고 */}
       <Text
         className={lusitana.className}
-        fontSize={{ base: "xl", md: "3xl" }}
+        fontSize={{base: 'xl', md: '3xl'}}
         color="green.600"
-        lineHeight={{ md: "normal" }}
+        lineHeight={{md: 'normal'}}
         mb={6}
-        textAlign="center"
-      >
+        textAlign="center">
         <Box display="flex" justifyContent="center" alignItems="center" gap={4}>
-          {" "}
-          <Button
-            as="a"
-            href="/http://localhost:3000/"
-            bg="white"
-            color="white"
-            padding={4}
-          >
-            <img
-              src="/gglogo.png"
-              alt="Green Gauge Logo"
-              style={{ width: "50px", height: "50px" }}
-            />{" "}
-          </Button>
+          {' '}
+          <Link href="/">
+            <Button as="a" bg="white" color="white" padding={4}>
+              <img
+                src="/gglogo.png"
+                alt="Green Gauge Logo"
+                style={{width: '50px', height: '50px'}}
+              />{' '}
+            </Button>
+          </Link>
           <strong>Welcome to Green Gauge</strong>
         </Box>
       </Text>
@@ -54,32 +46,33 @@ export default function Page() {
         borderRadius="lg"
         p={300}
         mb={8}
-      >
+        w={'100%'}
+        mx={0}>
         <Stack align="flex-start">
           <Heading size="4xl">Green Gauge</Heading>
           <Text mb="3" fontSize="lg" color="fg.muted">
-            Join us in making the world greener. Together, we can make a big
-            impact on the planet.
+            Join us in making the world greener. Together, we can make a big impact on the
+            planet.
           </Text>
-          <Button
-            as="a"
-            href="/login"
-            bg="green.500"
-            color="white"
-            _hover={{ bg: "green.400" }}
-            size="lg"
-            borderRadius="md"
-            fontWeight="bold"
-            padding={4}
-          >
-            Login <LuArrowRight size="xl" />
-          </Button>
+          <Link href="/login">
+            <Button
+              as="a"
+              bg="green.500"
+              color="white"
+              _hover={{bg: 'green.400'}}
+              size="lg"
+              borderRadius="md"
+              fontWeight="bold"
+              padding={4}>
+              Login <LuArrowRight size="xl" />
+            </Button>
+          </Link>
         </Stack>
         <img
           src="/bg.png"
           alt="BackGround Green Gauge Logo"
-          style={{ width: "900px", height: "900px" }}
-        />{" "}
+          style={{width: '900px', height: '900px'}}
+        />{' '}
       </Box>
 
       {/* 섹션 2 */}
@@ -96,8 +89,7 @@ export default function Page() {
         color="white"
         p={50}
         borderRadius="lg"
-        mt={8}
-      >
+        mt={8}>
         <Text fontSize="lg" textAlign="center">
           <strong>Green Gauge</strong> | Making the World Greener Together
         </Text>
@@ -112,4 +104,3 @@ export default function Page() {
     </Box>
   )
 }
-;``
