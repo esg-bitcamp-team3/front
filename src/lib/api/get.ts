@@ -3,9 +3,12 @@ import {
   IEmissionFromStationaryCombustion,
   IEmissionInfo,
   IFuelInfo,
+  IMonthlyEmissionData,
+  IMothlyData,
   IOrganization,
-  IScopeData,
-  ISubsidiary
+  ISubsidiary,
+  IYearlyEmissionData,
+  IScopeData
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -80,14 +83,57 @@ export async function getMobileCombustion(id: string, year?: string, page?: numb
     }
   )
 }
-export async function getCalculatedEmissionOfSubsidary(id: string) {
-  return await apiClient.get<Response<IScopeData>>(`/calculate/subsidiaries/${id}`, {
-    withAuth: true
+
+export async function getCalculatedEmissionOfOrganiation(id: string, year?: string) {
+  return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
+    withAuth: true,
+    params: {
+      ...(year && {year})
+    }
   })
 }
 
-export async function getCalculatedEmissionOfOrganiation(id: string) {
-  return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
-    withAuth: true
-  })
+export async function getCalculatedMonthlyEmissionOfOrganiation(
+  id: string,
+  year?: string
+) {
+  return await apiClient.get<Response<IMonthlyEmissionData>>(
+    `/calculate/monthly/organization/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
+    }
+  )
+}
+
+export async function getCalculatedYearlyEmissionOfOrganiation(id: string) {
+  return await apiClient.get<Response<IYearlyEmissionData>>(
+    `/calculate/yearly/organization/${id}`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getCalculatedYearlyEmissionOfSubsidiary(id: string) {
+  return await apiClient.get<Response<IYearlyEmissionData>>(
+    `/calculate/yearly/subsidiary/${id}`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getCalculatedMothlyTotal(id: string, year?: string) {
+  return await apiClient.get<Response<IMothlyData>>(
+    `/calculate/monthly/subsidiary/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
+    }
+  )
 }

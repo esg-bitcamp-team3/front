@@ -1,8 +1,21 @@
+'use client'
+
 import NavLinks from '@/app/ui/dashboard/nav-links'
+import {logout} from '@/lib/api/auth'
 import {Box, Link, Flex, Button} from '@chakra-ui/react'
+import {useRouter} from 'next/navigation'
 import {FiPower} from 'react-icons/fi' // Using react-icons for the power icon
 
 export default function SideNav() {
+  const router = useRouter()
+  const handleLogout = async () => {
+    try {
+      await logout()
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <Box display="flex" h="full" flexDirection="column" px={3} py={4} md={{px: 2}}>
       <Box
@@ -39,6 +52,7 @@ export default function SideNav() {
           bg="gray.50"
         />
         <Button
+          onClick={handleLogout}
           display="flex"
           h="48px"
           w="full"
