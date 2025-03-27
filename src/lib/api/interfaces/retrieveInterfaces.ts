@@ -16,8 +16,21 @@ export interface IOrganization {
   annualRevenue: number // 당해연도 매출액(원)
   annualEnergyCost: number // 당해연도 에너지 비용(원)
 }
-export interface IOrganizationInfo {
+
+export interface IRevenueRecord {
+  organizationId: string // 법인
+  year: number // 연도
+  revenue: number // 매출액(원)
+  energyCost: number // 에너지 비용(원)
+}
+
+export interface IOrganizationRevenue {
   organization: IOrganization
+  revenueRecords: IRevenueRecord[]
+}
+
+export interface IOrganizationInfo {
+  organization: IOrganizationRevenue
   subsidiaries: ISubsidiary[]
 }
 
@@ -148,6 +161,22 @@ export interface IIndirectEmissionFromElectricity {
   data: number[] // 월별 배출량
 }
 
+export interface IScopeData {
+  scope1: number
+  scope2: number
+}
+
+export interface IMonthlyEmissionData {
+  stationary: number[]
+  mobile: number[]
+}
+export interface IYearlyEmissionData {
+  [year: number]: {
+    stationary: number
+    mobile: number
+    total: number
+  }
+}
 export interface ITotalData {
   stationaryTotal: string
   mobileTotal: string
