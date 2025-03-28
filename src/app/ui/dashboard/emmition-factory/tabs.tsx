@@ -18,7 +18,8 @@ import {
   Dialog,
   Flex,
   Portal,
-  Box
+  Box,
+  Span
 } from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import AddEmmition from './addDetail/emmition_name'
@@ -27,7 +28,6 @@ import {useRouter} from 'next/navigation'
 import {Dataform_Station} from './addDetail/dataform/dataform_Station'
 import {Dataform_Mobile} from './addDetail/dataform/dataform_Mobile'
 import {TabContent} from './tabs_page'
-import {SelectYear} from './graph'
 
 const AddEmmitionFactory = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
@@ -106,44 +106,49 @@ const AddEmmitionFactory = () => {
 
         <Tabs.ContentGroup>
           {subsidiaryList.map(item => (
-            <Tabs.Content value={item._id} key={item._id}>
+            <Tabs.Content padding={8} value={item._id} key={item._id}>
               {selectedTab === item._id && ( // 현재 선택된 탭만 렌더링
                 <>
-                  <SelectYear subsidiaryId={item._id} />
                   <Heading size="xl" my="6">
                     <Text m="5" fontSize="3xl">
-                      {organization?.name} {item.industryType}
+                      기업 : {organization?.name} {item.industryType}
                     </Text>
                     <Text m="5">
-                      {item.name} ( {item?.registrationNumber} )
+                      사업장(법인 번호) : {item.name} ( {item?.registrationNumber} )
                     </Text>
                   </Heading>
-                  <Dialog.Root size="full" open={open}>
-                    <Dialog.Trigger asChild onClick={() => setOpen(true)}>
-                      <Button bg="blue.500">고정 연소</Button>
-                    </Dialog.Trigger>
-                    <Portal>
-                      <Dialog.Backdrop />
-                      <Dialog.Positioner>
-                        <Dialog.Content>
-                          <Dialog.CloseTrigger asChild>
-                            <CloseButton size="sm" onClick={() => setOpen(false)} />
-                          </Dialog.CloseTrigger>
-                          <Dialog.Header>
-                            <Dialog.Title />
-                          </Dialog.Header>
-                          <Dialog.Body>
-                            <Dataform_Station
-                              subsidaryId={item._id}
-                              onClose={() => setOpen(false)}
-                            />
-                          </Dialog.Body>
-                          <Dialog.Footer />
-                        </Dialog.Content>
-                      </Dialog.Positioner>
-                    </Portal>
-                  </Dialog.Root>
-                  <Dataform_Mobile subsidaryId={item._id} />
+                  <Box display="flex" gap={4}>
+                    <Span>
+                      <Dialog.Root size="full" open={open}>
+                        <Dialog.Trigger asChild onClick={() => setOpen(true)}>
+                          <Button bg="blue.500">고정 연소</Button>
+                        </Dialog.Trigger>
+                        <Portal>
+                          <Dialog.Backdrop />
+                          <Dialog.Positioner>
+                            <Dialog.Content>
+                              <Dialog.CloseTrigger asChild>
+                                <CloseButton size="sm" onClick={() => setOpen(false)} />
+                              </Dialog.CloseTrigger>
+                              <Dialog.Header>
+                                <Dialog.Title />
+                              </Dialog.Header>
+                              <Dialog.Body>
+                                <Dataform_Station
+                                  subsidaryId={item._id}
+                                  onClose={() => setOpen(false)}
+                                />
+                              </Dialog.Body>
+                              <Dialog.Footer />
+                            </Dialog.Content>
+                          </Dialog.Positioner>
+                        </Portal>
+                      </Dialog.Root>
+                    </Span>
+                    <Span>
+                      <Dataform_Mobile subsidaryId={item._id} />
+                    </Span>
+                  </Box>
                   <TabContent subsidiaryId={item._id} />
                 </>
               )}
