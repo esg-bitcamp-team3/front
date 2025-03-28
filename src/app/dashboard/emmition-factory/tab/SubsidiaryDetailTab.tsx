@@ -4,6 +4,7 @@ import SubsidiaryDetail from '@/app/ui/dashboard/emmition-factory/tabs'
 import {Box, Tabs, Text} from '@chakra-ui/react'
 import {ReactNode, useState} from 'react'
 import {LuFolder, LuSettings, LuSquareCheck} from 'react-icons/lu'
+import SubsidiaryDetailData from '../[id]/SubsidiaryDetail'
 
 interface TabContentProps {
   value: string
@@ -73,6 +74,9 @@ const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
           <TabTrigger value="data" label="Data" icon={<LuSquareCheck />} />
           <TabTrigger value="settings" label="Settings" icon={<LuSettings />} />
         </Tabs.List>
+        <TabContent
+          value="detail"
+          children={<SubsidiaryDetailData subsidiaryId={subsidiaryId} />}></TabContent>
         <TabContent
           value="graph"
           children={<SubsidiaryDetail subsidiaryId={subsidiaryId} />}></TabContent>
