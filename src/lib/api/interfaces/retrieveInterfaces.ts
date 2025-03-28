@@ -35,6 +35,8 @@ export interface IOrganizationInfo {
 }
 
 export interface ISubsidiary {
+  longitude(longitude: any): unknown
+  latitude(latitude: any): unknown
   _id: string
   organization?: string // 소속 법인
   name?: string // 사업장명
