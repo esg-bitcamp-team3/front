@@ -39,6 +39,7 @@ export function Dataform_Station({
   onClose: () => void
 }) {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
+
   const [fuel, setFuel] = useState<IFuelInfo[]>()
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
