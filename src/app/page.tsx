@@ -9,10 +9,15 @@ export default function Page() {
       as="main"
       display="flex"
       minH="100vh"
-      minW="100vh"
       flexDirection="column"
       p={6}
-      bg="white">
+      bg="white"
+      style={{
+        backgroundImage: 'url("/bg.jpg")', // 배경 이미지 설정
+        backgroundSize: 'cover', // 배경 이미지가 화면 크기에 맞게 크기 조정
+        backgroundPosition: 'center', // 배경 이미지가 화면 중앙에 위치하도록 설정
+        backgroundRepeat: 'no-repeat' // 배경 이미지 반복 방지
+      }}>
       {/* 상단 타이틀과 로고 */}
       <Text
         className={lusitana.className}
@@ -24,7 +29,7 @@ export default function Page() {
         <Box display="flex" justifyContent="center" alignItems="center" gap={4}>
           {' '}
           <Link href="/">
-            <Button as="a" bg="white" color="white" padding={4}>
+            <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
               <img
                 src="/gglogo.png"
                 alt="Green Gauge Logo"
@@ -35,22 +40,24 @@ export default function Page() {
           <strong>Welcome to Green Gauge</strong>
         </Box>
       </Text>
-      {/* 환경 관련 메시지 */}
+
+      {/* 환경 관련 메시지, 로그인 버튼을 중앙에 배치 */}
       <Box
         display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
+        justifyContent="center"
         alignItems="center"
-        gap={4}
-        bg="green.200"
+        flexDirection="column" // 버튼을 세로로 정렬
+        bg="rgba(0, 0, 0, 0.5)" // 투명한 배경을 넣어 이미지가 보이도록 설정
         borderRadius="lg"
-        p={300}
+        p={8}
         mb={8}
         w={'100%'}
         mx={0}>
-        <Stack align="flex-start">
-          <Heading size="4xl">Green Gauge</Heading>
-          <Text mb="3" fontSize="lg" color="fg.muted">
+        <Stack align="center" textAlign="center">
+          <Heading size="4xl" color="white">
+            Green Gauge
+          </Heading>
+          <Text mb="3" fontSize="lg" color="white">
             Join us in making the world greener. Together, we can make a big impact on the
             planet.
           </Text>
@@ -68,11 +75,6 @@ export default function Page() {
             </Button>
           </Link>
         </Stack>
-        <img
-          src="/bg.png"
-          alt="BackGround Green Gauge Logo"
-          style={{width: '900px', height: '900px'}}
-        />{' '}
       </Box>
 
       {/* 섹션 2 */}
@@ -89,7 +91,8 @@ export default function Page() {
         color="white"
         p={50}
         borderRadius="lg"
-        mt={8}>
+        mt="auto" // 푸터를 화면 하단에 고정시킴
+      >
         <Text fontSize="lg" textAlign="center">
           <strong>Green Gauge</strong> | Making the World Greener Together
         </Text>
