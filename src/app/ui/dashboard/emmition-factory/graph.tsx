@@ -56,8 +56,8 @@ export const SelectYear = ({props}: {props: yearAndSubs}) => {
 
   return (
     <>
-      <HStack>
-        <Box>{monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}</Box>
+      <HStack display="flex" justifyContent="center" alignItems="center" spaceX={4}>
+        <Box w="10/12">{monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}</Box>
         <Box>
           {yearlyTotal && <TotalState total={yearlyTotal} yearChoice={parseInt(year)} />}
         </Box>
