@@ -37,7 +37,10 @@ import {
   IndirectEmissionActivityTypeForElectricity,
   IndirectEmissionActivityTypeForSteam
 } from '@/lib/api/interfaces/enumTypes'
-import {getElectricityActivityData, getMobileActivityData} from '@/lib/api/get'
+import {
+  getActivityDataForElectricity,
+  getActivityDataForMobileCombustion
+} from '@/lib/api/get'
 
 const year: string[] = ['2020', '2021', '2022', '2023', '2024', '2025']
 
@@ -75,7 +78,7 @@ export function Dataform_Electric() {
     //DB fuel 데이터 setFuel에 기록
     async function fetchData() {
       try {
-        const result = await getElectricityActivityData()
+        const result = await getActivityDataForElectricity()
         setFuel(result.data)
       } catch (error) {
         console.error('Error fetching data:', error)

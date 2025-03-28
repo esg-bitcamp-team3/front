@@ -3,9 +3,9 @@
 import {Box, HStack, Portal, Select, VStack, createListCollection} from '@chakra-ui/react'
 import {useMemo, useState, useEffect} from 'react'
 import {
-  getCalculatedMothlyTotal,
+  getCalculatedMothlyEmissionOfSubsidiary,
   getCalculatedYearlyEmissionOfSubsidiary,
-  getStationaryCombustion
+  getEmissionDataFromStationaryCombustion
 } from '@/lib/api/get'
 import {
   IEmissionFromStationaryCombustion,
@@ -18,7 +18,7 @@ import {ChartforSubsidary} from './addDetail/drawComponent/chart'
 import {TotalState} from './addDetail/drawComponent/state'
 
 export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
-  const [value, setValue] = useState<string[]>(['2023'])
+  const [value, setValue] = useState<string>('2023')
   const [data, setData] = useState<IEmissionInfo[] | null>(null)
   const [monthlyTotal, setMonthlyTotal] = useState<IMothlyData>()
   const [yearlyTotal, setYearlyTotal] = useState<IYearlyEmissionData>()
@@ -27,7 +27,10 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
 
   const pullData = async () => {
     try {
-      const response = await getStationaryCombustion(subsidiaryId, value[0])
+      const response = await getEmissionDataFromStationaryCombustion({
+        id: subsidiaryId,
+        year: value
+      })
       setData(response.data)
       console.log(response.data)
     } catch (error) {}
@@ -35,7 +38,9 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
 
   const pullMothlyTotalData = async () => {
     try {
-      const response = await getCalculatedMothlyTotal(subsidiaryId, value[0])
+      const response = await getCalculatedMothlyEmissionOfSubsidiary({
+        id: subsidiaryId
+      })
       setMonthlyTotal(response.data)
       console.log(response.data)
     } catch (error) {}
@@ -66,8 +71,8 @@ export const SelectYear = ({subsidiaryId}: {subsidiaryId: string}) => {
       <Select.Root
         collection={yearList}
         width="320px"
-        value={value}
-        onValueChange={e => setValue(e.value)}>
+        value={[value]}
+        onValueChange={e => setValue(e.value[0])}>
         <Select.HiddenSelect />
         <Select.Label>연도</Select.Label>
         <Select.Control>
