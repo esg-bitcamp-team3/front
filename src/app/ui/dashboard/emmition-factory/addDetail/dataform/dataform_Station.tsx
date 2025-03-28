@@ -102,19 +102,43 @@ export function Dataform_Station({
       <Table.Root size="lg">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeader w="4rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="4rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               연도
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="7rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               내부시설명
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="7rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               배출활동
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="8rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="8rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               활동자료
             </Table.ColumnHeader>
-            <Table.ColumnHeader color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               월별 배출량
             </Table.ColumnHeader>
           </Table.Row>
