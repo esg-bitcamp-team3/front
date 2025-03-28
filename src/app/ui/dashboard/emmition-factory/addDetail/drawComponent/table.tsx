@@ -1,6 +1,9 @@
 'use effect'
 
-import {getStationaryCombustion, getMobileCombustion} from '@/lib/api/get'
+import {
+  getEmissionDataFromStationaryCombustion,
+  getEmissionDataFromMobileCombustion
+} from '@/lib/api/get'
 import {IEmissionInfo} from '@/lib/api/interfaces/retrieveInterfaces'
 import {ButtonGroup, IconButton, Pagination, Stack, Table, Text} from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
@@ -38,9 +41,17 @@ export const StationTable = ({props}: {props: YearAndData}) => {
     try {
       let response
       if (dataType === 'station') {
-        response = await getStationaryCombustion(subsidiaryId, year, page)
+        response = await getEmissionDataFromStationaryCombustion({
+          id: subsidiaryId,
+          year: year,
+          page: page
+        })
       } else if (dataType === 'mobile') {
-        response = await getMobileCombustion(subsidiaryId, year, page)
+        response = await getEmissionDataFromMobileCombustion({
+          id: subsidiaryId,
+          year: year,
+          page: page
+        })
       }
       setData(response?.data)
       setTotal(response?.total)

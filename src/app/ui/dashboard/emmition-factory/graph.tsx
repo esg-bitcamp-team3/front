@@ -3,9 +3,9 @@
 import {Box, HStack} from '@chakra-ui/react'
 import {useState, useEffect} from 'react'
 import {
-  getCalculatedMothlyTotal,
+  getCalculatedMothlyEmissionOfSubsidiary,
   getCalculatedYearlyEmissionOfSubsidiary,
-  getStationaryCombustion
+  getEmissionDataFromStationaryCombustion
 } from '@/lib/api/get'
 import {
   IEmissionInfo,
@@ -28,7 +28,10 @@ export const SelectYear = ({props}: {props: yearAndSubs}) => {
 
   const pullData = async () => {
     try {
-      const response = await getStationaryCombustion(subsidiaryId, year)
+      const response = await getEmissionDataFromStationaryCombustion({
+        id: subsidiaryId,
+        year: year
+      })
       setData(response.data)
       console.log(response.data)
     } catch (error) {}
@@ -36,7 +39,10 @@ export const SelectYear = ({props}: {props: yearAndSubs}) => {
 
   const pullMothlyTotalData = async () => {
     try {
-      const response = await getCalculatedMothlyTotal(subsidiaryId, year)
+      const response = await getCalculatedMothlyEmissionOfSubsidiary({
+        id: subsidiaryId,
+        year: year
+      })
       setMonthlyTotal(response.data)
       console.log(response.data)
     } catch (error) {}

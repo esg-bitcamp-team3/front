@@ -25,7 +25,7 @@ import {useForm} from 'react-hook-form'
 import {useEffect, useState} from 'react'
 import {toaster} from '@/components/ui/toaster'
 import {ActivityDataForMobileCombustion} from '@/lib/api/interfaces/enumTypes'
-import {getMobileActivityData} from '@/lib/api/get'
+import {getActivityDataForMobileCombustion} from '@/lib/api/get'
 
 const year: number[] = [2020, 2021, 2022, 2023, 2024, 2025]
 
@@ -90,7 +90,7 @@ export function Dataform_Mobile({subsidaryId}: {subsidaryId: string}) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const result = await getMobileActivityData()
+        const result = await getActivityDataForMobileCombustion()
         setFuel(result.data)
       } catch (error) {
         console.error('Error fetching data:', error)

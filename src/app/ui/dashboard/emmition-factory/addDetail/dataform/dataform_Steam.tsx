@@ -25,7 +25,7 @@ import {
   ActivityDataForSteam,
   IndirectEmissionActivityTypeForSteam
 } from '@/lib/api/interfaces/enumTypes'
-import {getSteamActivityData} from '@/lib/api/get'
+import {getActivityDataForSteam} from '@/lib/api/get'
 
 const year: string[] = ['2020', '2021', '2022', '2023', '2024', '2025']
 
@@ -62,7 +62,7 @@ export function Dataform_Steam() {
     //DB fuel 데이터 setFuel에 기록
     async function fetchData() {
       try {
-        const result = await getSteamActivityData()
+        const result = await getActivityDataForSteam()
         setFuel(result.data)
       } catch (error) {
         console.error('Error fetching data:', error)

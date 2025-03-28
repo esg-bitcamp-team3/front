@@ -1,9 +1,9 @@
-import AddEmmitionFactory from '@/app/ui/dashboard/emmition-factory/tabs'
+import {SubsidiaryTable} from './tab/SubsidiaryTable'
 
 export default async function Page() {
   return (
     <main>
-      <AddEmmitionFactory />
+      <SubsidiaryTable />
     </main>
   )
 }

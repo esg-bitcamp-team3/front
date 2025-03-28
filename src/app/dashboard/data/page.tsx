@@ -49,21 +49,25 @@ const Page = () => {
 
   const fetchData = async (id: string, year: number) => {
     try {
-      const result1 = await getCalculatedEmissionOfOrganiation(id, year.toString())
-      setData(result1.data)
-      const result2 = await getCalculatedEmissionOfOrganiation(id, (year - 1).toString())
-      setPreviousData(result2.data)
-      const result3 = await getCalculatedMonthlyEmissionOfOrganiation(id, year.toString())
-      console.log(result3)
-      setMonthlyData(result3.data)
-      const result4 = await getCalculatedMonthlyEmissionOfOrganiation(
-        id,
-        (year - 1).toString()
-      )
-      setPreviousMonthlyData(result4.data)
+      const [
+        currentYearEmissionData,
+        previousYearEmissionData,
+        currentYearMonthlyEmissionData,
+        previousYearMonthlyEmissionData,
+        yearlyEmissionData
+      ] = await Promise.all([
+        getCalculatedEmissionOfOrganiation({id: id, year: year.toString()}),
+        getCalculatedEmissionOfOrganiation({id: id, year: (year - 1).toString()}),
+        getCalculatedMonthlyEmissionOfOrganiation({id: id, year: year.toString()}),
+        getCalculatedMonthlyEmissionOfOrganiation({id: id, year: (year - 1).toString()}),
+        getCalculatedYearlyEmissionOfOrganiation(id)
+      ])
 
-      const result5 = await getCalculatedYearlyEmissionOfOrganiation(id)
-      setYearlyData(result5.data)
+      setData(currentYearEmissionData.data)
+      setPreviousData(previousYearEmissionData.data)
+      setMonthlyData(currentYearMonthlyEmissionData.data)
+      setPreviousMonthlyData(previousYearMonthlyEmissionData.data)
+      setYearlyData(yearlyEmissionData.data)
     } catch (error) {
       toaster.error({
         title: '데이터를 가져오는 데 실패했습니다.'
@@ -133,11 +137,13 @@ const Page = () => {
           }}
         />
       </SimpleGrid>
-      <SimpleGrid width="full" columns={2} alignItems="flex-end">
-        <GridItem colSpan={{base: 1, md: 1}}>
+      <SimpleGrid width="full" columns={2} alignItems="flex-end" gap={4}>
+        <GridItem>
           <ScopeBox data={data} />
         </GridItem>
-        <EmissionBar data={yearlyData} />
+        <GridItem>
+          <EmissionBar data={yearlyData} />
+        </GridItem>
       </SimpleGrid>
     </div>
   )

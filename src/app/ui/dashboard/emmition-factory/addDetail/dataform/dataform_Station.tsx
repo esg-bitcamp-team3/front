@@ -25,7 +25,7 @@ import {
   ActivityDataForStationaryCombustion,
   EmissionActivityTypeForStationaryCombustion
 } from '@/lib/api/interfaces/enumTypes'
-import {getStationaryActivityData} from '@/lib/api/get'
+import {getActivityDataForStationaryCombustion} from '@/lib/api/get'
 
 const year: number[] = [2020, 2021, 2022, 2023, 2024, 2025]
 
@@ -88,7 +88,7 @@ export function Dataform_Station({
   useEffect(() => {
     async function fetchData() {
       try {
-        const result = await getStationaryActivityData()
+        const result = await getActivityDataForStationaryCombustion()
         setFuel(result.data)
       } catch (error) {
         console.error('Error fetching data:', error)
