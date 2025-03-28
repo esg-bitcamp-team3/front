@@ -182,3 +182,14 @@ export interface IMothlyData {
   stationary: number[]
   mobile: number[]
 }
+
+export interface ICarbonEmissionGoal {
+  _id: string
+  organization: string
+  year: number
+  emissionGoal: number
+}
+
+export interface ICarbonEmissionGoalsByYear {
+  [year: string]: ICarbonEmissionGoal
+}
