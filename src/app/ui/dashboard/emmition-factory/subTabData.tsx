@@ -47,6 +47,7 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
           <SelectTypeTab props={{value: dataType, onValueChange: setDataType}} />
         </Span>
         <Span>
+          <Dataform_Mobile subsidaryId="subsidiaryId" />
           <Button></Button>
         </Span>
       </Box>
