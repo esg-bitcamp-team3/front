@@ -61,8 +61,10 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
     try {
       console.log('Form data:', data)
 
+      const response = deleteSubsidiary(subsidiary._id)
+
       // 성공 알림
-      toaster.promise(() => deleteSubsidiary(subsidiary._id), {
+      toaster.promise(response, {
         success: {
           title: 'Successfully delete!',
           description: 'The subsidiary information has been updated.'
@@ -74,7 +76,7 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
         loading: {title: 'Updating...', description: 'Please wait'}
       })
 
-      window.location.reload()
+      router.push('/dashboard/emmition-factory')
     } catch (error) {
       console.error('Error updating subsidiary:', error)
       toaster.error({
@@ -107,12 +109,16 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
 
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
-                  <Button type="submit" m={-1}>
+                  <Button
+                    type="submit"
+                    m={-1}
+                    backgroundColor={'gray.500'}
+                    color={'white'}>
                     삭제하기
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button variant="outline" m={0}>
+                  <Button variant="outline" m={0} color={'red'} borderColor={'red'}>
                     취소
                   </Button>
                 </Dialog.ActionTrigger>
