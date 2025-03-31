@@ -2,7 +2,9 @@
 
 import {
   getEmissionDataFromStationaryCombustion,
-  getEmissionDataFromMobileCombustion
+  getEmissionDataFromMobileCombustion,
+  getEmissionDataFromElectricity,
+  getEmissionDataFromSteam
 } from '@/lib/api/get'
 import {IEmissionInfo} from '@/lib/api/interfaces/retrieveInterfaces'
 import {ButtonGroup, IconButton, Pagination, Stack, Table} from '@chakra-ui/react'
@@ -35,6 +37,18 @@ export const StationTable = ({props}: {props: YearAndData}) => {
         })
       } else if (dataType === 'mobile') {
         response = await getEmissionDataFromMobileCombustion({
+          id: subsidiaryId,
+          year: year,
+          page: page
+        })
+      } else if (dataType === 'electric') {
+        response = await getEmissionDataFromElectricity({
+          id: subsidiaryId,
+          year: year,
+          page: page
+        })
+      } else {
+        response = await getEmissionDataFromSteam({
           id: subsidiaryId,
           year: year,
           page: page
@@ -128,13 +142,26 @@ export const StationTable = ({props}: {props: YearAndData}) => {
                   wordBreak="break-word">
                   {item.activityData?.name}
                 </Table.Cell>
-                {item.data?.map(month => (
+                {[
+                  item.data1,
+                  item.data2,
+                  item.data3,
+                  item.data4,
+                  item.data5,
+                  item.data6,
+                  item.data7,
+                  item.data8,
+                  item.data9,
+                  item.data10,
+                  item.data11,
+                  item.data12
+                ].map((value, index) => (
                   <Table.Cell
-                    key={month}
+                    key={index}
                     fontSize="sm"
                     textAlign="center"
                     color="gray.700">
-                    {month.toFixed(1)}
+                    {value.toFixed(1)}
                   </Table.Cell>
                 ))}
               </Table.Row>
