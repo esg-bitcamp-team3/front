@@ -2,11 +2,7 @@
 
 import {deleteSubsidiary} from '@/lib/api/delete'
 import {toaster} from '@/components/ui/toaster'
-import {
-  IOrganization,
-  IOrganizationRevenue,
-  ISubsidiary
-} from '@/lib/api/interfaces/retrieveInterfaces'
+import {IOrganization, ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
 import {
   Button,
   CloseButton,
