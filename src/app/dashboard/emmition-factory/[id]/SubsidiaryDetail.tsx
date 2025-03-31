@@ -14,15 +14,28 @@ import {useEffect, useState} from 'react'
 import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api'
 import {SimpleGrid} from '@chakra-ui/react'
 import {EditSubsidiary} from './EditDialog'
+import {DeleteSubsidiary} from './DeleteDialog'
 
 const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
   const [subsidiary, setSubsidiary] = useState<ISubsidiary>()
+
   const [mapLoaded, setMapLoaded] = useState(false)
   const [editedSubsidiary, setEditedSubsidiary] = useState<ISubsidiary | null>(null)
-
+  const fetchSubsidiary = async (id: string) => {
+    try {
+      const response = await getSubsidiaryById(id)
+      setSubsidiary(response.data)
+    } catch (error) {
+      toaster.error({
+        title: 'Failed to fetch subsidiary data',
+        description: 'Could not retrieve the subsidiary information.'
+      })
+    }
+  }
   const {onOpen, onClose} = useDisclosure() // Modal Control
 
-  const center = {lat: 37.5666535, lng: 126.9779692} // Replace with actual coordinates
+  // Replace with actual coordinates
+
   const dialog = useDialog()
   const fetchSubsidary = async (id: string) => {
     try {
@@ -38,9 +51,41 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
 
   useEffect(() => {
     if (subsidiaryId) {
-      fetchSubsidary(subsidiaryId)
+      fetchSubsidiary(subsidiaryId)
     }
   }, [subsidiaryId])
+  const [center, setCenter] = useState<{lat: number; lng: number}>({
+    lat: 37.5666535,
+    lng: 126.9779692
+  })
+
+  useEffect(() => {
+    const address = subsidiary?.address // Define 'address' from subsidiary object
+    if (address) {
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc`
+      )
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'OK') {
+            const location = data.results[0].geometry.location
+            setCenter({lat: location.lat, lng: location.lng}) // Update the center state
+          } else {
+            toaster.error({
+              title: '주소 변환 실패',
+              description: '해당 주소를 찾을 수 없습니다.'
+            })
+          }
+        })
+        .catch(err => {
+          console.error('Geocoding API error:', err)
+          toaster.error({
+            title: 'Geocoding API 에러',
+            description: '주소를 변환하는데 문제가 발생했습니다.'
+          })
+        })
+    }
+  }, [subsidiary?.address])
   // 숫자에 쉼표 추가
   const formatNumberWithCommas = (number: number) => {
     return new Intl.NumberFormat().format(number)
@@ -63,7 +108,7 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
           boxShadow="sm">
           <Card.Title>
             <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={4}>
-              사업자 정보
+              사업장 정보
             </Text>
           </Card.Title>
           <Card.Body>
@@ -264,6 +309,7 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
           </Card.Body>
         </Card.Root>
       </SimpleGrid>
+      {subsidiary && <DeleteSubsidiary subsidiary={subsidiary} />}
     </div>
   )
 }

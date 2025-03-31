@@ -28,7 +28,15 @@ import {updateSubsidiary} from '@/lib/api/put'
 export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
   const dialog = useDialog()
   const [organization, setOrganization] = useState<IOrganization>()
+  const [updatedSubsidiary, setUpdatedSubsidiary] = useState<ISubsidiary | null>(
+    subsidiary
+  )
+  useForm<ISubsidiary>({
+    defaultValues: {organization: organization?._id}
+  })
 
+  const router = useRouter()
+  const [] = useState(false)
   const fetchSubsidiaryList = async () => {
     try {
       const response = await getMyOrganizations()
@@ -50,26 +58,45 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
   }, [organization, reset])
 
   const onSubmit = async (data: ISubsidiary) => {
-    const response = updateSubsidiary(data)
-    toaster.promise(response, {
-      success: {
-        title: 'Successfully uploaded!',
-        description: 'Looks great'
-      },
-      error: {
-        title: 'Upload failed',
-        description: 'Something wrong with the upload'
-      },
-      loading: {title: 'Uploading...', description: 'Please wait'}
-    })
-    reset()
+    try {
+      console.log('Form data:', data)
+
+      // updateSubsidiary 호출 후 수정된 자회사 데이터 반영
+      const updated = await updateSubsidiary(subsidiary._id, data)
+
+      // 상태 업데이트
+      setUpdatedSubsidiary(updated)
+
+      console.log('Updated subsidiary:', updated)
+
+      // 성공 알림
+      toaster.promise(() => updateSubsidiary(subsidiary._id, data), {
+        success: {
+          title: 'Successfully updated!',
+          description: 'The subsidiary information has been updated.'
+        },
+        error: {
+          title: 'Update failed',
+          description: 'Something went wrong during the update.'
+        },
+        loading: {title: 'Updating...', description: 'Please wait'}
+      })
+
+      window.location.reload()
+    } catch (error) {
+      console.error('Error updating subsidiary:', error)
+      toaster.error({
+        title: 'Failed to update',
+        description: 'There was an issue updating the subsidiary.'
+      })
+    }
   }
 
   return (
     <Dialog.RootProvider value={dialog} size={'xl'}>
       <Dialog.Trigger asChild>
         <Button variant="ghost" size="xl">
-          추가 하기
+          수정
         </Button>
       </Dialog.Trigger>
       <Portal>
@@ -90,6 +117,7 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
                       <Input
                         defaultValue={subsidiary?.name || '-'}
                         placeholder="사업장명"
+                        {...register('name')} // react-hook-form의 register를 사용하여 상태를 관리
                       />
                     </Field.Root>
                     <Field.Root>
@@ -97,6 +125,7 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
                       <Input
                         defaultValue={subsidiary?.representative || '-'}
                         placeholder="대표자"
+                        {...register('representative')}
                       />
                     </Field.Root>
                   </HStack>
@@ -105,6 +134,7 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
                       <Field.Label>사업자 등록번호</Field.Label>
                       <Input
                         defaultValue={subsidiary?.registrationNumber || ''}
+                        type="text"
                         placeholder="사업자 등록번호"
                         {...register('registrationNumber')}
                       />
