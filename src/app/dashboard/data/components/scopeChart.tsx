@@ -16,7 +16,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels'
 import {Box, HStack, SegmentGroup, Text} from '@chakra-ui/react'
 import {LuChartColumnBig, LuChartPie, LuTable} from 'react-icons/lu'
 import {useState} from 'react'
-import {IScopeData} from '@/lib/api/interfaces/retrieveInterfaces'
+import {IOrganizationData} from '@/lib/api/interfaces/retrieveInterfaces'
 
 // Chart.js 구성 요소 등록
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -123,8 +123,10 @@ const ScopeBarChart = ({scope1, scope2}: {scope1: number; scope2: number}) => {
 
   return <Bar data={data} options={options} />
 }
-const ScopeBox = ({data}: {data: IScopeData}) => {
+const ScopeBox = ({data}: {data: IOrganizationData}) => {
   const [value, setValue] = useState<string>('bar')
+  console.log('scope1', data.scope1)
+  console.log('scope2', data.scope2, data.electric)
 
   return (
     <Box

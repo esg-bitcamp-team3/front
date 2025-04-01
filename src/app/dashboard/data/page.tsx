@@ -16,6 +16,7 @@ import {
   ICarbonEmissionGoalsByYear,
   IMonthlyEmissionData,
   IOrganization,
+  IOrganizationData,
   IRevenueRecord,
   IScopeData,
   ISubsidiary,
@@ -36,8 +37,8 @@ import {GoalProgress} from './components/Goalprogress'
 
 // Define prop types for components
 interface StatsSectionProps {
-  currentYearEmissions: IScopeData | undefined
-  previousYearEmissions: IScopeData | undefined
+  currentYearEmissions: IOrganizationData | undefined
+  previousYearEmissions: IOrganizationData | undefined
   currentYearMonthlyEmissions: IMonthlyEmissionData | undefined
   previousYearMonthlyEmissions: IMonthlyEmissionData | undefined
   organizationRevenueRecords: IRevenueRecord[] | undefined
@@ -47,7 +48,7 @@ interface StatsSectionProps {
 }
 
 interface ScopeBoxSectionProps {
-  currentYearEmissions: IScopeData | undefined
+  currentYearEmissions: IOrganizationData | undefined
   isLoading: boolean
 }
 
@@ -172,8 +173,8 @@ const Page = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>()
   const [organizationRevenueRecords, setOrganizationRevenueRecords] =
     useState<IRevenueRecord[]>()
-  const [currentYearEmissions, setCurrentYearEmissions] = useState<IScopeData>()
-  const [previousYearEmissions, setPreviousYearEmissions] = useState<IScopeData>()
+  const [currentYearEmissions, setCurrentYearEmissions] = useState<IOrganizationData>()
+  const [previousYearEmissions, setPreviousYearEmissions] = useState<IOrganizationData>()
   const [currentYearMonthlyEmissions, setCurrentYearMonthlyEmissions] =
     useState<IMonthlyEmissionData>()
   const [previousYearMonthlyEmissions, setPreviousYearMonthlyEmissions] =
@@ -190,7 +191,7 @@ const Page = () => {
   const [isHistoricalDataLoading, setIsHistoricalDataLoading] = useState(true)
 
   const today = new Date()
-  const year = 2023
+  const year = 2024
   const month = 3
 
   const fetchOrganization = async () => {

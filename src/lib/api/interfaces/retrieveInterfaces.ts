@@ -30,7 +30,7 @@ export interface IOrganizationRevenue {
 }
 
 export interface IOrganizationInfo {
-  organization: IOrganizationRevenue
+  organization: IOrganization
   subsidiaries: ISubsidiary[]
 }
 
@@ -259,4 +259,13 @@ export interface ICarbonEmissionGoal {
 
 export interface ICarbonEmissionGoalsByYear {
   [year: string]: ICarbonEmissionGoal
+}
+
+export interface IOrganizationData {
+  scope1: number
+  stationary: number
+  mobile: number
+  scope2: number
+  electric: number
+  steam: number
 }
