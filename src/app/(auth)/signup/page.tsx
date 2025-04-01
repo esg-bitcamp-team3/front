@@ -102,7 +102,8 @@ const SignUpPage = () => {
       minHeight="100vh"
       p={5}
       style={{
-        backgroundImage: 'url("/bg.jpg")', // 배경 이미지 설정
+        backgroundImage:
+          'linear-gradient(to right top, #a4b33a, #82b855, #5fba71, #3bba8d, #14b8a6)',
         backgroundSize: 'cover', // 배경 이미지가 화면 크기에 맞게 크기 조정
         backgroundPosition: 'center', // 배경 이미지가 화면 중앙에 위치하도록 설정
         backgroundRepeat: 'no-repeat' // 배경 이미지 반복 방지
@@ -127,7 +128,7 @@ const SignUpPage = () => {
               />
             </Button>
           </Link>
-          <strong>Welcome to Green Gauge</strong>
+          <Text color="white">Welcome to Green Gauge</Text>
         </Box>
       </Text>
 

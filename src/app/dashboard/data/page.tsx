@@ -14,6 +14,7 @@ import {
 import {ScopeChart, ScopeBarChart, ScopeBox} from './components/scopeChart'
 import {
   ICarbonEmissionGoalsByYear,
+  ILittleOrganization,
   IMonthlyEmissionData,
   IOrganization,
   IOrganizationRevenueByYear,
@@ -35,7 +36,7 @@ import {toaster} from '@/components/ui/toaster'
 import {EmissionStat} from './components/stats'
 import {EmissionBar} from './components/bar'
 import {OrganizationCard} from './components/orgainzationCard'
-import {GoalProgress} from './components/goalprogress'
+import {GoalProgress} from './components/Goalprogress'
 import {PieForOrganization} from './components/pie'
 
 // Define prop types for components
@@ -205,6 +206,7 @@ const Page = () => {
     setIsOrganizationLoading(true)
     try {
       const response = await getMyOrganizations()
+      console.log('asdfsdf', response.data.organization)
       setCurrentOrganization(response.data.organization)
       setSubsidiaryList(response.data.subsidiaries)
     } catch (error) {
@@ -286,7 +288,7 @@ const Page = () => {
 
   useEffect(() => {
     if (currentOrganization) {
-      fetchData('67e9ffd74ef8c44f846c8fb8', year)
+      fetchData(currentOrganization._id, year)
     }
   }, [currentOrganization, year])
 
@@ -299,11 +301,15 @@ const Page = () => {
     )
   }
 
+  console.log('currentOrganization: ', currentOrganization?.name)
+  console.log('currentOrganization: ', currentOrganization?.industryType)
+  console.log('currentOrganization: ', currentOrganization?.registrationNumber)
+
   return (
     <Box padding={6}>
       {/* 기업 이름과 목표 달성 */}
       <HStack spaceY={6} paddingBottom={6} alignItems="center">
-        <OrganizationCard name={currentOrganization?.name || ''} />
+        {currentOrganization && <OrganizationCard organization={currentOrganization} />}
         {emissionGoalsByYear && (
           <GoalProgress
             props={{
