@@ -14,7 +14,6 @@ import {
 import {ScopeChart, ScopeBarChart, ScopeBox} from './components/scopeChart'
 import {
   ICarbonEmissionGoalsByYear,
-  ILittleOrganization,
   IMonthlyEmissionData,
   IOrganization,
   IOrganizationRevenueByYear,
@@ -123,10 +122,10 @@ const StatsSection: React.FC<StatsSectionProps> = ({
         data={{
           label: '연간 매출당 배출량',
           value:
-            (100000000 * currentYearEmissions.stationary) /
+            (100000000 * currentYearEmissions.total) /
             (organizationRevenueRecords[year].revenue || 1),
           previousValue:
-            (100000000 * previousYearEmissions.stationary) /
+            (100000000 * currentYearEmissions.total) /
             (organizationRevenueRecords[year - 1].revenue || 1),
           unit: 'tCO2eq/억원'
         }}
@@ -135,8 +134,8 @@ const StatsSection: React.FC<StatsSectionProps> = ({
       <EmissionStat
         data={{
           label: '총 배출량',
-          value: currentYearEmissions.stationary,
-          previousValue: previousYearEmissions.stationary,
+          value: currentYearEmissions.total,
+          previousValue: previousYearEmissions.total,
           unit: 'tCO2eq'
         }}
       />
@@ -144,8 +143,8 @@ const StatsSection: React.FC<StatsSectionProps> = ({
       <EmissionStat
         data={{
           label: `${month}월 배출량`,
-          value: currentYearMonthlyEmissions.stationary[month - 1],
-          previousValue: previousYearMonthlyEmissions.stationary[month - 1],
+          value: currentYearMonthlyEmissions.total[month - 1],
+          previousValue: previousYearMonthlyEmissions.total[month - 1],
           unit: 'tCO2eq'
         }}
       />
@@ -301,10 +300,6 @@ const Page = () => {
     )
   }
 
-  console.log('currentOrganization: ', currentOrganization?.name)
-  console.log('currentOrganization: ', currentOrganization?.industryType)
-  console.log('currentOrganization: ', currentOrganization?.registrationNumber)
-
   return (
     <Box padding={6}>
       {/* 기업 이름과 목표 달성 */}
@@ -314,8 +309,8 @@ const Page = () => {
           <GoalProgress
             props={{
               label: '목표 달성',
-              value: emissionGoalsByYear?.['2025']?.emissionGoal || 0,
-              currentValue: currentYearEmissions?.total || 1
+              currentValue: currentYearEmissions?.total || 0,
+              id: currentOrganization?._id || ''
             }}
           />
         )}
@@ -336,7 +331,7 @@ const Page = () => {
       </Box>
 
       {/* 그래프 섹션 */}
-      <SimpleGrid columns={{base: 1, md: 2}} spaceY={1} paddingX="80px">
+      <SimpleGrid columns={{base: 1, md: 2}} spaceY={1} paddingX="50px">
         <Box>
           <ScopeBoxSection
             currentYearEmissions={currentYearEmissions}

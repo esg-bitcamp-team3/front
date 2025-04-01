@@ -19,20 +19,32 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
   const years = Object.keys(data).map(Number) // 2020, 2021, 2022, ...
   const stationary = years.map(year => data[year].stationary.toFixed(2))
   const mobile = years.map(year => data[year].mobile.toFixed(2))
+  // const electric = years.map(year => data[year].electric.toFixed(2))
+  // const steam = years.map(year => data[year].steam.toFixed(2))
 
   const chartData = {
     labels: years,
     datasets: [
       {
-        label: '고정 연소',
+        label: '고정연소',
         data: stationary,
         backgroundColor: '#36A2EB' // Blue for stationary
       },
       {
-        label: '이동 연소',
+        label: '이동연소',
         data: mobile,
         backgroundColor: '#FF6384' // Red for mobile
       }
+      // {
+      //   label: '간접연소(전기)',
+      //   data: electric,
+      //   backgroundColor: '#36A2EB' // Blue for stationary
+      // },
+      // {
+      //   label: '간접연소(스팀)',
+      //   data: steam,
+      //   backgroundColor: '#36A2EB' // Blue for stationary
+      // },
     ]
   }
 
@@ -44,7 +56,7 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
       },
       title: {
         display: true, // 제목 표시 여부
-        align: 'start', // 제목 정렬 설정
+        align: 'center', // 제목 정렬 설정
         text: '연간 배출량', // 차트 제목
         font: {
           family: 'Pretendard',
@@ -84,7 +96,7 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
   }
 
   return (
-    <Box width="100%" height="100%">
+    <Box width="100%" height="100%" alignContent="start">
       <Bar data={chartData} options={options} />
     </Box>
   )

@@ -1,28 +1,60 @@
 import {
   AbsoluteCenter,
   Box,
+  Button,
   FormatNumber,
   Progress,
   ProgressCircle,
-  Stat
+  Stat,
+  Text,
+  Icon
 } from '@chakra-ui/react'
+import {UpdateGoalDialog} from './updateGoaldialog'
+import {CreateGoalDialog} from './createGoalDialog'
+import {ICarbonEmissionGoal} from '@/lib/api/interfaces/retrieveInterfaces'
+import {useEffect, useState} from 'react'
+import {getCarbonEmissionGoalsOfOrganization} from '@/lib/api/get'
 
 interface GoalProgressProps {
+  id: string
   label: string
-  value: number //목표
   currentValue: number //현재 총합
 }
 
 const GoalProgress = ({props}: {props: GoalProgressProps}) => {
-  const {label, value, currentValue} = props
+  const [originalData, setOriginalData] = useState<ICarbonEmissionGoal>()
+  const {id, label, currentValue} = props
 
-  const goalPercent = value !== 0 ? (currentValue / value) * 100 : 0
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getCarbonEmissionGoalsOfOrganization({id})
+        const fetchedData = response.data['2025']
+        setOriginalData(fetchedData)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  const value = originalData?.emissionGoal
+
+  console.log('currentValue: ', currentValue)
+  console.log('value: ', value)
+  const goalPercent = value !== 0 ? (currentValue / (value ?? 1)) * 100 : 0
+
   return (
     <Box p={4} borderRadius="lg" boxShadow="lg">
-      <Stat.Root maxW="240px">
-        <Stat.Label>🎯목표 달성률</Stat.Label>
+      <Stat.Root minW="250px">
+        <Stat.Label>
+          <Text fontWeight="bolder" fontSize="md">
+            ⚠️상한값 접근수준
+          </Text>
+          {value ? <UpdateGoalDialog id={id} /> : <CreateGoalDialog id={id} />}
+        </Stat.Label>
         <Stat.ValueText color={goalPercent > 100 ? 'red.500' : 'inherit'}>
-          {goalPercent.toFixed(2)}
+          {goalPercent.toFixed(2)}%
         </Stat.ValueText>
         <Stat.HelpText mb="2">
           Completed {goalPercent.toFixed(2)}% towards the goal

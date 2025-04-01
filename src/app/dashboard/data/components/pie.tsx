@@ -3,7 +3,7 @@ import {Box, Color, HStack} from '@chakra-ui/react'
 import {ArcElement, ChartOptions, Chart, SubTitle, Title} from 'chart.js'
 import {useState} from 'react'
 import {Doughnut, Pie} from 'react-chartjs-2'
-
+import {DoughnutLabelAnnotationOptions} from 'chartjs-plugin-annotation'
 Chart.register(ArcElement, SubTitle, Title)
 
 export function PieForOrganization({datas}: {datas: IScopeData}) {
@@ -14,12 +14,22 @@ export function PieForOrganization({datas}: {datas: IScopeData}) {
       intersect: false // 마우스가 포인트에 위치하지 않아도 툴팁이 보이도록 설정
     },
     plugins: {
+      annotation: {
+        annotations: {
+          dLabel: {
+            type: 'doughnutLabel',
+            content: ['Total', datas.total, '1 years'],
+            font: [{size: 60}, {size: 50}, {size: 30}],
+            color: ['black', 'red', 'grey']
+          }
+        }
+      },
       legend: {
-        position: 'top' as const // 범례 위치 설정
+        position: 'left' as const // 범례 위치 설정
       },
       title: {
         display: true, // 제목 표시 여부
-        align: 'start', // 제목 정렬 설정
+        align: 'center', // 제목 정렬 설정
         text: 'Scope별 배출량', // 차트 제목
         font: {
           family: 'Pretendard',
@@ -28,7 +38,7 @@ export function PieForOrganization({datas}: {datas: IScopeData}) {
         }, // 제목 폰트 설정
         color: 'black', // 제목 색상
         padding: {
-          bottom: 10 // 제목과 단위 사이의 간격 조정
+          bottom: 0 // 제목과 단위 사이의 간격 조정
         }
       },
       subtitle: {
@@ -42,32 +52,26 @@ export function PieForOrganization({datas}: {datas: IScopeData}) {
         },
         color: 'grey', // 제목 색상
         padding: {
-          bottom: -5 // 제목과 단위 사이의 간격 조정
+          bottom: -20 // 제목과 단위 사이의 간격 조정
         }
-      },
-      datalabels: {
-        display: true,
-        anchor: 'end',
-        align: 'start'
       }
     }
   }
 
-  console.log(datas)
   const data = {
-    labels: ['고정연소', '이동연소'],
+    labels: ['Scope1', 'Scope2'],
     datasets: [
       {
         label: '온실가스 배출량',
-        data: [datas.stationary, datas.mobile],
-        fill: false,
+        data: [datas.scope1, datas.scope2],
+        fill: true,
         backgroundColor: ['rgb(75, 192, 192)', '#ABE0AD']
       }
     ]
   }
 
   return (
-    <Box width="300px" height="400px">
+    <Box width="80%" height="100%" alignContent="end">
       <Doughnut data={data} options={options} />
     </Box>
   )
