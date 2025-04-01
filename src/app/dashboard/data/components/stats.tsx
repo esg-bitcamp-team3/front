@@ -21,17 +21,19 @@ const EmissionStat = ({data}: {data: DataProps}) => {
     if (Math.abs(num) < 0.001) {
       return num.toExponential(2)
     }
-    return num.toLocaleString(undefined, {maximumFractionDigits: 2})
+    return num.toFixed(4)
   }
 
   const formattedValue = formatNumber(value)
 
   return (
-    <Box p={4} borderRadius="lg" boxShadow="sm">
+    <Box p={4} borderRadius="lg" boxShadow="lg">
       <Stat.Root>
-        <Stat.Label>{label}</Stat.Label>
-        <Stat.ValueText>{formattedValue}</Stat.ValueText>
-        <Stat.ValueUnit>{unit}</Stat.ValueUnit>
+        <Stat.Label padding={2}>{label}</Stat.Label>
+        <Stat.ValueText alignItems="baseline" justifyContent="space-between" padding={2}>
+          {formattedValue}
+          <Stat.ValueUnit>{unit}</Stat.ValueUnit>
+        </Stat.ValueText>
         <Badge colorScheme={changeColor}>
           {changeType === 'increase' ? <Stat.UpIndicator /> : <Stat.DownIndicator />}
           {percentChange.toFixed(2)}%

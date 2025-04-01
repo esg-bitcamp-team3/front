@@ -124,9 +124,7 @@ const ScopeBarChart = ({scope1, scope2}: {scope1: number; scope2: number}) => {
   return <Bar data={data} options={options} />
 }
 const ScopeBox = ({data}: {data: IOrganizationData}) => {
-  const [value, setValue] = useState<string>('bar')
-  console.log('scope1', data.scope1)
-  console.log('scope2', data.scope2, data.electric)
+  const [value, setValue] = useState<string | null>('bar')
 
   return (
     <Box
@@ -171,9 +169,9 @@ const ScopeBox = ({data}: {data: IOrganizationData}) => {
         </SegmentGroup.Root>
       </HStack>
       {value === 'bar' ? (
-        <ScopeBarChart scope1={data.scope1} scope2={data.scope2} />
+        <ScopeBarChart scope1={data.stationary + data.mobile} scope2={0} />
       ) : (
-        <ScopeChart scope1={data.scope1} scope2={data.scope2} />
+        <ScopeChart scope1={data.stationary + data.mobile} scope2={0} />
       )}
     </Box>
   )

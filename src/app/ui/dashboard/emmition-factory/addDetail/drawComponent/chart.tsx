@@ -21,6 +21,7 @@ import {
   PointElement,
   LineElement,
   Title,
+  SubTitle,
   Tooltip,
   Legend,
   BarElement,
@@ -40,6 +41,7 @@ ChartJS.register(
   LineElement,
   BarElement,
   Title,
+  SubTitle,
   Tooltip,
   Legend
 )
@@ -47,6 +49,8 @@ ChartJS.register(
 export function ChartforSubsidary({total}: {total: IMothlyData}) {
   const stationData = total.stationary || []
   const mobileData = total.mobile || []
+  // const electric = total.electric || []
+  // const steam = total.steam || []
 
   const labels = [
     'Jan',
@@ -65,6 +69,8 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
 
   const processedStationData = labels.map((_, index) => stationData[index] || 0)
   const processedMobileData = labels.map((_, index) => mobileData[index] || 0)
+  // const processedElectricData = labels.map((_, index) => electric[index] || 0)
+  // const processedSteamData = labels.map((_, index) => steam[index] || 0)
 
   const options: ChartOptions<'line'> = {
     responsive: true, // 반응형 지원
@@ -78,14 +84,31 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
       },
       title: {
         display: true, // 제목 표시 여부
-        align: 'start', // 제목 정렬 설정
-        text: '', // 차트 제목
+        align: 'center', // 제목 정렬 설정
+        text: '온실가스 배출량', // 차트 제목
         font: {
           family: 'Pretendard',
           size: 20,
-          weight: 500
+          weight: 550
         }, // 제목 폰트 설정
-        color: 'black' // 제목 색상
+        color: 'black', // 제목 색상
+        padding: {
+          bottom: 10 // 제목과 단위 사이의 간격 조정
+        }
+      },
+      subtitle: {
+        display: true,
+        align: 'end',
+        text: '단위: tCO2eq    ',
+        font: {
+          family: 'Pretendard',
+          size: 12,
+          weight: 500
+        },
+        color: 'grey', // 제목 색상
+        padding: {
+          bottom: -20 // 제목과 단위 사이의 간격 조정
+        }
       }
     },
     scales: {
@@ -114,11 +137,26 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         borderColor: '#ABE0AD',
         tension: 0.1
       }
+      // {
+      //   label: '간접연소(전기)',
+      //   data: processedElectricData,
+      //   fill: false,
+      //   borderColor: '#ABE0AD',
+      //   tension: 0.1
+      // }
+      // ,
+      // {
+      //   label: '간접연소(스팀)',
+      //   data: processedSteamData,
+      //   fill: false,
+      //   borderColor: '#ABE0AD',
+      //   tension: 0.1
+      // }
     ]
   }
 
   return (
-    <Box width="650px" height="300px">
+    <Box h="250px">
       {/* 차트 크기 조정 */}
       <Line
         options={{

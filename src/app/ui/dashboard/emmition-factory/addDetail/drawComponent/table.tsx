@@ -7,7 +7,7 @@ import {
   getEmissionDataFromSteam
 } from '@/lib/api/get'
 import {IEmissionInfo} from '@/lib/api/interfaces/retrieveInterfaces'
-import {ButtonGroup, IconButton, Pagination, Stack, Table} from '@chakra-ui/react'
+import {ButtonGroup, IconButton, Pagination, Stack, Table, Text} from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
 
@@ -17,7 +17,20 @@ interface YearAndData {
   dataType: string
 }
 
-const months = Array.from({length: 12}, (_, i) => `${i + 1}월`)
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+]
 
 export const StationTable = ({props}: {props: YearAndData}) => {
   const {year, subsidiaryId, dataType} = props
@@ -65,6 +78,11 @@ export const StationTable = ({props}: {props: YearAndData}) => {
 
   return (
     <Stack width="full" gap="5">
+      <Stack direction="row" justifyContent="flex-end" pr="3">
+        <Text fontSize="sm" color="gray.500">
+          단위: tCO2eq
+        </Text>
+      </Stack>
       <Table.Root
         variant="outline"
         size="sm"
@@ -76,28 +94,28 @@ export const StationTable = ({props}: {props: YearAndData}) => {
           <Table.Row>
             <Table.ColumnHeader
               padding={3}
-              w="auto"
-              minW="max-content"
+              w="1/6.3"
               whiteSpace="nowrap"
-              color="blue.500"
+              color="#CCB8EA"
+              fontWeight="bold"
               textAlign="center">
               내부시설명
             </Table.ColumnHeader>
             <Table.ColumnHeader
               padding={3}
-              w="auto"
-              minW="max-content"
+              w="1/6.3"
               whiteSpace="nowrap"
-              color="blue.500"
+              color="#CCB8EA"
+              fontWeight="bold"
               textAlign="center">
               배출활동
             </Table.ColumnHeader>
             <Table.ColumnHeader
               padding={3}
-              w="auto"
-              minW="max-content"
+              w="1/6.3"
               whiteSpace="nowrap"
-              color="blue.500"
+              color="#CCB8EA"
+              fontWeight="bold"
               textAlign="center">
               활동자료
             </Table.ColumnHeader>
@@ -107,9 +125,8 @@ export const StationTable = ({props}: {props: YearAndData}) => {
                 key={month}
                 padding={3}
                 w="auto"
-                minW="max-content"
-                whiteSpace="nowrap"
-                color="blue.500"
+                color="black"
+                fontWeight="black"
                 textAlign="center">
                 {month}
               </Table.ColumnHeader>
@@ -125,21 +142,27 @@ export const StationTable = ({props}: {props: YearAndData}) => {
                   padding={3}
                   textAlign="center"
                   whiteSpace="normal"
-                  wordBreak="break-word">
+                  wordBreak="break-word"
+                  color="black"
+                  fontWeight="bold">
                   {item.facilityName}
                 </Table.Cell>
                 <Table.Cell
                   padding={3}
                   textAlign="center"
                   whiteSpace="normal"
-                  wordBreak="break-word">
+                  wordBreak="break-word"
+                  color="black"
+                  fontWeight="bold">
                   {item.emissionActivity}
                 </Table.Cell>
                 <Table.Cell
                   padding={3}
                   textAlign="center"
                   whiteSpace="normal"
-                  wordBreak="break-word">
+                  wordBreak="break-word"
+                  color="black"
+                  fontWeight="bold">
                   {item.activityData?.name}
                 </Table.Cell>
                 {[

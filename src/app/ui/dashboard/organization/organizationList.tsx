@@ -43,7 +43,7 @@ export const OrganizaionInfoList = () => {
   const fetchOrgnization = async () => {
     try {
       const response = await getMyOrganizations()
-      setOrganization(response.data.organization.organization)
+      setOrganization(response.data.organization)
       setSubsidiaryList(response.data.subsidiaries)
     } catch (error) {
       toaster.error({

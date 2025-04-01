@@ -1,6 +1,6 @@
 import React from 'react'
 import {Bar} from 'react-chartjs-2'
-import {ChartOptions} from 'chart.js'
+import {ChartOptions, SubTitle} from 'chart.js'
 import {
   Chart as ChartJS,
   BarElement,
@@ -13,7 +13,7 @@ import {
 import {IYearlyEmissionData} from '@/lib/api/interfaces/retrieveInterfaces'
 import {Box, Text, VStack} from '@chakra-ui/react'
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title)
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title, SubTitle)
 
 const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
   const years = Object.keys(data).map(Number) // 2020, 2021, 2022, ...
@@ -40,7 +40,35 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top'
+        position: 'top' as const // 범례 위치 설정
+      },
+      title: {
+        display: true, // 제목 표시 여부
+        align: 'start', // 제목 정렬 설정
+        text: '연간 배출량', // 차트 제목
+        font: {
+          family: 'Pretendard',
+          size: 20,
+          weight: 550
+        }, // 제목 폰트 설정
+        color: 'black', // 제목 색상
+        padding: {
+          bottom: 10 // 제목과 단위 사이의 간격 조정
+        }
+      },
+      subtitle: {
+        display: true,
+        align: 'end',
+        text: '단위: tCO2eq',
+        font: {
+          family: 'Pretendard',
+          size: 12,
+          weight: 500
+        },
+        color: 'grey', // 제목 색상
+        padding: {
+          bottom: -10 // 제목과 단위 사이의 간격 조정
+        }
       }
     },
     scales: {
@@ -49,21 +77,14 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
       },
       y: {
         stacked: true, // Stacking the bars
-        beginAtZero: true
+        beginAtZero: true,
+        suggestedMax: 20000
       }
     }
   }
 
   return (
-    <Box
-      width="xl"
-      height="sm"
-      display="flex"
-      flexDirection="column"
-      justifyContent="space-between">
-      <Text textStyle="md" fontWeight="bold" m={4} p={4}>
-        연간 배출량
-      </Text>
+    <Box width="100%" height="100%">
       <Bar data={chartData} options={options} />
     </Box>
   )
