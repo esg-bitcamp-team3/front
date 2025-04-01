@@ -1,5 +1,6 @@
 'use client'
 
+import {AddSubsidiary} from '@/app/ui/dashboard/emmition-factory/addDetail/dataform/addSubsidiary'
 import {ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
 import {getMyOrganizations} from '@/lib/api/my'
 import {
@@ -14,7 +15,8 @@ import {
   TableHeader,
   TableRoot,
   TableRow,
-  Text
+  Text,
+  useDialog
 } from '@chakra-ui/react'
 import {useRouter} from 'next/navigation'
 import {useEffect, useState} from 'react'
@@ -92,12 +94,15 @@ const SubsidiaryTable = () => {
   }
 
   return (
-    <Flex direction="column" gap="8">
+    <Flex direction="column" gap="4">
       <Text textStyle="lg" fontWeight="bold">
         사업장 목록
       </Text>
       <Flex justify="end" align="center">
         <SearchBar onSearch={handleSearch} />
+      </Flex>
+      <Flex justify="end" align="center">
+        <AddSubsidiary />
       </Flex>
       <Separator />
       <TableRoot size="lg" borderRadius="md" border="1px">
@@ -105,6 +110,7 @@ const SubsidiaryTable = () => {
           <TableRow>
             {headers.map((header, index) => (
               <TableColumnHeader
+                fontWeight="bold"
                 key={index}
                 padding={4}
                 borderBottom="2px"
