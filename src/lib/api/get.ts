@@ -10,7 +10,8 @@ import {
   IYearlyEmissionData,
   IScopeData,
   ICarbonEmissionGoal,
-  ICarbonEmissionGoalsByYear
+  ICarbonEmissionGoalsByYear,
+  IChangeLogInfo
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -302,6 +303,19 @@ export async function getCalculatedMothlyEmissionOfSubsidiary({
 export async function getCarbonEmissionGoalsOfOrganiation({id}: {id: string}) {
   return await apiClient.get<Response<ICarbonEmissionGoalsByYear>>(
     `/carbon-emission-goals/organization/${id}`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+{
+  /* Change Logs */
+}
+
+export async function getChangeLogsOfEmissionDataFromElectricity({id}: {id: string}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/electricity/${id}/change-logs`,
     {
       withAuth: true
     }

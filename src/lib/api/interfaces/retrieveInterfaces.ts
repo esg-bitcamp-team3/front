@@ -125,7 +125,7 @@ export interface IEmissionFromStationaryCombustion {
 }
 
 export interface IEmissionInfo {
-  _id?: string
+  _id: string
   subsidiary?: string // 사업장
   year?: number // 연도
   serialNumber?: string // 일련번호
@@ -134,7 +134,18 @@ export interface IEmissionInfo {
   activityData?: IFuel // 활동자료
   total?: number // 합계 배출량
   uncertainty?: number // 불확도
-  data?: number[] // 월별 배
+  data1: number
+  data2: number
+  data3: number
+  data4: number
+  data5: number
+  data6: number
+  data7: number
+  data8: number
+  data9: number
+  data10: number
+  data11: number
+  data12: number
 }
 
 export interface IEmissionFromMobileCombustion {
@@ -194,4 +205,20 @@ export interface ICarbonEmissionGoal {
 
 export interface ICarbonEmissionGoalsByYear {
   [year: string]: ICarbonEmissionGoal
+}
+
+export interface IUser {
+  _id: string
+  name: string
+  email: string
+  username: string
+}
+
+export interface IChangeLogInfo {
+  entityId: string
+  fieldName: string
+  oldValue: any
+  newValue: any
+  modifiedBy?: IUser
+  modifiedAt?: string
 }

@@ -1,5 +1,6 @@
 import apiClient from './apiClient'
-import {ISubsidiary} from './interfaces/retrieveInterfaces'
+import {IEmissionInfo, ISubsidiary} from './interfaces/retrieveInterfaces'
+import {IEmissionForm} from './interfaces/updateForm'
 import {Response} from './type'
 
 export async function updateSubsidiary(data: Partial<ISubsidiary>) {
@@ -8,6 +9,22 @@ export async function updateSubsidiary(data: Partial<ISubsidiary>) {
     {
       body: data,
       withAuth: true
+    }
+  )
+}
+
+export async function updateEmissionDataFromElectricity({
+  id,
+  data
+}: {
+  id: string
+  data: Partial<IEmissionForm>
+}) {
+  return await apiClient.put<Response<IEmissionInfo>, Partial<IEmissionForm>>(
+    `/data/electricity/${id}`,
+    {
+      withAuth: true,
+      body: data
     }
   )
 }
