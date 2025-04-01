@@ -20,7 +20,7 @@ const GoalProgress = ({props}: {props: GoalProgressProps}) => {
   return (
     <Box p={4} borderRadius="lg" boxShadow="lg">
       <Stat.Root maxW="240px">
-        <Stat.Label>Goal Achievement Rate</Stat.Label>
+        <Stat.Label>🎯목표 달성률</Stat.Label>
         <Stat.ValueText color={goalPercent > 100 ? 'red.500' : 'inherit'}>
           {goalPercent.toFixed(2)}
         </Stat.ValueText>

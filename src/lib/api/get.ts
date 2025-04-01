@@ -11,7 +11,8 @@ import {
   IScopeData,
   ICarbonEmissionGoal,
   ICarbonEmissionGoalsByYear,
-  IOrganizationRevenueByYear
+  IOrganizationRevenueByYear,
+  ILittleOrganization
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -54,8 +55,8 @@ export async function getActivityDataForSteam() {
   /* Organization */
 }
 
-export async function getOrganizationById(id: string) {
-  return await apiClient.get<Response<IOrganization>>(`/organizations/${id}`, {
+export async function getLittleOrganizationById(id: string) {
+  return await apiClient.get<Response<ILittleOrganization>>(`/organizations/${id}`, {
     withAuth: true
   })
 }

@@ -17,6 +17,12 @@ export interface IOrganization {
   annualEnergyCost: number // 당해연도 에너지 비용(원)
 }
 
+export interface ILittleOrganization {
+  name: string
+  registrationNumber: string // 법인등록번호
+  industryType: string // 대표업종
+}
+
 export interface IRevenueRecord {
   organizationId: string // 법인
   year: number // 연도

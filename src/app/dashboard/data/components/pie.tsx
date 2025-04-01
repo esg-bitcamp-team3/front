@@ -2,12 +2,12 @@ import {IScopeData} from '@/lib/api/interfaces/retrieveInterfaces'
 import {Box, Color, HStack} from '@chakra-ui/react'
 import {ArcElement, ChartOptions, Chart, SubTitle, Title} from 'chart.js'
 import {useState} from 'react'
-import {Pie} from 'react-chartjs-2'
+import {Doughnut, Pie} from 'react-chartjs-2'
 
 Chart.register(ArcElement, SubTitle, Title)
 
 export function PieForOrganization({datas}: {datas: IScopeData}) {
-  const options: ChartOptions<'pie'> = {
+  const options: ChartOptions<'doughnut'> = {
     responsive: true, // 반응형 지원
     interaction: {
       mode: 'index', // x축 상의 모든 데이터 포인트에 대해 툴팁 표시
@@ -68,7 +68,7 @@ export function PieForOrganization({datas}: {datas: IScopeData}) {
 
   return (
     <Box width="300px" height="400px">
-      <Pie data={data} options={options} />
+      <Doughnut data={data} options={options} />
     </Box>
   )
 }

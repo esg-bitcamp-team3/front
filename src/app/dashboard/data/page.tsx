@@ -198,7 +198,7 @@ const Page = () => {
   const [isHistoricalDataLoading, setIsHistoricalDataLoading] = useState(true)
 
   const today = new Date()
-  const year = 2020
+  const year = 2022
   const month = 3
 
   const fetchOrganization = async () => {
@@ -308,7 +308,7 @@ const Page = () => {
           <GoalProgress
             props={{
               label: '목표 달성',
-              value: emissionGoalsByYear?.['2020']?.emissionGoal || 0,
+              value: emissionGoalsByYear?.['2025']?.emissionGoal || 0,
               currentValue: currentYearEmissions?.total || 1
             }}
           />
