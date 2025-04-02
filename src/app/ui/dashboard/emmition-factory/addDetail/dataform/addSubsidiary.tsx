@@ -26,7 +26,7 @@ export const AddSubsidiary = () => {
   const fetchSubsidiaryList = async () => {
     try {
       const response = await getMyOrganizations()
-      setOrganization(response.data.organization.organization)
+      setOrganization(response.data.organization)
     } catch (error) {}
   }
 

@@ -24,13 +24,12 @@ export interface IRevenueRecord {
   energyCost: number // 에너지 비용(원)
 }
 
-export interface IOrganizationRevenue {
-  organization: IOrganization
-  revenueRecords: IRevenueRecord[]
+export interface IOrganizationRevenueByYear {
+  [year: string]: IRevenueRecord
 }
 
 export interface IOrganizationInfo {
-  organization: IOrganizationRevenue
+  organization: IOrganization
   subsidiaries: ISubsidiary[]
 }
 
@@ -236,18 +235,31 @@ export interface IIndirectEmissionFromElectricity {
 }
 
 export interface IScopeData {
+  electric: number
+  mobile: number
   scope1: number
   scope2: number
+  stationary: number
+  steam: number
+  total: number
 }
 
 export interface IMonthlyEmissionData {
+  scope1: number[]
+  scope2: number[]
   stationary: number[]
   mobile: number[]
+  electric: number[]
+  steam: number[]
+  total: number[]
 }
+
 export interface IYearlyEmissionData {
   [year: number]: {
     stationary: number
     mobile: number
+    electric: number
+    steam: number
     total: number
   }
 }
@@ -255,6 +267,7 @@ export interface IYearlyEmissionData {
 export interface IMothlyData {
   stationary: number[]
   mobile: number[]
+  total: number[]
 }
 
 export interface ICarbonEmissionGoal {
@@ -266,4 +279,14 @@ export interface ICarbonEmissionGoal {
 
 export interface ICarbonEmissionGoalsByYear {
   [year: string]: ICarbonEmissionGoal
+}
+
+export interface IOrganizationData {
+  scope1: number
+  stationary: number
+  mobile: number
+  scope2: number
+  electric: number
+  steam: number
+  total: number
 }
