@@ -1,10 +1,39 @@
 'use client'
 
-import {IUserInfo} from '@/lib/api/interfaces/retrieveInterfaces'
-import {getMyUser} from '@/lib/api/my'
-import {Box, Flex, Text, VStack, Heading, Input, Button, DataList} from '@chakra-ui/react'
+import {ILogByDate, IUserInfo} from '@/lib/api/interfaces/retrieveInterfaces'
+import {getMyChangeLogs, getMyUser} from '@/lib/api/my'
+import {emissionInfoMapping} from '@/lib/data/mapping'
+import {
+  Box,
+  Flex,
+  Text,
+  VStack,
+  Heading,
+  Input,
+  Button,
+  DataList,
+  Separator,
+  Menu,
+  Portal,
+  Table
+} from '@chakra-ui/react'
 import {UserInfo, userInfo} from 'os'
 import {use, useEffect, useState} from 'react'
+
+const columnNames = [
+  'data1', // 1월
+  'data2', // 2월
+  'data3', // 3월
+  'data4', // 4월
+  'data5', // 5월
+  'data6', // 6월
+  'data7', // 7월
+  'data8', // 8월
+  'data9', // 9월
+  'data10', // 10월
+  'data11', // 11월
+  'data12' // 12월
+]
 
 const Page = () => {
   const [currentPassword, setCurrentPassword] = useState('')
@@ -12,6 +41,15 @@ const Page = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPasswordForm, setShowPasswordForm] = useState(false)
   const [user, setUser] = useState<IUserInfo>()
+  const [changeLog, setChangeLog] = useState<ILogByDate | undefined>()
+
+  const fetchChangeLogs = async () => {
+    try {
+      const response = await getMyChangeLogs()
+      setChangeLog(response.data)
+      console.log('asdfdsaf', response.data)
+    } catch {}
+  }
 
   const handlePasswordChange = () => {
     if (newPassword !== confirmPassword) {
@@ -26,6 +64,7 @@ const Page = () => {
       setUser(response.data)
     }
     fetchuser()
+    fetchChangeLogs()
   }, [])
 
   return (
@@ -36,29 +75,37 @@ const Page = () => {
           <Heading size="xl" mb={6}>
             수정내역
           </Heading>
-
-          {[1, 2, 3].map(item => (
-            <Box key={item} bg="white" p={4} borderRadius="md" mb={4} boxShadow="sm">
-              <Text fontSize="sm" color="gray.500">
-                08/10 03:23
-              </Text>
-              <Text fontWeight="semibold" mt={2}>
-                장그래
-              </Text>
-              <Box mt={3} p={3} border="1px solid #e2e8f0" borderRadius="md">
-                <Text fontSize="xs" color="gray.500">
-                  부산사업장
-                </Text>
-                <Text mt={1}>매출수정</Text>
-                <Text fontSize="sm" color="gray.500">
-                  1500 up
-                </Text>
+          {changeLog &&
+            Object.entries(changeLog).map(([key, log]) => (
+              <Box key={key}>
+                <Text>{key}</Text>
+                <Text>{JSON.stringify(log)}</Text>
               </Box>
-              <Text mt={2} fontSize="sm" color="green.500" textAlign="right">
-                수정 확인
-              </Text>
-            </Box>
-          ))}
+            ))}
+
+          {/* {data.emissionData[0]?.logs.map(log => (
+                      <VStack align="stretch" gap={1} separator={<Separator />}>
+                        <Box key={index} py={1} px={2}>
+                          <Flex mt={0.3} alignItems="center">
+                            <Text mx={1} color="gray.500">
+                              {emissionInfoMapping[log.fieldName]}
+                            </Text>
+                            <Text
+                              textDecoration="line-through"
+                              color="red.500"
+                              fontSize="sm">
+                              {log.oldValue}
+                            </Text>
+                            <Text mx={1} color="gray.500">
+                              →
+                            </Text>
+                            <Text fontWeight="bold" color="green.500" fontSize="sm">
+                              {log.newValue}
+                            </Text>
+                          </Flex>
+                        </Box>
+                      </VStack>
+                    ))} */}
         </Box>
 
         {/* 우측 정보 영역 */}

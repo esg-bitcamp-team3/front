@@ -315,16 +315,3 @@ export async function getOrganizaionRevenueByYear({id}: {id: string}) {
     }
   )
 }
-
-{
-  // change-logs
-}
-
-export async function getLogs() {
-  return await apiClient.get<ListResponse<IChangeLogInfoBySubsidiary[]>>(
-    `/my/change-logs`,
-    {
-      withAuth: true
-    }
-  )
-}

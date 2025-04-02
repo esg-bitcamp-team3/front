@@ -291,10 +291,33 @@ export interface IOrganizationData {
   total: number
 }
 
-export interface IChangeLogInfoBySubsidiary {
+// export interface IChangeLogInfoBySubsidiary {
+//   subsidiary: ISubsidiary
+//   emissionData: {
+//     data: IEmissionInfo
+//     logs: IChangeLogInfo[]
+//   }[]
+// }
+
+export interface ILog {
   subsidiary: ISubsidiary
-  emissionData: {
-    data: IEmissionInfo
-    logs: []
-  }[]
+  emissoinData: IEmissionInfo
+  changeLog: IChangeLogInfo
+}
+// export interface IlogByDate {
+//   date: string
+//   log: ILog[]
+// }
+
+export interface ILogByDate {
+  [date: string]: {log: ILog[]}
+}
+
+export interface IChangeLogInfo {
+  entityId: string
+  fieldName: string
+  oldValue: number | string
+  newValue: number | string
+  modifiedBy?: IUserInfo
+  modifiedAt?: string
 }
