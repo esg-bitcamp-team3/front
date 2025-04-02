@@ -283,3 +283,11 @@ export interface IOrganizationData {
   steam: number
   total: number
 }
+
+export interface IChangeLogInfoBySubsidiary {
+  subsidiary: ISubsidiary
+  emissionData: {
+    data: IEmissionInfo
+    logs: []
+  }[]
+}

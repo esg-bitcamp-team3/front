@@ -12,7 +12,8 @@ import {
   ICarbonEmissionGoal,
   ICarbonEmissionGoalsByYear,
   IOrganizationRevenueByYear,
-  IOrganizationData
+  IOrganizationData,
+  IChangeLogInfoBySubsidiary
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -221,21 +222,6 @@ export async function getEmissionDataFromSteam({
 {
   /* Calculated Emission Data */
 }
-
-// export async function getCalculatedEmissionOfOrganiation({
-//   id,
-//   year
-// }: {
-//   id: string
-//   year?: string
-// }) {
-//   return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
-//     withAuth: true,
-//     params: {
-//       ...(year && {year})
-//     }
-//   })
-// }
 export async function getCalculatedEmissionOfOrganiation({
   id,
   year
@@ -324,6 +310,19 @@ export async function getCarbonEmissionGoalsOfOrganization({id}: {id: string}) {
 export async function getOrganizaionRevenueByYear({id}: {id: string}) {
   return await apiClient.get<Response<IOrganizationRevenueByYear>>(
     `/revenue-records/organization/${id}`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+{
+  // change-logs
+}
+
+export async function getLogs() {
+  return await apiClient.get<ListResponse<IChangeLogInfoBySubsidiary[]>>(
+    `/my/change-logs`,
     {
       withAuth: true
     }
