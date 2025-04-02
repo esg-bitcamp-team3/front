@@ -1,6 +1,7 @@
 import * as E from './enumTypes'
 
 export interface IOrganization {
+  organization(organization: any): unknown
   _id: string
   name: string // 법인명
   representative: string // 대표자
@@ -87,6 +88,14 @@ export interface IEmissionFactor {
   efCO2_mobile: number // CO2 배출계수 (이동연소)
   efCH4_mobile: number // CH4 배출계수 (이동연소)
   efN2O_mobile: number // N2O 배출계수 (이동연소)
+
+  efCO2_electric: number //전기 배출계수
+  efCH4_electric: number
+  efN2O_electric: number
+
+  a_steam: number
+  b_steam: number
+  c_steam: number
 }
 
 export interface ICalorificValue {
