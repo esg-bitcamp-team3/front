@@ -19,8 +19,14 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
   const years = Object.keys(data).map(Number) // 2020, 2021, 2022, ...
   const stationary = years.map(year => data[year].stationary.toFixed(2))
   const mobile = years.map(year => data[year].mobile.toFixed(2))
-  // const electric = years.map(year => data[year].electric.toFixed(2))
-  // const steam = years.map(year => data[year].steam.toFixed(2))
+  const electric = years.map(year => data[year].electric.toFixed(2))
+  const steam = years.map(year => data[year].steam.toFixed(2))
+
+  const indirect = years.map((_, index) =>
+    (parseFloat(electric[index]) + parseFloat(steam[index])).toFixed(2)
+  )
+
+  console.log('indirect: ', indirect)
 
   const chartData = {
     labels: years,
@@ -33,18 +39,13 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
       {
         label: '이동연소',
         data: mobile,
-        backgroundColor: '#FF6384' // Red for mobile
+        backgroundColor: '#f9f871' // Red for mobile
+      },
+      {
+        label: '간접연소(전기&스팀)',
+        data: indirect,
+        backgroundColor: '#2ae8b5' // Blue for stationary
       }
-      // {
-      //   label: '간접연소(전기)',
-      //   data: electric,
-      //   backgroundColor: '#36A2EB' // Blue for stationary
-      // },
-      // {
-      //   label: '간접연소(스팀)',
-      //   data: steam,
-      //   backgroundColor: '#36A2EB' // Blue for stationary
-      // },
     ]
   }
 
@@ -79,7 +80,7 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
         },
         color: 'grey', // 제목 색상
         padding: {
-          bottom: -10 // 제목과 단위 사이의 간격 조정
+          bottom: 0 // 제목과 단위 사이의 간격 조정
         }
       }
     },
@@ -89,14 +90,13 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
       },
       y: {
         stacked: true, // Stacking the bars
-        beginAtZero: true,
-        suggestedMax: 20000
+        beginAtZero: true
       }
     }
   }
 
   return (
-    <Box width="100%" height="100%" alignContent="start">
+    <Box h="250px" alignContent="end">
       <Bar data={chartData} options={options} />
     </Box>
   )

@@ -45,7 +45,7 @@ export function PieForOrganization({datas}: {datas: IOrganizationData}) {
         }, // 제목 폰트 설정
         color: 'black', // 제목 색상
         padding: {
-          bottom: 0 // 제목과 단위 사이의 간격 조정
+          bottom: 10 // 제목과 단위 사이의 간격 조정
         }
       },
       subtitle: {
@@ -59,7 +59,7 @@ export function PieForOrganization({datas}: {datas: IOrganizationData}) {
         },
         color: 'grey', // 제목 색상
         padding: {
-          bottom: -20 // 제목과 단위 사이의 간격 조정
+          bottom: 0 // 제목과 단위 사이의 간격 조정
         }
       }
     }
@@ -78,7 +78,7 @@ export function PieForOrganization({datas}: {datas: IOrganizationData}) {
   }
 
   return (
-    <Box width="80%" height="100%" alignContent="end">
+    <Box h="250px" w="full" alignContent="start">
       <Doughnut data={data} options={options} />
     </Box>
   )

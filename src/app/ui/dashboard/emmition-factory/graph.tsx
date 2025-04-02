@@ -1,6 +1,6 @@
 'use client'
 
-import {Box, HStack} from '@chakra-ui/react'
+import {Box, HStack, VStack} from '@chakra-ui/react'
 import {useState, useEffect} from 'react'
 import {
   getCalculatedMothlyEmissionOfSubsidiary,
@@ -62,12 +62,14 @@ export const SelectYear = ({props}: {props: yearAndSubs}) => {
 
   return (
     <>
-      <HStack display="flex" justifyContent="center" alignItems="center" spaceX={4}>
-        <Box w="10/12">{monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}</Box>
+      <VStack display="flex" justifyContent="center" alignItems="center" padding={10}>
+        <Box w="10/12" paddingY={10}>
+          {monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}
+        </Box>
         <Box>
           {yearlyTotal && <TotalState total={yearlyTotal} yearChoice={parseInt(year)} />}
         </Box>
-      </HStack>
+      </VStack>
     </>
   )
 }

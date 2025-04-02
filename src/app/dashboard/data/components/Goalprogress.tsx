@@ -19,11 +19,12 @@ interface GoalProgressProps {
   id: string
   label: string
   currentValue: number //현재 총합
+  previousValue: number
 }
 
 const GoalProgress = ({props}: {props: GoalProgressProps}) => {
   const [originalData, setOriginalData] = useState<ICarbonEmissionGoal>()
-  const {id, label, currentValue} = props
+  const {id, label, currentValue, previousValue} = props
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,32 +39,64 @@ const GoalProgress = ({props}: {props: GoalProgressProps}) => {
     fetchData()
   }, [])
 
-  const value = originalData?.emissionGoal
+  const goal = (previousValue * (originalData?.emissionGoal ?? 0)) / 100
+  const current = previousValue - currentValue
+  const goalPercent = (current / goal) * 100
 
-  console.log('currentValue: ', currentValue)
-  console.log('value: ', value)
-  const goalPercent = value !== 0 ? (currentValue / (value ?? 1)) * 100 : 0
-
+  console.log('goal: ', goal)
+  console.log('current: ', current)
+  console.log('goalPercent: ', goalPercent)
+  const excessGoal = current > 0 ? 1 : 0
   return (
     <Box p={4} borderRadius="lg" boxShadow="lg">
-      <Stat.Root minW="250px">
+      <Stat.Root w="full">
         <Stat.Label>
-          <Text fontWeight="bolder" fontSize="md">
-            ⚠️상한값 접근수준
-          </Text>
-          {value ? <UpdateGoalDialog id={id} /> : <CreateGoalDialog id={id} />}
+          {excessGoal ? (
+            <>
+              <Text fontWeight="bolder" fontSize="md">
+                🎯목표 감축률
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text fontWeight="bolder" fontSize="md">
+                ⚠️목표 감축률
+              </Text>
+            </>
+          )}
+          {goalPercent ? (
+            <UpdateGoalDialog previousValue={previousValue} id={id} />
+          ) : (
+            <CreateGoalDialog id={id} />
+          )}
         </Stat.Label>
-        <Stat.ValueText color={goalPercent > 100 ? 'red.500' : 'inherit'}>
-          {goalPercent.toFixed(2)}%
-        </Stat.ValueText>
-        <Stat.HelpText mb="2">
-          Completed {goalPercent.toFixed(2)}% towards the goal
-        </Stat.HelpText>
-        <Progress.Root defaultValue={goalPercent > 100 ? 100 : goalPercent}>
-          <Progress.Track>
-            <Progress.Range colorPalette={goalPercent > 100 ? 'red' : 'teal'} />
-          </Progress.Track>
-        </Progress.Root>
+        {excessGoal ? (
+          <>
+            <Stat.ValueText color="inherit">{goalPercent.toFixed(2)}%</Stat.ValueText>
+            <Stat.HelpText mb="2">
+              목표 감축률 {goalPercent.toFixed(2)}% 달성하였습니다
+            </Stat.HelpText>
+            <Progress.Root value={goalPercent}>
+              <Progress.Track>
+                <Progress.Range colorPalette="teal" />
+              </Progress.Track>
+            </Progress.Root>
+          </>
+        ) : (
+          <>
+            <Stat.ValueText color="red">
+              {Math.abs(goalPercent).toFixed(2)}%
+            </Stat.ValueText>
+            <Stat.HelpText mb="2">
+              목표 감축률 보다 {Math.abs(goalPercent).toFixed(2)}% 초과입니다
+            </Stat.HelpText>
+            <Progress.Root value={goalPercent}>
+              <Progress.Track>
+                <Progress.Range colorPalette="red" />
+              </Progress.Track>
+            </Progress.Root>
+          </>
+        )}
       </Stat.Root>
     </Box>
   )

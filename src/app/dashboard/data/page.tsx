@@ -9,7 +9,8 @@ import {
   SkeletonText,
   Text,
   Center,
-  Spinner
+  Spinner,
+  Flex
 } from '@chakra-ui/react'
 import {ScopeChart, ScopeBarChart, ScopeBox} from './components/scopeChart'
 import {
@@ -36,8 +37,9 @@ import {toaster} from '@/components/ui/toaster'
 import {EmissionStat} from './components/stats'
 import {EmissionBar} from './components/bar'
 import {OrganizationCard} from './components/orgainzationCard'
-import {GoalProgress} from './components/Goalprogress'
+import {GoalProgress} from './components/goalprogress'
 import {PieForOrganization} from './components/pie'
+import {LineChart} from './components/lineChart'
 
 // Define prop types for components
 interface StatsSectionProps {
@@ -58,6 +60,12 @@ interface ScopeBoxSectionProps {
 
 interface EmissionBarSectionProps {
   historicalYearlyEmissions: IYearlyEmissionData | undefined
+  isLoading: boolean
+}
+
+interface EmissionTotalLineSectionProps {
+  historicalYearlyEmissions: IYearlyEmissionData | undefined
+  emissionGoalsByYear: ICarbonEmissionGoalsByYear | undefined
   isLoading: boolean
 }
 
@@ -167,6 +175,18 @@ const ScopeBoxSection: React.FC<ScopeBoxSectionProps> = ({
 // Emission bar component with typed props and fallback
 const EmissionBarSection: React.FC<EmissionBarSectionProps> = ({
   historicalYearlyEmissions,
+  isLoading
+}) => {
+  if (isLoading || !historicalYearlyEmissions) {
+    return <EmissionBarFallback />
+  }
+
+  return <EmissionBar data={historicalYearlyEmissions} />
+}
+
+const EmissionTotalLineSection: React.FC<EmissionTotalLineSectionProps> = ({
+  historicalYearlyEmissions,
+  emissionGoalsByYear,
   isLoading
 }) => {
   if (isLoading || !historicalYearlyEmissions) {
@@ -296,19 +316,29 @@ const Page = () => {
     )
   }
 
+  console.log('electric: ', historicalYearlyEmissions?.[2024]?.electric)
+  console.log('steam: ', historicalYearlyEmissions?.[2024]?.steam)
+
   return (
     <Box padding={6}>
       {/* 기업 이름과 목표 달성 */}
-      <HStack spaceY={6} paddingBottom={6} alignItems="center">
-        {currentOrganization && <OrganizationCard organization={currentOrganization} />}
+      <HStack paddingBottom={6} alignItems="center">
+        {currentOrganization && (
+          <Box flex="2">
+            <OrganizationCard organization={currentOrganization} />
+          </Box>
+        )}
         {emissionGoalsByYear && (
-          <GoalProgress
-            props={{
-              label: '목표 달성',
-              currentValue: currentYearEmissions?.total || 0,
-              id: currentOrganization?._id || ''
-            }}
-          />
+          <Box flex="1">
+            <GoalProgress
+              props={{
+                label: '목표 달성',
+                currentValue: currentYearEmissions?.total || 0,
+                previousValue: previousYearEmissions?.total || 0,
+                id: currentOrganization?._id || ''
+              }}
+            />
+          </Box>
         )}
       </HStack>
 
@@ -327,20 +357,27 @@ const Page = () => {
       </Box>
 
       {/* 그래프 섹션 */}
-      <SimpleGrid columns={{base: 1, md: 2}} spaceY={1} paddingX="50px">
-        <Box>
-          <ScopeBoxSection
-            currentYearEmissions={currentYearEmissions}
-            isLoading={isScopeLoading}
-          />
+      <Flex direction="column" align="center" justify="center" w="full" h="full" gap={8}>
+        <Flex direction="row" align="center" justify="center" gap={8} w="full">
+          <Box w="22%" alignItems="start">
+            <ScopeBoxSection
+              currentYearEmissions={currentYearEmissions}
+              isLoading={isScopeLoading}
+            />
+          </Box>
+          <Box w="40%" alignItems="end">
+            <EmissionBarSection
+              historicalYearlyEmissions={historicalYearlyEmissions}
+              isLoading={isHistoricalDataLoading}
+            />
+          </Box>
+        </Flex>
+        <Box w="80%" h="full">
+          {historicalYearlyEmissions && emissionGoalsByYear && (
+            <LineChart datas={historicalYearlyEmissions} goals={emissionGoalsByYear} />
+          )}
         </Box>
-        <Box>
-          <EmissionBarSection
-            historicalYearlyEmissions={historicalYearlyEmissions}
-            isLoading={isHistoricalDataLoading}
-          />
-        </Box>
-      </SimpleGrid>
+      </Flex>
     </Box>
   )
 }
