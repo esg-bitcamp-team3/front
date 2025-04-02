@@ -39,6 +39,7 @@ export function Dataform_Station({
   onClose: () => void
 }) {
   const [rows, setRows] = useState<number[]>([0]) // Fieldset.Root를 관리할 배열
+
   const [fuel, setFuel] = useState<IFuelInfo[]>()
   const addRow = () => {
     setRows([...rows, rows.length]) // 새로운 줄 추가
@@ -102,19 +103,43 @@ export function Dataform_Station({
       <Table.Root size="lg">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeader w="4rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="4rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               연도
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="7rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               내부시설명
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="7rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="7rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               배출활동
             </Table.ColumnHeader>
-            <Table.ColumnHeader w="8rem" color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              w="8rem"
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               활동자료
             </Table.ColumnHeader>
-            <Table.ColumnHeader color="blue.500" textAlign="center">
+            <Table.ColumnHeader
+              color="blue.500"
+              textAlign="center"
+              fontWeight="bold"
+              padding={4}>
               월별 배출량
             </Table.ColumnHeader>
           </Table.Row>

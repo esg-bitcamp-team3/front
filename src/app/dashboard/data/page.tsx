@@ -16,6 +16,8 @@ import {
   ICarbonEmissionGoalsByYear,
   IMonthlyEmissionData,
   IOrganization,
+  IOrganizationData,
+  IOrganizationRevenueByYear,
   IRevenueRecord,
   IScopeData,
   ISubsidiary,
@@ -27,27 +29,30 @@ import {
   getCalculatedEmissionOfOrganiation,
   getCalculatedMonthlyEmissionOfOrganiation,
   getCalculatedYearlyEmissionOfOrganiation,
-  getCarbonEmissionGoalsOfOrganiation
+  getCarbonEmissionGoalsOfOrganization,
+  getOrganizaionRevenueByYear
 } from '@/lib/api/get'
 import {toaster} from '@/components/ui/toaster'
 import {EmissionStat} from './components/stats'
 import {EmissionBar} from './components/bar'
+import {OrganizationCard} from './components/orgainzationCard'
 import {GoalProgress} from './components/Goalprogress'
+import {PieForOrganization} from './components/pie'
 
 // Define prop types for components
 interface StatsSectionProps {
-  currentYearEmissions: IScopeData | undefined
-  previousYearEmissions: IScopeData | undefined
+  currentYearEmissions: IOrganizationData | undefined
+  previousYearEmissions: IOrganizationData | undefined
   currentYearMonthlyEmissions: IMonthlyEmissionData | undefined
   previousYearMonthlyEmissions: IMonthlyEmissionData | undefined
-  organizationRevenueRecords: IRevenueRecord[] | undefined
+  organizationRevenueRecords: IOrganizationRevenueByYear | undefined
   year: number
   month: number
   isLoading: boolean
 }
 
 interface ScopeBoxSectionProps {
-  currentYearEmissions: IScopeData | undefined
+  currentYearEmissions: IOrganizationData | undefined
   isLoading: boolean
 }
 
@@ -93,6 +98,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({
   month,
   isLoading
 }) => {
+  console.log('???', organizationRevenueRecords)
   if (
     isLoading ||
     !currentYearEmissions ||
@@ -104,6 +110,12 @@ const StatsSection: React.FC<StatsSectionProps> = ({
     return <StatsFallback />
   }
 
+  // console.log(currentYearEmissions)
+
+  if (!organizationRevenueRecords[year] || !organizationRevenueRecords[year - 1]) {
+    return null
+  }
+
   return (
     <SimpleGrid width="full" columns={3} gap={4}>
       {/* 연간 매출당 배출량 */}
@@ -111,32 +123,30 @@ const StatsSection: React.FC<StatsSectionProps> = ({
         data={{
           label: '연간 매출당 배출량',
           value:
-            currentYearEmissions.scope1 /
-            (organizationRevenueRecords.find(record => record.year === year)?.revenue ||
-              1),
+            (100000000 * currentYearEmissions.total) /
+            (organizationRevenueRecords[year].revenue || 1),
           previousValue:
-            previousYearEmissions.scope1 /
-            (organizationRevenueRecords.find(record => record.year === year - 1)
-              ?.revenue || 1),
-          unit: 'gCO2/원'
+            (100000000 * currentYearEmissions.total) /
+            (organizationRevenueRecords[year - 1].revenue || 1),
+          unit: 'tCO2eq/억원'
         }}
       />
       {/* 총 배출량 */}
       <EmissionStat
         data={{
           label: '총 배출량',
-          value: currentYearEmissions.scope1,
-          previousValue: previousYearEmissions.scope1,
-          unit: 'tCO2e'
+          value: currentYearEmissions.total,
+          previousValue: previousYearEmissions.total,
+          unit: 'tCO2eq'
         }}
       />
       {/* 해당 월 배출량 */}
       <EmissionStat
         data={{
           label: `${month}월 배출량`,
-          value: currentYearMonthlyEmissions.stationary[month - 1],
-          previousValue: previousYearMonthlyEmissions.stationary[month - 1],
-          unit: 'tCO2e'
+          value: currentYearMonthlyEmissions.total[month - 1],
+          previousValue: previousYearMonthlyEmissions.total[month - 1],
+          unit: 'tCO2eq'
         }}
       />
     </SimpleGrid>
@@ -151,8 +161,7 @@ const ScopeBoxSection: React.FC<ScopeBoxSectionProps> = ({
   if (isLoading || !currentYearEmissions) {
     return <ScopeBoxFallback />
   }
-
-  return <ScopeBox data={currentYearEmissions} />
+  return <PieForOrganization datas={currentYearEmissions} />
 }
 
 // Emission bar component with typed props and fallback
@@ -171,9 +180,9 @@ const Page = () => {
   const [currentOrganization, setCurrentOrganization] = useState<IOrganization>()
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>()
   const [organizationRevenueRecords, setOrganizationRevenueRecords] =
-    useState<IRevenueRecord[]>()
-  const [currentYearEmissions, setCurrentYearEmissions] = useState<IScopeData>()
-  const [previousYearEmissions, setPreviousYearEmissions] = useState<IScopeData>()
+    useState<IOrganizationRevenueByYear>()
+  const [currentYearEmissions, setCurrentYearEmissions] = useState<IOrganizationData>()
+  const [previousYearEmissions, setPreviousYearEmissions] = useState<IOrganizationData>()
   const [currentYearMonthlyEmissions, setCurrentYearMonthlyEmissions] =
     useState<IMonthlyEmissionData>()
   const [previousYearMonthlyEmissions, setPreviousYearMonthlyEmissions] =
@@ -190,16 +199,16 @@ const Page = () => {
   const [isHistoricalDataLoading, setIsHistoricalDataLoading] = useState(true)
 
   const today = new Date()
-  const year = 2023
+  const year = 2022
   const month = 3
 
   const fetchOrganization = async () => {
     setIsOrganizationLoading(true)
     try {
       const response = await getMyOrganizations()
-      setCurrentOrganization(response.data.organization.organization)
+      console.log('asdfsdf', response.data.organization)
+      setCurrentOrganization(response.data.organization)
       setSubsidiaryList(response.data.subsidiaries)
-      setOrganizationRevenueRecords(response.data.organization.revenueRecords)
     } catch (error) {
       toaster.error({
         title: '기업 데이터를 가져오는 데 실패했습니다.'
@@ -221,20 +230,28 @@ const Page = () => {
         getCalculatedEmissionOfOrganiation({id: id, year: year.toString()}),
         getCalculatedEmissionOfOrganiation({id: id, year: (year - 1).toString()})
       ])
+      console.log('currenasdgsgt', currentYearEmissionData.data)
+      console.log('previoust', previousYearEmissionData.data)
 
       setCurrentYearEmissions(currentYearEmissionData.data)
       setPreviousYearEmissions(previousYearEmissionData.data)
       setIsScopeLoading(false)
 
       // Fetch monthly data for stats section
-      const [currentYearMonthlyEmissionData, previousYearMonthlyEmissionData] =
-        await Promise.all([
-          getCalculatedMonthlyEmissionOfOrganiation({id: id, year: year.toString()}),
-          getCalculatedMonthlyEmissionOfOrganiation({id: id, year: (year - 1).toString()})
-        ])
+      const [
+        currentYearMonthlyEmissionData,
+        previousYearMonthlyEmissionData,
+        organizationRevenueRecordsByYear
+      ] = await Promise.all([
+        getCalculatedMonthlyEmissionOfOrganiation({id: id, year: year.toString()}),
+        getCalculatedMonthlyEmissionOfOrganiation({id: id, year: (year - 1).toString()}),
+        getOrganizaionRevenueByYear({id: id})
+      ])
 
       setCurrentYearMonthlyEmissions(currentYearMonthlyEmissionData.data)
       setPreviousYearMonthlyEmissions(previousYearMonthlyEmissionData.data)
+      setOrganizationRevenueRecords(organizationRevenueRecordsByYear.data)
+
       setIsStatsLoading(false)
 
       // Fetch historical data (for emission bar)
@@ -245,10 +262,13 @@ const Page = () => {
       setHistoricalYearlyEmissions(yearlyEmissionData.data)
 
       const [yearlyCarbonEmissionGoalData] = await Promise.all([
-        getCarbonEmissionGoalsOfOrganiation({id: id})
+        getCarbonEmissionGoalsOfOrganization({id: id})
       ])
+      console.log('year', yearlyEmissionData.data)
+      console.log('goal', yearlyCarbonEmissionGoalData.data)
 
       setEmissionGoalsByYear(yearlyCarbonEmissionGoalData.data)
+
       setIsHistoricalDataLoading(false)
     } catch (error) {
       toaster.error({
@@ -277,38 +297,51 @@ const Page = () => {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {/* 목표 달성 */}
-      <GoalProgress props={{label: '목표 달성', value: 100, currentValue: 50}} />
+    <Box padding={6}>
+      {/* 기업 이름과 목표 달성 */}
+      <HStack spaceY={6} paddingBottom={6} alignItems="center">
+        {currentOrganization && <OrganizationCard organization={currentOrganization} />}
+        {emissionGoalsByYear && (
+          <GoalProgress
+            props={{
+              label: '목표 달성',
+              currentValue: currentYearEmissions?.total || 0,
+              id: currentOrganization?._id || ''
+            }}
+          />
+        )}
+      </HStack>
 
-      {/* Each section handles its own loading state */}
-      <StatsSection
-        currentYearEmissions={currentYearEmissions}
-        previousYearEmissions={previousYearEmissions}
-        currentYearMonthlyEmissions={currentYearMonthlyEmissions}
-        previousYearMonthlyEmissions={previousYearMonthlyEmissions}
-        organizationRevenueRecords={organizationRevenueRecords}
-        year={year}
-        month={month}
-        isLoading={isStatsLoading}
-      />
+      {/* 통계 섹션 */}
+      <Box marginBottom={8}>
+        <StatsSection
+          currentYearEmissions={currentYearEmissions}
+          previousYearEmissions={previousYearEmissions}
+          currentYearMonthlyEmissions={currentYearMonthlyEmissions}
+          previousYearMonthlyEmissions={previousYearMonthlyEmissions}
+          organizationRevenueRecords={organizationRevenueRecords}
+          year={year}
+          month={month}
+          isLoading={isStatsLoading}
+        />
+      </Box>
 
-      <SimpleGrid width="full" columns={2} alignItems="flex-end" gap={4} mt={6}>
-        <GridItem>
+      {/* 그래프 섹션 */}
+      <SimpleGrid columns={{base: 1, md: 2}} spaceY={1} paddingX="50px">
+        <Box>
           <ScopeBoxSection
             currentYearEmissions={currentYearEmissions}
             isLoading={isScopeLoading}
           />
-        </GridItem>
-        <GridItem>
+        </Box>
+        <Box>
           <EmissionBarSection
             historicalYearlyEmissions={historicalYearlyEmissions}
             isLoading={isHistoricalDataLoading}
           />
-        </GridItem>
+        </Box>
       </SimpleGrid>
-    </div>
+    </Box>
   )
 }
 

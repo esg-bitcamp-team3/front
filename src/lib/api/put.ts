@@ -1,5 +1,5 @@
 import apiClient from './apiClient'
-import {ISubsidiary} from './interfaces/retrieveInterfaces'
+import {ICarbonEmissionGoal, ISubsidiary} from './interfaces/retrieveInterfaces'
 import {useEffect, useState} from 'react'
 import {Response} from './type'
 
@@ -33,4 +33,20 @@ export async function updateSubsidiary(id: string, data: Partial<ISubsidiary>) {
     }
     throw error // 예외 발생 시 다시 throw
   }
+}
+
+export async function updateEmissionGoal({
+  id,
+  data
+}: {
+  id: string
+  data: Partial<ICarbonEmissionGoal>
+}) {
+  return await apiClient.put<Response<ICarbonEmissionGoal>, Partial<ICarbonEmissionGoal>>(
+    `/carbon-emission-goals/${id}`,
+    {
+      body: data,
+      withAuth: true
+    }
+  )
 }
