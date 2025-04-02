@@ -64,7 +64,7 @@ export const AddSubsidiary = () => {
     <Dialog.RootProvider value={dialog} size={'xl'}>
       <Dialog.Trigger asChild>
         <Button variant="ghost" size="xl">
-          추가 하기
+          추가하기
         </Button>
       </Dialog.Trigger>
       <Portal>

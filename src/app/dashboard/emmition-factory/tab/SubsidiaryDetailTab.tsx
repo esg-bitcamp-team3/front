@@ -2,10 +2,13 @@
 
 import {TabContentData} from '@/app/ui/dashboard/emmition-factory/subTabData'
 import SubsidiaryDetail from '@/app/ui/dashboard/emmition-factory/tabs'
-import {Box, Tabs, Text} from '@chakra-ui/react'
-import {ReactNode, useState} from 'react'
+import {Box, Flex, Tabs, Text} from '@chakra-ui/react'
+import {ReactNode, useEffect, useState} from 'react'
 import {LuFolder, LuSettings, LuSquareCheck} from 'react-icons/lu'
 import SubsidiaryDetailData from '../[id]/SubsidiaryDetail'
+import {ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
+import {toaster} from '@/components/ui/toaster'
+import {getSubsidiaryById} from '@/lib/api/get'
 
 interface TabContentProps {
   value: string
@@ -58,9 +61,33 @@ function TabTrigger({icon, value, label}: TabTriggerProps) {
 }
 
 const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
+  const [subsidiary, setSubsidiary] = useState<ISubsidiary>()
+  const fetchSubsidiary = async (id: string) => {
+    try {
+      const response = await getSubsidiaryById(id)
+      setSubsidiary(response.data)
+    } catch (error) {
+      toaster.error({
+        title: 'Failed to fetch subsidiary data',
+        description: 'Could not retrieve the subsidiary information.'
+      })
+    }
+  }
+  useEffect(() => {
+    if (subsidiaryId) {
+      fetchSubsidiary(subsidiaryId)
+    }
+  }, [subsidiaryId])
   const [tab, setTab] = useState('detail')
   return (
     <Box borderBottom="1px">
+      {' '}
+      <Flex justify="space-between" align="center" paddingTop={5} paddingLeft={10}>
+        <Text textStyle="xl" fontWeight="bold">
+          {subsidiary?.name || '-'}
+        </Text>
+      </Flex>
+      <br />
       <Tabs.Root
         value={tab}
         onValueChange={e => setTab(e.value)}

@@ -11,16 +11,33 @@ const links = [
     href: '/dashboard/emmition-factory',
     icon: DocumentDuplicateIcon
   },
-  {name: '기업', href: '/dashboard/organization', icon: DocumentDuplicateIcon}
+  {
+    name: '기업',
+    href: '/dashboard/organization',
+    icon: DocumentDuplicateIcon
+  },
+  {
+    name: '정보',
+    href: '/dashboard/factor',
+    icon: DocumentDuplicateIcon
+  }
 ]
 
 export default function NavLinks() {
   const pathname = usePathname()
 
+  // ✅ 정확히 일치 or 하위 경로만 활성화
+  const isActive = (href: string) => {
+    if (href === '/dashboard') return pathname === href
+    return pathname === href || pathname.startsWith(href + '/')
+  }
+
   return (
     <>
       {links.map(link => {
         const LinkIcon = link.icon
+        const active = isActive(link.href)
+
         return (
           <Link
             key={link.name}
@@ -35,7 +52,7 @@ export default function NavLinks() {
             fontSize="sm"
             fontWeight="medium"
             rounded="md"
-            _hover={{bg: 'sky.100', color: 'green.400'}}
+            _hover={{bg: 'sky.100', color: 'black'}}
             md={{
               display: 'flex',
               justifyContent: 'start',
@@ -43,13 +60,11 @@ export default function NavLinks() {
               p: 2,
               flex: 'none'
             }}
-            color={pathname === link.href ? 'green.400' : 'inherit'}
-            bg={pathname === link.href ? 'sky.100' : 'gray.50'}>
+            color={active ? 'black' : 'inherit'}
+            bg={active ? 'sky.100' : 'gray.50'}>
             <LinkIcon width={6} />
 
-            <Box
-              display={{base: 'none', md: 'block'}}
-              bg={pathname === link.href ? 'sky.100' : 'gray.50'}>
+            <Box display={{base: 'none', md: 'block'}} bg="transparent">
               {link.name}
             </Box>
           </Link>
