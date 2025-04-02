@@ -16,6 +16,7 @@ import {
   ICarbonEmissionGoalsByYear,
   IMonthlyEmissionData,
   IOrganization,
+  IOrganizationData,
   IOrganizationRevenueByYear,
   IRevenueRecord,
   IScopeData,
@@ -40,8 +41,8 @@ import {PieForOrganization} from './components/pie'
 
 // Define prop types for components
 interface StatsSectionProps {
-  currentYearEmissions: IScopeData | undefined
-  previousYearEmissions: IScopeData | undefined
+  currentYearEmissions: IOrganizationData | undefined
+  previousYearEmissions: IOrganizationData | undefined
   currentYearMonthlyEmissions: IMonthlyEmissionData | undefined
   previousYearMonthlyEmissions: IMonthlyEmissionData | undefined
   organizationRevenueRecords: IOrganizationRevenueByYear | undefined
@@ -51,7 +52,7 @@ interface StatsSectionProps {
 }
 
 interface ScopeBoxSectionProps {
-  currentYearEmissions: IScopeData | undefined
+  currentYearEmissions: IOrganizationData | undefined
   isLoading: boolean
 }
 
@@ -180,8 +181,8 @@ const Page = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>()
   const [organizationRevenueRecords, setOrganizationRevenueRecords] =
     useState<IOrganizationRevenueByYear>()
-  const [currentYearEmissions, setCurrentYearEmissions] = useState<IScopeData>()
-  const [previousYearEmissions, setPreviousYearEmissions] = useState<IScopeData>()
+  const [currentYearEmissions, setCurrentYearEmissions] = useState<IOrganizationData>()
+  const [previousYearEmissions, setPreviousYearEmissions] = useState<IOrganizationData>()
   const [currentYearMonthlyEmissions, setCurrentYearMonthlyEmissions] =
     useState<IMonthlyEmissionData>()
   const [previousYearMonthlyEmissions, setPreviousYearMonthlyEmissions] =
@@ -247,14 +248,9 @@ const Page = () => {
         getOrganizaionRevenueByYear({id: id})
       ])
 
-      console.log('current', currentYearMonthlyEmissionData.data)
-      console.log('prev', previousYearMonthlyEmissionData.data)
-
       setCurrentYearMonthlyEmissions(currentYearMonthlyEmissionData.data)
       setPreviousYearMonthlyEmissions(previousYearMonthlyEmissionData.data)
       setOrganizationRevenueRecords(organizationRevenueRecordsByYear.data)
-      console.log('asdfasdfa', organizationRevenueRecordsByYear)
-      console.log(id)
 
       setIsStatsLoading(false)
 

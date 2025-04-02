@@ -1,12 +1,12 @@
-import {IScopeData} from '@/lib/api/interfaces/retrieveInterfaces'
+import {IOrganization, IOrganizationData} from '@/lib/api/interfaces/retrieveInterfaces'
 import {Box, Color, HStack} from '@chakra-ui/react'
 import {ArcElement, ChartOptions, Chart, SubTitle, Title} from 'chart.js'
 import {useState} from 'react'
 import {Doughnut, Pie} from 'react-chartjs-2'
-import {DoughnutLabelAnnotationOptions} from 'chartjs-plugin-annotation'
-Chart.register(ArcElement, SubTitle, Title)
+import Annotation, {DoughnutLabelAnnotationOptions} from 'chartjs-plugin-annotation'
+Chart.register(ArcElement, SubTitle, Title, Annotation)
 
-export function PieForOrganization({datas}: {datas: IScopeData}) {
+export function PieForOrganization({datas}: {datas: IOrganizationData}) {
   const options: ChartOptions<'doughnut'> = {
     responsive: true, // 반응형 지원
     interaction: {
@@ -17,10 +17,17 @@ export function PieForOrganization({datas}: {datas: IScopeData}) {
       annotation: {
         annotations: {
           dLabel: {
-            type: 'doughnutLabel',
-            content: ['Total', datas.total, '1 years'],
-            font: [{size: 60}, {size: 50}, {size: 30}],
-            color: ['black', 'red', 'grey']
+            type: 'label',
+            content: ['Total', `${datas.total}`, '1 year'],
+            font: {
+              size: 20
+            },
+            color: 'black',
+            position: {
+              x: '50%',
+              y: '50%'
+            },
+            textAlign: 'center'
           }
         }
       },
