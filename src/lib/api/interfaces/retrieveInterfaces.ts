@@ -108,7 +108,20 @@ export interface IIndirectEmissionFromSteam {
   activityData?: E.ActivityDataForSteam // 활동자료
   total?: number // 합계 배출량
   uncertainty?: number // 불확도
-  data?: number[] // 월별 배출량
+  data1: number // 1월 배출량
+  data2: number // 2월 배출량
+  data3: number // 3월 배출량
+  data4: number // 4월 배출량
+  data5: number // 5월 배출량
+  data6: number // 6월 배출량
+  data7: number // 7월 배출량
+  data8: number // 8월 배출량
+  data9: number // 9월 배출량
+  data10: number // 10월 배출량
+  data11: number // 11월 배출량
+  data12: number // 12월 배출량
+  createdBy: string // 작성자
+  updatedBy: string // 수정자
 }
 
 export interface IEmissionFromStationaryCombustion {
@@ -121,7 +134,20 @@ export interface IEmissionFromStationaryCombustion {
   activityData?: E.ActivityDataForStationaryCombustion // 활동자료
   total?: number // 합계 배출량
   uncertainty?: number // 불확도
-  data?: number[] // 월별 배
+  data1: number // 1월 배출량
+  data2: number // 2월 배출량
+  data3: number // 3월 배출량
+  data4: number // 4월 배출량
+  data5: number // 5월 배출량
+  data6: number // 6월 배출량
+  data7: number // 7월 배출량
+  data8: number // 8월 배출량
+  data9: number // 9월 배출량
+  data10: number // 10월 배출량
+  data11: number // 11월 배출량
+  data12: number // 12월 배출량
+  createdBy: string // 작성자
+  updatedBy: string // 수정자
 }
 
 export interface IEmissionInfo {
@@ -158,7 +184,20 @@ export interface IEmissionFromMobileCombustion {
   activityData: E.ActivityDataForMobileCombustion // 활동자료
   total: number // 합계 배출량
   uncertainty: number // 불확도
-  data: number[] // 월별 배출량
+  data1: number // 1월 배출량
+  data2: number // 2월 배출량
+  data3: number // 3월 배출량
+  data4: number // 4월 배출량
+  data5: number // 5월 배출량
+  data6: number // 6월 배출량
+  data7: number // 7월 배출량
+  data8: number // 8월 배출량
+  data9: number // 9월 배출량
+  data10: number // 10월 배출량
+  data11: number // 11월 배출량
+  data12: number // 12월 배출량
+  createdBy: string // 작성자
+  updatedBy: string // 수정자
 }
 
 export interface IIndirectEmissionFromElectricity {
@@ -171,7 +210,20 @@ export interface IIndirectEmissionFromElectricity {
   activityData: E.ActivityDataForElectricity // 활동자료
   total: number // 합계 배출량
   uncertainty: number // 불확도
-  data: number[] // 월별 배출량
+  data1: number // 1월 배출량
+  data2: number // 2월 배출량
+  data3: number // 3월 배출량
+  data4: number // 4월 배출량
+  data5: number // 5월 배출량
+  data6: number // 6월 배출량
+  data7: number // 7월 배출량
+  data8: number // 8월 배출량
+  data9: number // 9월 배출량
+  data10: number // 10월 배출량
+  data11: number // 11월 배출량
+  data12: number // 12월 배출량
+  createdBy: string // 작성자
+  updatedBy: string // 수정자
 }
 
 export interface IScopeData {

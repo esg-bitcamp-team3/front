@@ -27,7 +27,9 @@ export default function SideNav() {
         h={{base: '20', md: '40'}}
         p={4}
         rounded="md"
-        bg="blue.600"
+        style={{
+          backgroundClip: ' #5fba71'
+        }}
         href="/">
         <Box w={{base: '32', md: '40'}} bg="black" color="white" />
       </Link>

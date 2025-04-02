@@ -13,16 +13,17 @@ export default function Page() {
       p={6}
       bg="white"
       style={{
-        backgroundImage: 'url("/bg.jpg")', // 배경 이미지 설정
-        backgroundSize: 'cover', // 배경 이미지가 화면 크기에 맞게 크기 조정
-        backgroundPosition: 'center', // 배경 이미지가 화면 중앙에 위치하도록 설정
-        backgroundRepeat: 'no-repeat' // 배경 이미지 반복 방지
+        backgroundImage:
+          'linear-gradient(to right top, #a4b33a, #82b855, #5fba71, #3bba8d, #14b8a6)',
+        backgroundSize: 'cover', // 배경이 화면 크기에 맞게 크기 조정
+        backgroundPosition: 'center', // 배경이 화면 중앙에 위치하도록 설정
+        backgroundRepeat: 'no-repeat' // 배경 반복 방지
       }}>
       {/* 상단 타이틀과 로고 */}
-      <Text
+      <Box
         className={lusitana.className}
         fontSize={{base: 'xl', md: '3xl'}}
-        color="green.600"
+        color="white"
         lineHeight={{md: 'normal'}}
         mb={6}
         textAlign="center">
@@ -37,24 +38,22 @@ export default function Page() {
               />{' '}
             </Button>
           </Link>
-          <strong>Welcome to Green Gauge</strong>
+          <Heading textStyle="3xl">Welcome to Green Gauge</Heading>
         </Box>
-      </Text>
+      </Box>
 
       {/* 환경 관련 메시지, 로그인 버튼을 중앙에 배치 */}
       <Box
         display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column" // 버튼을 세로로 정렬
-        bg="rgba(0, 0, 0, 0.5)" // 투명한 배경을 넣어 이미지가 보이도록 설정
+        justifyContent="start"
+        alignItems="center" // 콘텐츠를 수직 중앙 정렬
+        // 버튼을 세로로 정렬
         borderRadius="lg"
         p={8}
-        mb={8}
-        w={'100%'}
-        mx={0}>
-        <Stack align="center" textAlign="center">
-          <Heading size="4xl" color="white">
+        mt={200}
+        w={'100%'}>
+        <Stack align="start" textAlign="start" margin="auto" ml={10} width={'40%'}>
+          <Heading size="6xl" color="white" fontWeight="bold">
             Green Gauge
           </Heading>
           <Text mb="3" fontSize="lg" color="white">
@@ -64,13 +63,12 @@ export default function Page() {
           <Link href="/login">
             <Button
               as="a"
-              bg="green.500"
               color="white"
-              _hover={{bg: 'green.400'}}
               size="lg"
               borderRadius="md"
               fontWeight="bold"
-              padding={4}>
+              padding={4}
+              colorPalette="gray">
               Login <LuArrowRight size="xl" />
             </Button>
           </Link>
@@ -92,11 +90,12 @@ export default function Page() {
         p={50}
         borderRadius="lg"
         mt="auto" // 푸터를 화면 하단에 고정시킴
+        opacity={0.6} // 투명도 조정
       >
-        <Text fontSize="lg" textAlign="center">
+        <Text fontSize="md" textAlign="center">
           <strong>Green Gauge</strong> | Making the World Greener Together
         </Text>
-        <Text fontSize="lg" textAlign="center" mt={2}>
+        <Text fontSize="sm" textAlign="center" mt={2}>
           Address: 123 Green St, Eco City, Earth
         </Text>
         <Text fontSize="xs" textAlign="center" mt={1}>

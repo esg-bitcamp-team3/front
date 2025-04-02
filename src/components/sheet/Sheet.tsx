@@ -870,12 +870,14 @@ export interface SpreadsheetProps {
   emissionActivity: string[]
   emissionData: IEmissionInfo[]
   onDelete: (id: string) => void
+  onUpdate: (id: string, data: Partial<IEmissionForm>) => void
 }
 const Spreadsheet = ({
   activityData,
   emissionActivity,
   emissionData,
-  onDelete
+  onDelete,
+  onUpdate
 }: SpreadsheetProps) => {
   // Add state to store all emission IDs
   const [emissionDataIds, setEmissionDataIds] = useState<string[]>([])
@@ -956,10 +958,7 @@ const Spreadsheet = ({
 
           console.log(rowData)
 
-          return updateEmissionDataFromElectricity({
-            id: _id,
-            data: updateData
-          })
+          return onUpdate(_id, updateData)
         })
 
         // Wait for all requests to complete

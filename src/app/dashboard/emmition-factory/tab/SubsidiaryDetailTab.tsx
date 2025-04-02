@@ -1,5 +1,6 @@
 'use client'
 
+import {TabContentData} from '@/app/ui/dashboard/emmition-factory/subTabData'
 import SubsidiaryDetail from '@/app/ui/dashboard/emmition-factory/tabs'
 import {Box, Tabs, Text} from '@chakra-ui/react'
 import {ReactNode, useState} from 'react'
@@ -80,7 +81,10 @@ const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
         <TabContent
           value="graph"
           children={<SubsidiaryDetail subsidiaryId={subsidiaryId} />}></TabContent>
-        <TabContent value="data" children={<Text></Text>} />
+        <TabContent
+          value="data"
+          children={<TabContentData subsidiaryId={subsidiaryId} />}
+        />
         <TabContent value="settings" children={<Text>Settings</Text>}></TabContent>
       </Tabs.Root>
     </Box>

@@ -13,3 +13,21 @@ export async function deleteEmissionDataFromElectricity(id: string) {
     withAuth: true
   })
 }
+
+export async function deleteEmissionDataFromSteam(id: string) {
+  return await apiClient.delete<Response<string>>(`/data/steam/${id}`, {
+    withAuth: true
+  })
+}
+
+export async function deleteEmissionDataFromMobileCombustion(id: string) {
+  return await apiClient.delete<Response<string>>(`/data/mobile-combustion/${id}`, {
+    withAuth: true
+  })
+}
+
+export async function deleteEmissionDataFromStationaryCombustion(id: string) {
+  return await apiClient.delete<Response<string>>(`/data/stationary-combustion/${id}`, {
+    withAuth: true
+  })
+}

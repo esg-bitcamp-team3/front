@@ -20,49 +20,64 @@ import {useEffect, useState} from 'react'
 import {IEmissionInfo, IFuelInfo} from '@/lib/api/interfaces/retrieveInterfaces'
 import {deleteEmissionDataFromElectricity} from '@/lib/api/delete'
 import {EmissionActivityTypeForMobileCombustion} from '@/lib/api/interfaces/enumTypes'
+import {updateEmissionDataFromElectricity} from '@/lib/api/put'
+import {
+  ActivityDataType,
+  EmissionProps
+} from '@/app/ui/dashboard/emmition-factory/subTabData'
+import {IEmissionForm} from '@/lib/api/interfaces/updateForm'
+import {useForm} from 'react-hook-form'
+import AddSpreadsheet from './AddSheet'
+import {Data} from '@react-google-maps/api'
 
-enum ActivityDataType {
-  FIXED_COMBUSTION = '고정연소',
-  MOBILE_COMBUSTION = '이동연소',
-  INDIRECT_ELECTRICITY = '간접(전기)',
-  INDIRECT_STEAM = '간접(스팀)'
-}
-
-const ModifyEmissionData = ({type}: {type: ActivityDataType}) => {
+const AddEmissionData = (props: EmissionProps & {subsidiaryId: string}) => {
+  const {
+    getEmissionData,
+    getActivityData,
+    putEmissionData,
+    deleteEmissionData,
+    createEmissionData,
+    emissionData,
+    subsidiaryId
+  } = props
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
-  const [totalCount, setTotalCount] = useState<number>(0)
   const [data, setData] = useState<IEmissionInfo[]>([])
+  const [totalCount, setTotalCount] = useState<number>(0)
   const [activityData, setActivityData] = useState<IFuelInfo[]>([])
   const [emissionActivity, setEmissionActivity] = useState<string[]>([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getEmissionDataFromElectricity({
-        id: '67e4cd11523dba9aa704a577',
-        page,
-        pageSize
-      })
-      console.log(response.data)
-      setData(response.data)
-      setTotalCount(response.total)
-    }
-    fetchData()
-
     const fetchActivityData = async () => {
-      const response = await getActivityDataForElectricity()
-      console.log(response.data)
-      setActivityData(response.data)
+      try {
+        const response = await getActivityData()
+        setActivityData(response.data)
+      } catch (error) {
+        console.error(`Failed to fetch activity data`, error)
+      }
     }
-    fetchActivityData()
 
-    setEmissionActivity(Object.values(EmissionActivityTypeForMobileCombustion))
+    fetchActivityData()
+    setEmissionActivity(emissionData)
   }, [page, pageSize])
+
+  const handleCreate = async (data: IEmissionForm) => {
+    try {
+      console.log('asefdf')
+      const response = await createEmissionData({
+        data: data
+      })
+    } catch (error) {
+      console.error('Error creating data:', error)
+    }
+  }
 
   return (
     <Dialog.Root size="cover">
       <Dialog.Trigger asChild>
-        <Button>asdf</Button>
+        <Button colorPalette="teal" variant="solid" px={4} size={'xs'}>
+          데이터 추가하기
+        </Button>
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
@@ -72,18 +87,17 @@ const ModifyEmissionData = ({type}: {type: ActivityDataType}) => {
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>
             <Dialog.Header>
-              <Dialog.Title>Modify Emission Data</Dialog.Title>
+              <Dialog.Title>데이터 추가하기</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
               <VStack width="100%">
-                {data.length > 0 && (
-                  <Spreadsheet
-                    activityData={activityData}
-                    emissionActivity={emissionActivity}
-                    emissionData={data}
-                    onDelete={deleteEmissionDataFromElectricity}
-                  />
-                )}
+                <AddSpreadsheet
+                  activityData={activityData}
+                  emissionActivity={emissionActivity}
+                  emissionData={data}
+                  subsidaryId={subsidiaryId}
+                  onCreate={handleCreate}
+                />
                 <Pagination.Root
                   page={page}
                   count={totalCount}
@@ -120,4 +134,4 @@ const ModifyEmissionData = ({type}: {type: ActivityDataType}) => {
   )
 }
 
-export default ModifyEmissionData
+export default AddEmissionData
