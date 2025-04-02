@@ -2,9 +2,8 @@
 
 import NavLinks from '@/app/ui/dashboard/nav-links'
 import {logout} from '@/lib/api/auth'
-import {Box, Link, Flex, Button} from '@chakra-ui/react'
+import {Box, Link, Flex, Button, Image, Text, Heading} from '@chakra-ui/react'
 import {useRouter} from 'next/navigation'
-import {FiPower} from 'react-icons/fi' // Using react-icons for the power icon
 import {LuLogOut} from 'react-icons/lu'
 
 export default function SideNav() {
@@ -17,23 +16,43 @@ export default function SideNav() {
       console.log(error)
     }
   }
+
   return (
     <Box display="flex" h="full" flexDirection="column" px={3} py={4} md={{px: 2}}>
+      {/* 로고/홈 이미지 링크 */}
       <Link
+        href="/"
+        mb={8}
         display="flex"
-        alignItems="end"
-        justifyContent="start"
-        mb={2}
-        h={{base: '20', md: '40'}}
-        p={4}
-        rounded="md"
-        style={{
-          backgroundClip: ' #5fba71'
-        }}
-        href="/">
-        <Box w={{base: '32', md: '40'}} bg="black" color="white" />
+        justifyContent="center"
+        alignItems="center"
+        height="150px"
+        width="250px">
+        <Box
+          bg="black"
+          padding={2}
+          width="100%"
+          bg="#5fba71"
+          borderRadius="lg"
+          height={'100%'}
+          alignItems="center">
+          <Heading
+            paddingX={10}
+            paddingBottom={10}
+            textStyle="6xl"
+            color={'white'}
+            fontWeight="bold "
+            fontStyle={''}
+            display="flex"
+            alignItems="end"
+            justifyContent="center"
+            gap={100}>
+            Green Gauge
+          </Heading>
+        </Box>
       </Link>
 
+      {/* 네비게이션 및 로그아웃 버튼 */}
       <Flex
         direction={{base: 'row', md: 'column'}}
         justify="space-between"

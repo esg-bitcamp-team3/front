@@ -89,7 +89,12 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
   return (
     <Dialog.RootProvider value={dialog} size={'xl'}>
       <Dialog.Trigger asChild>
-        <Button variant="ghost" size="xl">
+        <Button
+          variant="surface"
+          colorPalette="red"
+          border={'20px'}
+          size="xl"
+          padding={2}>
           사업장 삭제
         </Button>
       </Dialog.Trigger>
@@ -109,17 +114,13 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
 
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
-                  <Button
-                    type="submit"
-                    m={-1}
-                    backgroundColor={'gray.500'}
-                    color={'white'}>
-                    삭제하기
+                  <Button variant="ghost" padding={2}>
+                    취소
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button variant="outline" m={0} color={'red'} borderColor={'red'}>
-                    취소
+                  <Button type="submit" variant={'ghost'} colorPalette="red" padding={2}>
+                    삭제하기
                   </Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>

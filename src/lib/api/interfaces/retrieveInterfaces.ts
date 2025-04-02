@@ -33,6 +33,13 @@ export interface IOrganizationInfo {
   subsidiaries: ISubsidiary[]
 }
 
+export interface IUserInfo {
+  name: string
+  username: string
+  password: string
+  email: string
+}
+
 export interface ISubsidiary {
   longitude(longitude: any): unknown
   latitude(latitude: any): unknown

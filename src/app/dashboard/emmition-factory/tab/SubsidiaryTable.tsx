@@ -95,15 +95,19 @@ const SubsidiaryTable = () => {
 
   return (
     <Flex direction="column" gap="4">
-      <Text textStyle="lg" fontWeight="bold">
-        사업장 목록
-      </Text>
+      <Flex justify="space-between" align="center" paddingTop={5} paddingLeft={10}>
+        <Text textStyle="xl" fontWeight="bold">
+          사업장 목록
+        </Text>
+      </Flex>
+
       <Flex justify="end" align="center">
         <SearchBar onSearch={handleSearch} />
       </Flex>
       <Flex justify="end" align="center">
         <AddSubsidiary />
       </Flex>
+
       <Separator />
       <TableRoot size="lg" borderRadius="md" border="1px">
         <TableHeader fontSize="sm" textAlign="center">
