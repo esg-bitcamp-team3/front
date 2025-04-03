@@ -19,15 +19,15 @@ const YearSelector = ({props}: {props: YearSelectorProps}) => {
 
   return (
     <Select.Root
+      size="sm"
       collection={yearList}
       width="320px"
       value={[value]}
       onValueChange={e => onValueChange(e.value[0])}>
       <Select.HiddenSelect />
-      <Select.Label>선택 연도</Select.Label>
       <Select.Control>
         <Select.Trigger>
-          <Select.ValueText placeholder="Select Year" />
+          <Select.ValueText padding={2} placeholder="연도를 선택하세요" />
         </Select.Trigger>
         <Select.IndicatorGroup>
           <Select.Indicator />
@@ -37,7 +37,7 @@ const YearSelector = ({props}: {props: YearSelectorProps}) => {
         <Select.Positioner>
           <Select.Content>
             {yearList.items.map(year => (
-              <Select.Item item={year} key={year}>
+              <Select.Item padding={2} item={year} key={year}>
                 {year}
                 <Select.ItemIndicator />
               </Select.Item>
