@@ -11,10 +11,9 @@ import {
   IScopeData,
   ICarbonEmissionGoal,
   ICarbonEmissionGoalsByYear,
-  IChangeLogInfo
+  IChangeLogInfo,
   IOrganizationRevenueByYear,
-  IOrganizationData,
-  IChangeLogInfoBySubsidiary
+  IOrganizationData
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 

@@ -2,11 +2,7 @@
 
 import {deleteSubsidiary} from '@/lib/api/delete'
 import {toaster} from '@/components/ui/toaster'
-import {
-  IOrganization,
-  IOrganizationRevenue,
-  ISubsidiary
-} from '@/lib/api/interfaces/retrieveInterfaces'
+import {IOrganization, ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
 import {
   Button,
   CloseButton,
@@ -37,7 +33,7 @@ const SubsidiaryListTab = () => {
     try {
       const response = await getMyOrganizations()
       setSubsidiaryList(response.data.subsidiaries)
-      setOrganization(response.data.organization.organization)
+      setOrganization(response.data.organization)
     } catch (error) {
       router.push('/login')
     }

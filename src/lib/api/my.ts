@@ -1,5 +1,5 @@
 import apiClient from './apiClient'
-import {ILogByDate, IOrganizationInfo, IUserInfo} from './interfaces/retrieveInterfaces'
+import {ILogByData, IOrganizationInfo, IUserInfo} from './interfaces/retrieveInterfaces'
 import {ListResponse, Response} from './type'
 
 export async function getMyOrganizations() {
@@ -14,7 +14,7 @@ export async function getMyUser() {
 }
 
 export async function getMyChangeLogs() {
-  return await apiClient.get<Response<ILogByDate>>(`/my/change-logs`, {
+  return await apiClient.get<Response<ILogByData>>(`/my/change-logs`, {
     withAuth: true
   })
 }

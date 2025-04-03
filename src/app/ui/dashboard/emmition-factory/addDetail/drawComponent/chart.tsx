@@ -137,21 +137,6 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         borderColor: '#ABE0AD',
         tension: 0.1
       }
-      // {
-      //   label: '간접연소(전기)',
-      //   data: processedElectricData,
-      //   fill: false,
-      //   borderColor: '#ABE0AD',
-      //   tension: 0.1
-      // }
-      // ,
-      // {
-      //   label: '간접연소(스팀)',
-      //   data: processedSteamData,
-      //   fill: false,
-      //   borderColor: '#ABE0AD',
-      //   tension: 0.1
-      // }
     ]
   }
 
