@@ -1,6 +1,7 @@
 import * as E from './enumTypes'
 
 export interface IOrganization {
+  organization(organization: any): unknown
   _id: string
   name: string // 법인명
   representative: string // 대표자
@@ -31,6 +32,13 @@ export interface IOrganizationRevenueByYear {
 export interface IOrganizationInfo {
   organization: IOrganization
   subsidiaries: ISubsidiary[]
+}
+
+export interface IUserInfo {
+  name: string
+  username: string
+  password: string
+  email: string
 }
 
 export interface ISubsidiary {
@@ -80,6 +88,14 @@ export interface IEmissionFactor {
   efCO2_mobile: number // CO2 배출계수 (이동연소)
   efCH4_mobile: number // CH4 배출계수 (이동연소)
   efN2O_mobile: number // N2O 배출계수 (이동연소)
+
+  efCO2_electric: number //전기 배출계수
+  efCH4_electric: number
+  efN2O_electric: number
+
+  a_steam: number
+  b_steam: number
+  c_steam: number
 }
 
 export interface ICalorificValue {
@@ -284,4 +300,35 @@ export interface IOrganizationData {
   electric: number
   steam: number
   total: number
+}
+
+// export interface IChangeLogInfoBySubsidiary {
+//   subsidiary: ISubsidiary
+//   emissionData: {
+//     data: IEmissionInfo
+//     logs: IChangeLogInfo[]
+//   }[]
+// }
+
+export interface ILog {
+  subsidiary: ISubsidiary
+  emissoinData: IEmissionInfo
+  changeLog: IChangeLogInfo
+}
+// export interface IlogByDate {
+//   date: string
+//   log: ILog[]
+// }
+
+export interface ILogByDate {
+  [date: string]: {log: ILog[]}
+}
+
+export interface IChangeLogInfo {
+  entityId: string
+  fieldName: string
+  oldValue: number | string
+  newValue: number | string
+  modifiedBy?: IUserInfo
+  modifiedAt?: string
 }
