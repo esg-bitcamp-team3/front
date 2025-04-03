@@ -61,9 +61,9 @@ export function TotalState({
   const changeSteamColor = isSteamIncrease ? 'red.500' : 'green.500'
 
   return (
-    <HStack spaceX={10}>
+    <HStack spaceX={20}>
       {/* Total state */}
-      <Stat.Root size="md">
+      <Stat.Root size="lg">
         <Stat.Label fontWeight="bold" color="rgb(206,182,236)">
           총 배출량
         </Stat.Label>

@@ -11,7 +11,7 @@ import {
   IScopeData,
   ICarbonEmissionGoal,
   ICarbonEmissionGoalsByYear,
-  IChangeLogInfo
+  IChangeLogInfo,
   IOrganizationRevenueByYear,
   IOrganizationData
 } from './interfaces/retrieveInterfaces'
