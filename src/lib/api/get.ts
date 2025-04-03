@@ -11,6 +11,7 @@ import {
   IScopeData,
   ICarbonEmissionGoal,
   ICarbonEmissionGoalsByYear,
+  IChangeLogInfo
   IOrganizationRevenueByYear,
   IOrganizationData,
   IChangeLogInfoBySubsidiary
@@ -301,6 +302,54 @@ export async function getCalculatedMothlyEmissionOfSubsidiary({
 export async function getCarbonEmissionGoalsOfOrganization({id}: {id: string}) {
   return await apiClient.get<Response<ICarbonEmissionGoalsByYear>>(
     `/carbon-emission-goals/organization/${id}`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+{
+  /* Change Logs */
+}
+
+export async function getChangeLogsOfEmissionDataFromElectricity({id}: {id: string}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/electricity/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getChangeLogsOfEmissionDataFromStationaryCombustion({
+  id
+}: {
+  id: string
+}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/stationary-combustion/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getChangeLogsOfEmissionDataFromMobileCombustion({
+  id
+}: {
+  id: string
+}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/mobile-combustion/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getChangeLogsOfEmissionDataFromSteam({id}: {id: string}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/steam/${id}/change-logs`,
     {
       withAuth: true
     }

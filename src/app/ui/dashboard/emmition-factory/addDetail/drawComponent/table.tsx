@@ -1,5 +1,6 @@
 'use effect'
 
+import ModifyEmissionData from '@/components/sheet/ModifyDialog'
 import {
   getEmissionDataFromStationaryCombustion,
   getEmissionDataFromMobileCombustion,
@@ -7,15 +8,12 @@ import {
   getEmissionDataFromSteam
 } from '@/lib/api/get'
 import {IEmissionInfo} from '@/lib/api/interfaces/retrieveInterfaces'
-import {ButtonGroup, IconButton, Pagination, Stack, Table, Text} from '@chakra-ui/react'
-import {useEffect, useState} from 'react'
-import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
 
-interface YearAndData {
-  year: string
-  subsidiaryId: string
-  dataType: string
-}
+import {Button, ButtonGroup, IconButton, Pagination, Stack, Table} from '@chakra-ui/react'
+import {use, useEffect, useState} from 'react'
+
+import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
+import {EmissionProps} from '../../subTabData'
 
 const months = [
   'Jan',
@@ -32,50 +30,7 @@ const months = [
   'Dec'
 ]
 
-export const StationTable = ({props}: {props: YearAndData}) => {
-  const {year, subsidiaryId, dataType} = props
-  const [page, setPage] = useState<number>(1)
-  const [total, setTotal] = useState<number>()
-
-  const [data, setData] = useState<IEmissionInfo[]>()
-
-  const pullData = async () => {
-    try {
-      let response
-      if (dataType === 'station') {
-        response = await getEmissionDataFromStationaryCombustion({
-          id: subsidiaryId,
-          year: year,
-          page: page
-        })
-      } else if (dataType === 'mobile') {
-        response = await getEmissionDataFromMobileCombustion({
-          id: subsidiaryId,
-          year: year,
-          page: page
-        })
-      } else if (dataType === 'electric') {
-        response = await getEmissionDataFromElectricity({
-          id: subsidiaryId,
-          year: year,
-          page: page
-        })
-      } else {
-        response = await getEmissionDataFromSteam({
-          id: subsidiaryId,
-          year: year,
-          page: page
-        })
-      }
-      setData(response?.data)
-      setTotal(response?.total)
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    pullData()
-  }, [year, page, dataType])
-
+export const StationTable = ({data}: {data: IEmissionInfo[]}) => {
   return (
     <Stack width="full" gap="5">
       <Stack direction="row" justifyContent="flex-end" pr="3">
@@ -84,6 +39,7 @@ export const StationTable = ({props}: {props: YearAndData}) => {
         </Text>
       </Stack>
       <Table.Root
+        marginTop={4}
         variant="outline"
         size="sm"
         borderWidth="1px"
@@ -191,36 +147,6 @@ export const StationTable = ({props}: {props: YearAndData}) => {
             ))}
         </Table.Body>
       </Table.Root>
-      {total && total > 0 && (
-        <Pagination.Root
-          page={page}
-          count={total}
-          pageSize={10}
-          defaultPage={1}
-          textAlign="center">
-          <ButtonGroup variant="ghost" size="sm">
-            <Pagination.PrevTrigger asChild>
-              <IconButton>
-                <LuChevronLeft />
-              </IconButton>
-            </Pagination.PrevTrigger>
-
-            <Pagination.Items
-              render={page => (
-                <IconButton variant={{base: 'ghost', _selected: 'outline'}}>
-                  {page.value}
-                </IconButton>
-              )}
-            />
-
-            <Pagination.NextTrigger asChild>
-              <IconButton>
-                <LuChevronRight />
-              </IconButton>
-            </Pagination.NextTrigger>
-          </ButtonGroup>
-        </Pagination.Root>
-      )}
     </Stack>
   )
 }
