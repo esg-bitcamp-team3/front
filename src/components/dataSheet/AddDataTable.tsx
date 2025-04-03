@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useMemo, useRef, useState} from 'react'
+import React, {memo, useMemo, useRef, useState} from 'react'
 import {HotTable, HotTableRef} from '@handsontable/react-wrapper'
 import {registerAllModules} from 'handsontable/registry'
 import 'handsontable/dist/handsontable.full.min.css'
@@ -457,6 +457,8 @@ const AddDataTable: React.FC<HandsontableProps> = ({
         afterChange={afterChangeCallback}
         afterValidate={afterValidationCallback}
         minSpareRows={1}
+        autoRowSize={false}
+        autoColumnSize={false}
         {...settings}
       />
       <ActionBar.Root open={true}>
