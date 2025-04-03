@@ -1,5 +1,8 @@
 import apiClient from './apiClient'
+import {ICarbonEmissionGoalForm} from './interfaces/form'
 import {
+  ICarbonEmissionGoal,
+  ICarbonEmissionGoalsByYear,
   IEmissionFromMobileCombustion,
   IEmissionFromStationaryCombustion,
   IEmissionInfo,
@@ -59,4 +62,14 @@ export async function createSteam({data}: {data: Partial<IEmissionForm>}) {
       withAuth: true
     }
   )
+}
+
+export async function createEmissionGoal(data: Partial<ICarbonEmissionGoalForm>) {
+  return await apiClient.post<
+    Response<ICarbonEmissionGoalForm>,
+    Partial<ICarbonEmissionGoalForm>
+  >(`/carbon-emission-goals`, {
+    body: data,
+    withAuth: true
+  })
 }

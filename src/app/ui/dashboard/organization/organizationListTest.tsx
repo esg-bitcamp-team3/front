@@ -43,7 +43,7 @@ export const OrganizaionInfoListTest = () => {
   const fetchOrgnization = async () => {
     try {
       const response = await getMyOrganizations()
-      setOrganization(response.data.organization.organization)
+      setOrganization(response.data.organization)
       setSubsidiaryList(response.data.subsidiaries)
     } catch (error) {
       toaster.error({
@@ -127,8 +127,15 @@ export const OrganizaionInfoListTest = () => {
       </Box> */}
 
       {/* 기업 정보와 사업장 정보를 나란히 표시 */}
+      <Flex justify="space-between" align="center" paddingTop={5} paddingLeft={10}>
+        <Text textStyle="xl" fontWeight="bolder">
+          기업정보
+        </Text>
+      </Flex>
+      <br />
       <Flex direction="row" justify="space-between" gap={6} mb={8}>
         {/* 기업 정보 박스 */}
+
         <Card.Root
           display="flex"
           flexDirection="column"
@@ -138,7 +145,7 @@ export const OrganizaionInfoListTest = () => {
           borderRadius="lg"
           boxShadow="sm">
           <Card.Title>
-            <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={4}>
+            <Text fontSize="md" fontWeight="bold" color="black" mb={4}>
               기업 정보
             </Text>
           </Card.Title>
@@ -239,7 +246,7 @@ export const OrganizaionInfoListTest = () => {
           flexGrow={1} // This ensures the box grows vertically to fill space
         >
           <Card.Title>
-            <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={4}>
+            <Text fontSize="md" fontWeight="bold" color="black" mb={4}>
               사업장정보
             </Text>
           </Card.Title>
@@ -395,6 +402,13 @@ export const OrganizaionInfoListTest = () => {
                   </Card.Root>
                 </Dialog.Body>
                 <Dialog.Footer>
+                  <Dialog.ActionTrigger asChild>
+                    <Link href={`/dashboard/emmition-factory/${subsidiary?._id}`}>
+                      <Button padding={4} variant="ghost">
+                        사업장 바로가기
+                      </Button>
+                    </Link>
+                  </Dialog.ActionTrigger>
                   <Dialog.ActionTrigger asChild>
                     <Button padding={4} variant="outline">
                       확인

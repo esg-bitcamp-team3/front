@@ -1,6 +1,7 @@
 import * as E from './enumTypes'
 
 export interface IOrganization {
+  organization(organization: any): unknown
   _id: string
   name: string // 법인명
   representative: string // 대표자
@@ -24,14 +25,20 @@ export interface IRevenueRecord {
   energyCost: number // 에너지 비용(원)
 }
 
-export interface IOrganizationRevenue {
-  organization: IOrganization
-  revenueRecords: IRevenueRecord[]
+export interface IOrganizationRevenueByYear {
+  [year: string]: IRevenueRecord
 }
 
 export interface IOrganizationInfo {
-  organization: IOrganizationRevenue
+  organization: IOrganization
   subsidiaries: ISubsidiary[]
+}
+
+export interface IUserInfo {
+  name: string
+  username: string
+  password: string
+  email: string
 }
 
 export interface ISubsidiary {
@@ -81,6 +88,14 @@ export interface IEmissionFactor {
   efCO2_mobile: number // CO2 배출계수 (이동연소)
   efCH4_mobile: number // CH4 배출계수 (이동연소)
   efN2O_mobile: number // N2O 배출계수 (이동연소)
+
+  efCO2_electric: number //전기 배출계수
+  efCH4_electric: number
+  efN2O_electric: number
+
+  a_steam: number
+  b_steam: number
+  c_steam: number
 }
 
 export interface ICalorificValue {
@@ -227,18 +242,31 @@ export interface IIndirectEmissionFromElectricity {
 }
 
 export interface IScopeData {
+  electric: number
+  mobile: number
   scope1: number
   scope2: number
+  stationary: number
+  steam: number
+  total: number
 }
 
 export interface IMonthlyEmissionData {
+  scope1: number[]
+  scope2: number[]
   stationary: number[]
   mobile: number[]
+  electric: number[]
+  steam: number[]
+  total: number[]
 }
+
 export interface IYearlyEmissionData {
   [year: number]: {
     stationary: number
     mobile: number
+    electric: number
+    steam: number
     total: number
   }
 }
@@ -246,6 +274,7 @@ export interface IYearlyEmissionData {
 export interface IMothlyData {
   stationary: number[]
   mobile: number[]
+  total: number[]
 }
 
 export interface ICarbonEmissionGoal {
@@ -259,18 +288,43 @@ export interface ICarbonEmissionGoalsByYear {
   [year: string]: ICarbonEmissionGoal
 }
 
-export interface IUser {
-  _id: string
-  name: string
-  email: string
-  username: string
+export interface IOrganizationData {
+  scope1: number
+  stationary: number
+  mobile: number
+  scope2: number
+  electric: number
+  steam: number
+  total: number
+}
+
+// export interface IChangeLogInfoBySubsidiary {
+//   subsidiary: ISubsidiary
+//   emissionData: {
+//     data: IEmissionInfo
+//     logs: IChangeLogInfo[]
+//   }[]
+// }
+
+export interface ILog {
+  subsidiary: ISubsidiary
+  emissoinData: IEmissionInfo
+  changeLog: IChangeLogInfo
+}
+// export interface IlogByDate {
+//   date: string
+//   log: ILog[]
+// }
+
+export interface ILogByDate {
+  [date: string]: {log: ILog[]}
 }
 
 export interface IChangeLogInfo {
   entityId: string
   fieldName: string
-  oldValue: any
-  newValue: any
-  modifiedBy?: IUser
+  oldValue: number | string
+  newValue: number | string
+  modifiedBy?: IUserInfo
   modifiedAt?: string
 }

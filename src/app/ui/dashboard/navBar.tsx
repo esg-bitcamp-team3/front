@@ -1,16 +1,33 @@
+'use client'
+
 import {ColorModeButton} from '@/components/ui/color-mode'
-import {Avatar, Box, HStack} from '@chakra-ui/react'
+import {Box, Button, HStack, Link, Tooltip} from '@chakra-ui/react'
 
 const NavBar = () => {
   return (
-    <Box top={0} right={0} position="fixed" p={3} zIndex={1000}>
-      <Box margin={4} bg="white" border={1} borderRadius={10} p={3}>
+    <Box top={750} right={-3} position="fixed" p={3} zIndex={1000}>
+      <Box margin={12} bg="white" border={50} borderRadius={100} p={2}>
         <HStack gap={3} width="100%" flexDirection="row-reverse">
-          <Avatar.Root>
-            <Avatar.Fallback name="Segun Adebayo" />
-            <Avatar.Image src="https://bit.ly/sage-adebayo" />
-          </Avatar.Root>
-          <ColorModeButton />
+          <span>
+            <Link href="/dashboard/myprofile">
+              <Button
+                as="a"
+                bg="transparent"
+                padding={0}
+                _hover={{bg: 'transparent'}}
+                _active={{bg: 'transparent'}}>
+                <img
+                  src="/usericon.png"
+                  alt="user icon"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: 'transparent'
+                  }}
+                />
+              </Button>
+            </Link>
+          </span>
         </HStack>
       </Box>
     </Box>
@@ -18,3 +35,8 @@ const NavBar = () => {
 }
 
 export {NavBar}
+export default NavBar
+//         <Link href="/login" passHref>
+//           <Button
+//             as="a"
+//             colorScheme="green"

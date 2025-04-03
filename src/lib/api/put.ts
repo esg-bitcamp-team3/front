@@ -1,5 +1,7 @@
 import apiClient from './apiClient'
-import {IEmissionInfo, ISubsidiary} from './interfaces/retrieveInterfaces'
+
+import {IEmissionInfo, ISubsidiary, ICarbonEmissionGoal} from './interfaces/retrieveInterfaces'
+
 import {useEffect, useState} from 'react'
 import {Response} from './type'
 import {IEmissionForm} from './interfaces/updateForm'
@@ -35,6 +37,7 @@ export async function updateSubsidiary(id: string, data: Partial<ISubsidiary>) {
     throw error // 예외 발생 시 다시 throw
   }
 }
+
 
 export async function updateEmissionDataFromElectricity({
   id,

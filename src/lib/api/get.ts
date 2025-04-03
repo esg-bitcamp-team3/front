@@ -12,6 +12,9 @@ import {
   ICarbonEmissionGoal,
   ICarbonEmissionGoalsByYear,
   IChangeLogInfo
+  IOrganizationRevenueByYear,
+  IOrganizationData,
+  IChangeLogInfoBySubsidiary
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -52,12 +55,6 @@ export async function getActivityDataForSteam() {
 
 {
   /* Organization */
-}
-
-export async function getOrganizationById(id: string) {
-  return await apiClient.get<Response<IOrganization>>(`/organizations/${id}`, {
-    withAuth: true
-  })
 }
 
 export async function getOrganizationList({
@@ -226,7 +223,6 @@ export async function getEmissionDataFromSteam({
 {
   /* Calculated Emission Data */
 }
-
 export async function getCalculatedEmissionOfOrganiation({
   id,
   year
@@ -234,12 +230,15 @@ export async function getCalculatedEmissionOfOrganiation({
   id: string
   year?: string
 }) {
-  return await apiClient.get<Response<IScopeData>>(`/calculate/organization/${id}`, {
-    withAuth: true,
-    params: {
-      ...(year && {year})
+  return await apiClient.get<Response<IOrganizationData>>(
+    `/calculate/organization/${id}`,
+    {
+      withAuth: true,
+      params: {
+        ...(year && {year})
+      }
     }
-  })
+  )
 }
 
 export async function getCalculatedYearlyEmissionOfOrganiation(id: string) {
@@ -300,7 +299,7 @@ export async function getCalculatedMothlyEmissionOfSubsidiary({
   /* Carbon Emission Goal */
 }
 
-export async function getCarbonEmissionGoalsOfOrganiation({id}: {id: string}) {
+export async function getCarbonEmissionGoalsOfOrganization({id}: {id: string}) {
   return await apiClient.get<Response<ICarbonEmissionGoalsByYear>>(
     `/carbon-emission-goals/organization/${id}`,
     {
@@ -351,6 +350,15 @@ export async function getChangeLogsOfEmissionDataFromMobileCombustion({
 export async function getChangeLogsOfEmissionDataFromSteam({id}: {id: string}) {
   return await apiClient.get<ListResponse<IChangeLogInfo>>(
     `/data/steam/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getOrganizaionRevenueByYear({id}: {id: string}) {
+  return await apiClient.get<Response<IOrganizationRevenueByYear>>(
+    `/revenue-records/organization/${id}`,
     {
       withAuth: true
     }
