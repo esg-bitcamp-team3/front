@@ -310,7 +310,7 @@ export interface IOrganizationData {
 
 export interface ILog {
   subsidiary: ISubsidiary
-  emissoinData: IEmissionInfo
+  emissionData: IEmissionInfo
   changeLog: IChangeLogInfo
 }
 // export interface IlogByDate {

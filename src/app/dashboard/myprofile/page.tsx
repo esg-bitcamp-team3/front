@@ -19,6 +19,8 @@ import {
 } from '@chakra-ui/react'
 import {UserInfo, userInfo} from 'os'
 import {use, useEffect, useState} from 'react'
+import {Cell} from './Cell'
+import {ModifiedHistory} from '@/app/ui/dashboard/myprofile/modifiedHistory'
 
 const columnNames = [
   'data1', // 1월
@@ -75,13 +77,58 @@ const Page = () => {
           <Heading size="xl" mb={6}>
             수정내역
           </Heading>
-          {changeLog &&
-            Object.entries(changeLog).map(([key, log]) => (
-              <Box key={key}>
-                <Text>{key}</Text>
-                <Text>{JSON.stringify(log)}</Text>
-              </Box>
-            ))}
+          {
+            changeLog &&
+              Object.entries(changeLog).map(([logKey, log]) => (
+                <Box key={logKey}>
+                  {log.log.map((data, index) => (
+                    <EmissionTable emissionData={data.emissionData} />
+                  ))}
+                </Box>
+              ))
+
+            // Object.entries(changeLog).map(([key, log]) => (
+            //   <Box key={key}>
+            //     <Text>{key}</Text>
+            //     {changeLog[key].log.map(data => (
+            //       <VStack align="stretch" gap={1} separator={<Separator />}>
+            //         <Box key={data.changeLog.fieldName} py={1} px={2}>
+            //           {/* {Object.entries(data.emissoinData).map(([key, val]) => (
+            //             <Cell
+            //               props={{
+            //                 rowIndex: data.changeLog.entityId,
+            //                 colKey: emissionInfoMapping[key],
+            //                 value: val
+            //               }}
+            //             />
+            //           ))} */}
+            //           {/* <Cell
+            //             props={{
+            //               rowIndex: data.changeLog.entityId,
+            //               colKey: emissionInfoMapping[data.emissoinData.data1],
+            //               value: data.emissoinData.data1
+            //             }}
+            //           /> */}
+            //           <Flex mt={0.3} alignItems="center">
+            //             <Text mx={1} color="gray.500">
+            //               {emissionInfoMapping[data.changeLog.fieldName]}
+            //             </Text>
+            //             <Text textDecoration="line-through" color="red.500" fontSize="sm">
+            //               {data.changeLog.oldValue}
+            //             </Text>
+            //             <Text mx={1} color="gray.500">
+            //               →
+            //             </Text>
+            //             <Text fontWeight="bold" color="green.500" fontSize="sm">
+            //               {data.changeLog.newValue}
+            //             </Text>
+            //           </Flex>
+            //         </Box>
+            //       </VStack>
+            //     ))}
+            //   </Box>
+            // ))
+          }
 
           {/* {data.emissionData[0]?.logs.map(log => (
                       <VStack align="stretch" gap={1} separator={<Separator />}>
