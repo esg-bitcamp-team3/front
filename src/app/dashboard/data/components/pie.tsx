@@ -1,5 +1,5 @@
 import {IOrganization, IOrganizationData} from '@/lib/api/interfaces/retrieveInterfaces'
-import {Box, Color, HStack} from '@chakra-ui/react'
+import {Box, Center, Color, HStack} from '@chakra-ui/react'
 import {ArcElement, ChartOptions, Chart, SubTitle, Title} from 'chart.js'
 import {useState} from 'react'
 import {Doughnut, Pie} from 'react-chartjs-2'
@@ -78,8 +78,8 @@ export function PieForOrganization({datas}: {datas: IOrganizationData}) {
   }
 
   return (
-    <Box h="250px" w="full" alignContent="start">
+    <Center alignContent="center" justifyContent="center" w={'50%'} margin={'auto'}>
       <Doughnut data={data} options={options} />
-    </Box>
+    </Center>
   )
 }

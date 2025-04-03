@@ -26,8 +26,6 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
     (parseFloat(electric[index]) + parseFloat(steam[index])).toFixed(2)
   )
 
-  console.log('indirect: ', indirect)
-
   const chartData = {
     labels: years,
     datasets: [
@@ -96,7 +94,7 @@ const EmissionBar = ({data}: {data: IYearlyEmissionData}) => {
   }
 
   return (
-    <Box h="250px" alignContent="end">
+    <Box padding={4} w="71%" h="100%">
       <Bar data={chartData} options={options} />
     </Box>
   )

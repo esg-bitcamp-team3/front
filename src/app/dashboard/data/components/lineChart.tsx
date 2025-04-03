@@ -115,7 +115,7 @@ export const LineChart = ({
   }
 
   return (
-    <Box h="250px" alignContent="center">
+    <Box p={4} borderRadius="lg" boxShadow="lg" padding={10} h="100%">
       {/* 차트 크기 조정 */}
       <Line
         options={{

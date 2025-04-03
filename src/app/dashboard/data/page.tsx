@@ -10,7 +10,9 @@ import {
   Text,
   Center,
   Spinner,
-  Flex
+  Flex,
+  Grid,
+  VStack
 } from '@chakra-ui/react'
 import {ScopeChart, ScopeBarChart, ScopeBox} from './components/scopeChart'
 import {
@@ -40,6 +42,7 @@ import {OrganizationCard} from './components/orgainzationCard'
 import {GoalProgress} from './components/goalprogress'
 import {PieForOrganization} from './components/pie'
 import {LineChart} from './components/lineChart'
+import {SubsidiaryCard} from './components/subsidiaryCard'
 
 // Define prop types for components
 interface StatsSectionProps {
@@ -106,7 +109,6 @@ const StatsSection: React.FC<StatsSectionProps> = ({
   month,
   isLoading
 }) => {
-  console.log('???', organizationRevenueRecords)
   if (
     isLoading ||
     !currentYearEmissions ||
@@ -134,7 +136,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({
             (100000000 * currentYearEmissions.total) /
             (organizationRevenueRecords[year].revenue || 1),
           previousValue:
-            (100000000 * currentYearEmissions.total) /
+            (100000000 * previousYearEmissions.total) /
             (organizationRevenueRecords[year - 1].revenue || 1),
           unit: 'tCO2eq/억원'
         }}
@@ -219,14 +221,13 @@ const Page = () => {
   const [isHistoricalDataLoading, setIsHistoricalDataLoading] = useState(true)
 
   const today = new Date()
-  const year = 2022
-  const month = 3
+  const year = new Date().getFullYear()
+  const month = new Date().getMonth() // Months are zero-based in JavaScript
 
   const fetchOrganization = async () => {
     setIsOrganizationLoading(true)
     try {
       const response = await getMyOrganizations()
-      console.log('asdfsdf', response.data.organization)
       setCurrentOrganization(response.data.organization)
       setSubsidiaryList(response.data.subsidiaries)
     } catch (error) {
@@ -250,8 +251,6 @@ const Page = () => {
         getCalculatedEmissionOfOrganiation({id: id, year: year.toString()}),
         getCalculatedEmissionOfOrganiation({id: id, year: (year - 1).toString()})
       ])
-      console.log('currenasdgsgt', currentYearEmissionData.data)
-      console.log('previoust', previousYearEmissionData.data)
 
       setCurrentYearEmissions(currentYearEmissionData.data)
       setPreviousYearEmissions(previousYearEmissionData.data)
@@ -284,8 +283,6 @@ const Page = () => {
       const [yearlyCarbonEmissionGoalData] = await Promise.all([
         getCarbonEmissionGoalsOfOrganization({id: id})
       ])
-      console.log('year', yearlyEmissionData.data)
-      console.log('goal', yearlyCarbonEmissionGoalData.data)
 
       setEmissionGoalsByYear(yearlyCarbonEmissionGoalData.data)
 
@@ -316,11 +313,8 @@ const Page = () => {
     )
   }
 
-  console.log('electric: ', historicalYearlyEmissions?.[2024]?.electric)
-  console.log('steam: ', historicalYearlyEmissions?.[2024]?.steam)
-
   return (
-    <Box padding={6}>
+    <Box paddingTop={6} pb={10}>
       {/* 기업 이름과 목표 달성 */}
       <HStack paddingBottom={6} alignItems="center">
         {currentOrganization && (
@@ -343,7 +337,7 @@ const Page = () => {
       </HStack>
 
       {/* 통계 섹션 */}
-      <Box marginBottom={8}>
+      <Box>
         <StatsSection
           currentYearEmissions={currentYearEmissions}
           previousYearEmissions={previousYearEmissions}
@@ -357,27 +351,62 @@ const Page = () => {
       </Box>
 
       {/* 그래프 섹션 */}
-      <Flex direction="column" align="center" justify="center" w="full" h="full" gap={8}>
-        <Flex direction="row" align="center" justify="center" gap={8} w="full">
-          <Box w="22%" alignItems="start">
-            <ScopeBoxSection
-              currentYearEmissions={currentYearEmissions}
-              isLoading={isScopeLoading}
-            />
-          </Box>
-          <Box w="40%" alignItems="end">
-            <EmissionBarSection
-              historicalYearlyEmissions={historicalYearlyEmissions}
-              isLoading={isHistoricalDataLoading}
-            />
-          </Box>
-        </Flex>
-        <Box w="80%" h="full">
-          {historicalYearlyEmissions && emissionGoalsByYear && (
-            <LineChart datas={historicalYearlyEmissions} goals={emissionGoalsByYear} />
-          )}
-        </Box>
-      </Flex>
+      <Box>
+        <Grid
+          h="430px"
+          justifyContent="center"
+          alignItems="center"
+          templateRows="repeat(1, 1fr)"
+          templateColumns="repeat(5, 1fr)"
+          textAlign="center"
+          gap={4}>
+          <GridItem rowSpan={1} colSpan={2}>
+            <Box shadow={'md'} borderWidth="1px" borderRadius="md" padding={10} h="full">
+              <Box>
+                <ScopeBoxSection
+                  currentYearEmissions={currentYearEmissions}
+                  isLoading={isScopeLoading}
+                />
+              </Box>
+            </Box>
+          </GridItem>
+          <GridItem rowSpan={1} colSpan={3} justifyContent="center" alignItems="center">
+            <Center shadow={'md'} borderWidth="1px" borderRadius="md">
+              <EmissionBarSection
+                historicalYearlyEmissions={historicalYearlyEmissions}
+                isLoading={isHistoricalDataLoading}
+              />
+            </Center>
+          </GridItem>
+        </Grid>
+      </Box>
+      <Box>
+        <Grid
+          h="300px"
+          justifyContent="center"
+          alignItems="center"
+          templateRows="repeat(1, 1fr)"
+          templateColumns="repeat(5, 1fr)"
+          textAlign="center"
+          gap={4}>
+          <GridItem rowSpan={1} colSpan={2}>
+            <Box>
+              {currentYearEmissions && (
+                <SubsidiaryCard
+                  ids={subsidiaryList?.map(subsidiary => subsidiary._id) || []}
+                  currentYearEmissions={currentYearEmissions}
+                />
+              )}
+            </Box>
+          </GridItem>
+
+          <GridItem rowSpan={1} colSpan={3} height="300px" justifyContent="center">
+            {historicalYearlyEmissions && emissionGoalsByYear && (
+              <LineChart datas={historicalYearlyEmissions} goals={emissionGoalsByYear} />
+            )}
+          </GridItem>
+        </Grid>
+      </Box>
     </Box>
   )
 }
