@@ -321,3 +321,38 @@ export async function getChangeLogsOfEmissionDataFromElectricity({id}: {id: stri
     }
   )
 }
+
+export async function getChangeLogsOfEmissionDataFromStationaryCombustion({
+  id
+}: {
+  id: string
+}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/stationary-combustion/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getChangeLogsOfEmissionDataFromMobileCombustion({
+  id
+}: {
+  id: string
+}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/mobile-combustion/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
+
+export async function getChangeLogsOfEmissionDataFromSteam({id}: {id: string}) {
+  return await apiClient.get<ListResponse<IChangeLogInfo>>(
+    `/data/steam/${id}/change-logs`,
+    {
+      withAuth: true
+    }
+  )
+}
