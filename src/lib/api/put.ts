@@ -1,7 +1,10 @@
 import apiClient from './apiClient'
-import {ICarbonEmissionGoal, ISubsidiary} from './interfaces/retrieveInterfaces'
+
+import {IEmissionInfo, ISubsidiary, ICarbonEmissionGoal} from './interfaces/retrieveInterfaces'
+
 import {useEffect, useState} from 'react'
 import {Response} from './type'
+import {IEmissionForm} from './interfaces/updateForm'
 
 // `updateSubsidiary` 함수에서 API 경로를 `/subsidiary`로 변경
 
@@ -35,18 +38,67 @@ export async function updateSubsidiary(id: string, data: Partial<ISubsidiary>) {
   }
 }
 
-export async function updateEmissionGoal({
+
+export async function updateEmissionDataFromElectricity({
   id,
   data
 }: {
   id: string
-  data: Partial<ICarbonEmissionGoal>
+  data: Partial<IEmissionForm>
 }) {
-  return await apiClient.put<Response<ICarbonEmissionGoal>, Partial<ICarbonEmissionGoal>>(
-    `/carbon-emission-goals/${id}`,
+  return await apiClient.put<Response<IEmissionInfo>, Partial<IEmissionForm>>(
+    `/data/electricity/${id}`,
     {
-      body: data,
-      withAuth: true
+      withAuth: true,
+      body: data
+    }
+  )
+}
+
+export async function updateEmissionDataFromStationaryCombustion({
+  id,
+  data
+}: {
+  id: string
+  data: Partial<IEmissionForm>
+}) {
+  return await apiClient.put<Response<IEmissionInfo>, Partial<IEmissionForm>>(
+    `/data/stationary-combustion/${id}`,
+    {
+      withAuth: true,
+      body: data
+    }
+  )
+}
+
+export async function updateEmissionDataFromMobileCombustion({
+  id,
+  data
+}: {
+  id: string
+  data: Partial<IEmissionForm>
+}) {
+  return await apiClient.put<Response<IEmissionInfo>, Partial<IEmissionForm>>(
+    `/data/mobile-combustion/${id}`,
+    {
+      withAuth: true,
+      body: data
+    }
+  )
+}
+
+export async function updateEmissionDataFromSteam({
+  id,
+  data
+}: {
+  id: string
+  data: Partial<IEmissionForm>
+}) {
+  return await apiClient.put<Response<IEmissionInfo>, Partial<IEmissionForm>>(
+    `/data/steam/${id}`,
+    {
+      withAuth: true,
+      body: data
     }
   )
 }
