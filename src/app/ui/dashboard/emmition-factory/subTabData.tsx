@@ -204,16 +204,21 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
     }
   }
 
-  const props = apiMap[dataType]
+  const [props, setProps] = useState<EmissionProps>(apiMap[dataType])
 
   const handleTabChange = (value: string) => {
     setDataType(value as ActivityDataType)
+    setProps(apiMap[value as ActivityDataType])
   }
 
   const handleClose = async () => {
     modifyDialog.setOpen(false)
     addDialog.setOpen(false)
     setYear('')
+  }
+
+  if (!props) {
+    return null
   }
 
   return (
@@ -229,7 +234,7 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
         value={dataType}
         variant="plain"
         onValueChange={e => handleTabChange(e.value)}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box display="flex" justifyContent="space-between">
           <Tabs.List bg="bg.muted" rounded="lg" gap={2} padding={1}>
             <Tabs.Trigger px={4} value={ActivityDataType.STAIONARY_COMBUSTION}>
               고정연소

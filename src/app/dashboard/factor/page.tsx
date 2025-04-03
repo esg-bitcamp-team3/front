@@ -1,9 +1,9 @@
-import SubsidiaryTab from './tab/FactorDetailTab'
+import InfoTab from './tab/FactorDetailTab'
 
 export default async function Page() {
   return (
     <main>
-      <SubsidiaryTab />
+      <InfoTab />
     </main>
   )
 }

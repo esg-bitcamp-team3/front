@@ -19,22 +19,21 @@ interface TabContentProps {
 
 function TabContent({value, children}: TabContentProps) {
   return (
-    <Box pos="relative" py={2} height="100%">
-      <Tabs.Content
-        value={value}
-        position="relative"
-        _open={{
-          animationName: 'fade-in, scale-in',
-          animationDuration: '300ms'
-        }}
-        _closed={{
-          animationName: 'fade-out, scale-out',
-          animationDuration: '120ms'
-        }}
-        height="100%">
-        {children}
-      </Tabs.Content>
-    </Box>
+    <Tabs.Content
+      py={4}
+      value={value}
+      position="relative"
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms'
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms'
+      }}
+      height="100%">
+      {children}
+    </Tabs.Content>
   )
 }
 
@@ -47,6 +46,7 @@ interface TabTriggerProps {
 function TabTrigger({icon, value, label}: TabTriggerProps) {
   return (
     <Tabs.Trigger
+      padding={2}
       value={value}
       gap={2}
       fontSize="sm"
@@ -62,12 +62,16 @@ function TabTrigger({icon, value, label}: TabTriggerProps) {
   )
 }
 
-const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
-  const [tab, setTab] = useState('Stationary') // ✅ 하나만 필요
+const InfoTab = () => {
+  const [tab, setTab] = useState('Stationary')
 
   return (
     <Box borderBottom="1px">
-      <Flex justify="space-between" align="center" pt={5} pl={10}></Flex>
+      <Flex justify="space-between" align="center" paddingTop={5} paddingLeft={10}>
+        <Text textStyle="xl" fontWeight="bold">
+          배출량 산출 계산식 및 매개변수
+        </Text>
+      </Flex>
       <br />
       <Tabs.Root
         value={tab}
@@ -80,31 +84,17 @@ const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
         <Tabs.List gap={4}>
           <TabTrigger value="Stationary" label="고정연소" icon={<LuFolder />} />
           <TabTrigger value="Mobile" label="이동연소" icon={<LuFolder />} />
-          <TabTrigger value="IndirectE" label="간접배출(전기)" icon={<LuSquareCheck />} />
-          <TabTrigger value="IndirectS" label="간접배출(스팀)" icon={<LuSettings />} />
+          <TabTrigger value="IndirectE" label="간접배출(전기)" icon={<LuFolder />} />
+          <TabTrigger value="IndirectS" label="간접배출(스팀)" icon={<LuFolder />} />
         </Tabs.List>
 
-        <TabContent value="Stationary">
-          <Stationary />
-        </TabContent>
-        <TabContent value="Mobile">
-          <Text>
-            <Mobile />
-          </Text>
-        </TabContent>
-        <TabContent value="IndirectE">
-          <Text>
-            <IndirectE />
-          </Text>
-        </TabContent>
-        <TabContent value="IndirectS">
-          <Text>
-            <IndirectS />
-          </Text>
-        </TabContent>
+        <TabContent value="Stationary" children={<Stationary />} />
+        <TabContent value="Mobile" children={<Mobile />} />
+        <TabContent value="IndirectE" children={<IndirectE />} />
+        <TabContent value="IndirectS" children={<IndirectS />} />
       </Tabs.Root>
     </Box>
   )
 }
 
-export default SubsidiaryTab
+export default InfoTab
