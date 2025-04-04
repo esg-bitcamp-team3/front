@@ -20,7 +20,7 @@ const NavBar = () => {
   }
 
   return (
-    <Box top={750} right={-3} position="fixed" p={3} zIndex={1000}>
+    <Box bottom="-2%" right="-2%" position="fixed" p={3} zIndex={1000}>
       <Box
         margin={12}
         bg="white"
@@ -31,24 +31,22 @@ const NavBar = () => {
         onMouseLeave={() => setIsHovered(false)}
         position="relative">
         <HStack gap={3} width="100%" flexDirection="row-reverse">
-          <Link href="/dashboard/my" asChild>
-            <Button
-              as="a"
-              bg="transparent"
-              padding={0}
-              _hover={{bg: 'transparent'}}
-              _active={{bg: 'transparent'}}>
-              <img
-                src="/usericon.png"
-                alt="user icon"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  backgroundColor: 'transparent'
-                }}
-              />
-            </Button>
-          </Link>
+          <Button
+            as="a"
+            bg="transparent"
+            padding={0}
+            _hover={{bg: 'transparent'}}
+            _active={{bg: 'transparent'}}>
+            <img
+              src="/usericon.png"
+              alt="user icon"
+              style={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: 'transparent'
+              }}
+            />
+          </Button>
         </HStack>
 
         {/* Hover 메뉴 */}
@@ -75,7 +73,7 @@ const NavBar = () => {
                   <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>정보수정</Text>
                 </Link>
               </Button>
-              <Button variant={'ghost'}>
+              <Button variant={'ghost'} onClick={handleLogout}>
                 <Text>
                   <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>로그아웃</Text>
                 </Text>
