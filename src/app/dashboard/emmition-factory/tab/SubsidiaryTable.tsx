@@ -2,12 +2,15 @@
 
 import {AddSubsidiary} from '@/app/ui/dashboard/emmition-factory/addDetail/dataform/addSubsidiary'
 import {ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
-import {getMyOrganizations} from '@/lib/api/my'
+import {getMyOrganizations, searchMyOrganizations} from '@/lib/api/my'
 import {
+  createListCollection,
   Flex,
   HStack,
   IconButton,
   Input,
+  Portal,
+  Select,
   Separator,
   TableBody,
   TableCell,
@@ -22,8 +25,25 @@ import {useRouter} from 'next/navigation'
 import {useEffect, useState} from 'react'
 import {LuSearch} from 'react-icons/lu'
 
-const SearchBar = ({onSearch}: {onSearch: (query: string) => void}) => {
+const SearchBar = ({
+  onSearch,
+  criteria = '',
+  onCriteriaChange = () => {}
+}: {
+  onSearch: (query: string) => void
+  criteria: string
+  onCriteriaChange: (value: string) => void
+}) => {
   const [searchQuery, setSearchQuery] = useState('')
+
+  const criterias = createListCollection({
+    items: [
+      {label: '전체', value: 'all'},
+
+      {label: '사업장명', value: 'name'},
+      {label: '업종', value: 'industry'}
+    ]
+  })
 
   const handleSearch = () => {
     onSearch(searchQuery)
@@ -31,6 +51,34 @@ const SearchBar = ({onSearch}: {onSearch: (query: string) => void}) => {
 
   return (
     <HStack width="40%">
+      <Select.Root
+        collection={criterias}
+        size="sm"
+        width="180px"
+        onValueChange={e => onCriteriaChange(e.value[0])}
+        value={[criteria]}>
+        <Select.HiddenSelect />
+        <Select.Control>
+          <Select.Trigger>
+            <Select.ValueText placeholder="검색 조건" padding={2} />
+          </Select.Trigger>
+          <Select.IndicatorGroup mx={2}>
+            <Select.Indicator />
+          </Select.IndicatorGroup>
+        </Select.Control>
+        <Portal>
+          <Select.Positioner>
+            <Select.Content>
+              {criterias.items.map(item => (
+                <Select.Item item={item} key={item.value} padding={2}>
+                  {item.label}
+                  <Select.ItemIndicator />
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Positioner>
+        </Portal>
+      </Select.Root>
       <Input
         padding={2}
         colorPalette="gray"
@@ -69,13 +117,17 @@ const headers = [
 
 const SubsidiaryTable = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
+  const [searchCriteria, setSearchCriteria] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
 
   const fetchSubsidiaryList = async () => {
     try {
-      const response = await getMyOrganizations()
-      setSubsidiaryList(response.data.subsidiaries)
+      const response = await searchMyOrganizations({
+        criteria: searchCriteria,
+        search: searchQuery
+      })
+      setSubsidiaryList(response.data)
     } catch (error) {
       router.push('/login')
     }
@@ -83,7 +135,7 @@ const SubsidiaryTable = () => {
 
   useEffect(() => {
     fetchSubsidiaryList()
-  }, [])
+  }, [searchCriteria, searchQuery])
 
   const handleProjectClick = (id: string) => {
     router.push(`/dashboard/emmition-factory/${id}`)
@@ -96,14 +148,18 @@ const SubsidiaryTable = () => {
   return (
     <Flex direction="column" gap="4">
       <Flex justify="space-between" align="center" paddingTop={5} paddingLeft={10}>
-        <Text textStyle="xl" fontWeight="bold">
+        <Text textStyle="xl" fontWeight="bolder">
           사업장 목록
         </Text>
       </Flex>
-
       <Flex justify="end" align="center">
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar
+          onSearch={handleSearch}
+          criteria={searchCriteria}
+          onCriteriaChange={setSearchCriteria}
+        />
       </Flex>
+
       <Flex justify="end" align="center">
         <AddSubsidiary />
       </Flex>
