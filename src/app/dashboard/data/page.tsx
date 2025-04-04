@@ -355,7 +355,7 @@ const Page = () => {
           </Box>
         </VStack>
 
-        <Box alignItems={'end'} w="full" martginLeft={20}>
+        <Box alignItems={'end'} w="full" spaceX="4">
           {historicalYearlyEmissions && organizationRevenueRecords && (
             <RevenueAndEmission
               emission={historicalYearlyEmissions}

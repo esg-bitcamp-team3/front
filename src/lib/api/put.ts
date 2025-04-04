@@ -113,3 +113,19 @@ export async function updatePassword({data}: {data: NewPassword}) {
     withAuth: true
   })
 }
+
+export async function updateEmissionGoal({
+  id,
+  data
+}: {
+  id: string
+  data: Partial<ICarbonEmissionGoal>
+}) {
+  return await apiClient.put<Response<ICarbonEmissionGoal>, Partial<ICarbonEmissionGoal>>(
+    `/carbon-emission-goals/${id}`,
+    {
+      withAuth: true,
+      body: data
+    }
+  )
+}
