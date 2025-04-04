@@ -341,7 +341,6 @@ const Page = () => {
             )}
           </HStack>
 
-          {/* 통계 섹션 */}
           <Box w="full" h="full">
             <StatsSection
               currentYearEmissions={currentYearEmissions}
@@ -356,7 +355,7 @@ const Page = () => {
           </Box>
         </VStack>
 
-        <Box alignItems={'end'}>
+        <Box alignItems={'end'} w="full" martginLeft={20}>
           {historicalYearlyEmissions && organizationRevenueRecords && (
             <RevenueAndEmission
               emission={historicalYearlyEmissions}
@@ -366,7 +365,6 @@ const Page = () => {
         </Box>
       </HStack>
 
-      {/* 그래프 섹션 */}
       <Box>
         <Grid
           h="430px"

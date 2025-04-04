@@ -10,7 +10,7 @@ const NavBar = () => {
         <HStack gap={3} width="100%" flexDirection="row-reverse">
           <span>
             <Link href="/dashboard/myprofile">
-              {/* <Button
+              <Button
                 as="a"
                 bg="transparent"
                 padding={0}
@@ -25,7 +25,7 @@ const NavBar = () => {
                     backgroundColor: 'transparent'
                   }}
                 />
-              </Button> */}
+              </Button>
             </Link>
           </span>
         </HStack>

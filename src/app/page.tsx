@@ -32,13 +32,12 @@ export default function Page() {
           <Link href="/">
             <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
               <img
-                src="/gglogo.png"
+                src="/project_logo.png"
                 alt="Green Gauge Logo"
-                style={{width: '50px', height: '50px'}}
+                style={{width: '10vw', height: 'auto'}}
               />{' '}
             </Button>
           </Link>
-          <Heading textStyle="3xl">Welcome to Green Gauge</Heading>
         </Box>
       </Box>
 

@@ -40,9 +40,6 @@ export const RevenueAndEmission = ({
   const emissionData = years.map(year => emission[year].total)
   const revenueData = years.map(year => revenue[year].revenue / 100000000)
 
-  console.log('emission: ', emissionData)
-  console.log('revenue: ', revenueData)
-
   const options = {
     responsive: true, // 반응형 지원
     interaction: {
@@ -130,7 +127,7 @@ export const RevenueAndEmission = ({
   }
 
   return (
-    <Box p={4} borderRadius="lg" boxShadow="lg" padding={10} w="45vw" h="38vh">
+    <Box p={4} borderRadius="lg" boxShadow="lg" w="50vw" h="38vh" justifyContent="end">
       {/* 차트 크기 조정 */}
       <Line
         options={options}
