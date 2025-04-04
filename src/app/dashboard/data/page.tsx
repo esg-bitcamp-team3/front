@@ -39,11 +39,12 @@ import {toaster} from '@/components/ui/toaster'
 import {EmissionStat} from './components/stats'
 import {EmissionBar} from './components/bar'
 import {OrganizationCard} from './components/orgainzationCard'
-import {GoalProgress} from './components/goalprogress'
+
 import {PieForOrganization} from './components/pie'
 import {LineChart} from './components/lineChart'
 import {SubsidiaryCard} from './components/subsidiaryCard'
 import {RevenueAndEmission} from './components/revenueAndEmission'
+import {GoalProgress} from './components/Goalprogress'
 
 // Define prop types for components
 interface StatsSectionProps {
@@ -355,7 +356,7 @@ const Page = () => {
           </Box>
         </VStack>
 
-        <Box alignItems={'end'} w="full" martginLeft={20}>
+        <Box alignItems={'end'} w="full" marginLeft={20}>
           {historicalYearlyEmissions && organizationRevenueRecords && (
             <RevenueAndEmission
               emission={historicalYearlyEmissions}
