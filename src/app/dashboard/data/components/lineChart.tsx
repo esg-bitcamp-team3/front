@@ -1,37 +1,22 @@
 import {
-  IEmissionFromStationaryCombustion,
-  IEmissionInfo,
-  IMothlyData
+  ICarbonEmissionGoalsByYear,
+  IYearlyEmissionData
 } from '@/lib/api/interfaces/retrieveInterfaces'
+import {Box} from '@chakra-ui/react'
 import {
-  Box,
-  ButtonGroup,
-  HStack,
-  IconButton,
-  Pagination,
-  Stack,
-  Table,
-  Text
-} from '@chakra-ui/react'
-import {useEffect, useRef} from 'react'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  SubTitle,
-  Tooltip,
-  Legend,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  ChartOptions,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
   Scale,
-  Tick,
-  TooltipItem,
-  ChartOptions
+  SubTitle,
+  Title,
+  Tooltip
 } from 'chart.js'
-import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'
-import {inter} from '@/app/ui/fonts'
 import {Line} from 'react-chartjs-2'
 
 ChartJS.register(
@@ -46,31 +31,22 @@ ChartJS.register(
   Legend
 )
 
-export function ChartforSubsidary({total}: {total: IMothlyData}) {
-  const stationData = total.stationary || []
-  const mobileData = total.mobile || []
-  const electric = total.electric || []
-  const steam = total.steam || []
+export const LineChart = ({
+  datas,
+  goals
+}: {
+  datas: IYearlyEmissionData
+  goals: ICarbonEmissionGoalsByYear
+}) => {
+  console.log('datas: ', datas)
+  console.log('goals: ', goals)
+  const years = Object.keys(datas).map(Number) // 2020, 2021, 2022, ...
+  const total = years.map(year => datas[year].total.toFixed(2))
+  const goal = years.map(year => goals[year].emissionGoal)
 
-  const labels = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ]
-
-  const processedStationData = labels.map((_, index) => stationData[index] || 0)
-  const processedMobileData = labels.map((_, index) => mobileData[index] || 0)
-  const processedElectricData = labels.map((_, index) => electric[index] || 0)
-  const processedSteamData = labels.map((_, index) => steam[index] || 0)
+  const excessGoal = years.map(year =>
+    (datas[year - 1]?.total * (1 - goals[year].emissionGoal / 100)).toFixed(2)
+  )
 
   const options: ChartOptions<'line'> = {
     responsive: true, // 반응형 지원
@@ -85,11 +61,10 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
       title: {
         display: true, // 제목 표시 여부
         align: 'center', // 제목 정렬 설정
-        text: '온실가스 배출량', // 차트 제목
+        text: '온실가스 배출량 & 감축 목표 배출량', // 차트 제목
         font: {
           family: 'Pretendard',
-          size: 20,
-          weight: 550
+          size: 20
         }, // 제목 폰트 설정
         color: 'black', // 제목 색상
         padding: {
@@ -102,8 +77,7 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         text: '단위: tCO2eq    ',
         font: {
           family: 'Pretendard',
-          size: 12,
-          weight: 500
+          size: 12
         },
         color: 'grey', // 제목 색상
         padding: {
@@ -114,52 +88,36 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
     scales: {
       y: {
         afterDataLimits: (scale: Scale) => {
-          scale.max = scale.max * 1.5
+          scale.max = scale.max! * 1.5
         }
       }
     }
   }
 
   const data = {
-    labels: labels,
+    labels: years,
     datasets: [
       {
-        label: '고정연소',
-        data: processedStationData,
+        label: '총 배출량',
+        data: total,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgb(75, 192, 192)',
         tension: 0.1
       },
       {
-        label: '이동연소',
-        data: processedMobileData,
+        label: '감축 목표 배출량',
+        data: excessGoal,
         fill: false,
         borderColor: '#ABE0AD',
         backgroundColor: '#ABE0AD',
-        tension: 0.1
-      },
-      {
-        label: '간접연소(전기)',
-        data: processedElectricData,
-        fill: false,
-        borderColor: '#a3b43e',
-        backgroundColor: '#a3b43e',
-        tension: 0.1
-      },
-      {
-        label: '간접연소(스팀)',
-        data: processedSteamData,
-        fill: false,
-        borderColor: '#3d4a3d',
-        backgroundColor: '#3d4a3d',
         tension: 0.1
       }
     ]
   }
 
   return (
-    <Box h="250px">
+    <Box p={4} borderRadius="lg" boxShadow="lg" padding={10} h="100%">
       {/* 차트 크기 조정 */}
       <Line
         options={{

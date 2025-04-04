@@ -36,19 +36,13 @@ export default function SideNav() {
           borderRadius="lg"
           height={'100%'}
           alignItems="center">
-          <Heading
-            paddingX={10}
-            paddingBottom={10}
-            textStyle="6xl"
-            color={'white'}
-            fontWeight="bold "
-            fontStyle={''}
-            display="flex"
-            alignItems="end"
-            justifyContent="center"
-            gap={100}>
-            Green Gauge
-          </Heading>
+          <Image
+            src="/project_logo.png"
+            alt="Green Gauge Logo"
+            width="full"
+            height="auto"
+            paddingTop={2}
+          />
         </Box>
       </Link>
 
