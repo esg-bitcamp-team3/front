@@ -102,6 +102,7 @@ export const LineChart = ({
         data: total,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgb(75, 192, 192)',
         tension: 0.1
       },
       {
@@ -109,6 +110,7 @@ export const LineChart = ({
         data: excessGoal,
         fill: false,
         borderColor: '#ABE0AD',
+        backgroundColor: '#ABE0AD',
         tension: 0.1
       }
     ]

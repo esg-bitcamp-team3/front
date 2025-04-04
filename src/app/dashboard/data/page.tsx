@@ -43,6 +43,7 @@ import {GoalProgress} from './components/goalprogress'
 import {PieForOrganization} from './components/pie'
 import {LineChart} from './components/lineChart'
 import {SubsidiaryCard} from './components/subsidiaryCard'
+import {RevenueAndEmission} from './components/revenueAndEmission'
 
 // Define prop types for components
 interface StatsSectionProps {
@@ -315,40 +316,55 @@ const Page = () => {
 
   return (
     <Box paddingTop={6} pb={10}>
-      {/* 기업 이름과 목표 달성 */}
-      <HStack paddingBottom={6} alignItems="center">
-        {currentOrganization && (
-          <Box flex="2">
-            <OrganizationCard organization={currentOrganization} />
-          </Box>
-        )}
-        {emissionGoalsByYear && (
-          <Box flex="1">
-            <GoalProgress
-              props={{
-                label: '목표 달성',
-                currentValue: currentYearEmissions?.total || 0,
-                previousValue: previousYearEmissions?.total || 0,
-                id: currentOrganization?._id || ''
-              }}
+      <HStack justifyContent="space-between">
+        <VStack w="full">
+          {/* 기업 이름과 목표 달성 */}
+          <HStack>
+            {currentOrganization && (
+              <Box>
+                <OrganizationCard organization={currentOrganization} />
+              </Box>
+            )}
+            <br />
+
+            {emissionGoalsByYear && (
+              <Box>
+                <GoalProgress
+                  props={{
+                    label: '목표 달성',
+                    currentValue: currentYearEmissions?.total || 0,
+                    previousValue: previousYearEmissions?.total || 0,
+                    id: currentOrganization?._id || ''
+                  }}
+                />
+              </Box>
+            )}
+          </HStack>
+
+          {/* 통계 섹션 */}
+          <Box w="full" h="full">
+            <StatsSection
+              currentYearEmissions={currentYearEmissions}
+              previousYearEmissions={previousYearEmissions}
+              currentYearMonthlyEmissions={currentYearMonthlyEmissions}
+              previousYearMonthlyEmissions={previousYearMonthlyEmissions}
+              organizationRevenueRecords={organizationRevenueRecords}
+              year={year}
+              month={month}
+              isLoading={isStatsLoading}
             />
           </Box>
-        )}
-      </HStack>
+        </VStack>
 
-      {/* 통계 섹션 */}
-      <Box>
-        <StatsSection
-          currentYearEmissions={currentYearEmissions}
-          previousYearEmissions={previousYearEmissions}
-          currentYearMonthlyEmissions={currentYearMonthlyEmissions}
-          previousYearMonthlyEmissions={previousYearMonthlyEmissions}
-          organizationRevenueRecords={organizationRevenueRecords}
-          year={year}
-          month={month}
-          isLoading={isStatsLoading}
-        />
-      </Box>
+        <Box alignItems={'end'}>
+          {historicalYearlyEmissions && organizationRevenueRecords && (
+            <RevenueAndEmission
+              emission={historicalYearlyEmissions}
+              revenue={organizationRevenueRecords}
+            />
+          )}
+        </Box>
+      </HStack>
 
       {/* 그래프 섹션 */}
       <Box>

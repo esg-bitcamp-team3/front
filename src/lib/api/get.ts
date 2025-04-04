@@ -13,7 +13,8 @@ import {
   ICarbonEmissionGoalsByYear,
   IChangeLogInfo,
   IOrganizationRevenueByYear,
-  IOrganizationData
+  IOrganizationData,
+  IChangeLogInfoBySubsidiary
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 

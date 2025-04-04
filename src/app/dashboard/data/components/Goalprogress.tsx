@@ -47,9 +47,9 @@ const GoalProgress = ({props}: {props: GoalProgressProps}) => {
   const excessGoal = current > 0 ? 1 : 0
 
   return (
-    <Box p={4} borderRadius="lg" boxShadow="lg">
-      <Stat.Root w="full">
-        <Stat.Label>
+    <Box p={4} borderRadius="lg" boxShadow="lg" w="full" h="full">
+      <Stat.Root>
+        <Stat.Label justifyContent={'space-between'}>
           {excessGoal ? (
             <>
               <Text fontWeight="bolder" fontSize="md">

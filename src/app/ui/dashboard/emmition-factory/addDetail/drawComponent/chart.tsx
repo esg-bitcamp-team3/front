@@ -128,6 +128,7 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         data: processedStationData,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgb(75, 192, 192)',
         tension: 0.1
       },
       {
@@ -135,6 +136,7 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         data: processedMobileData,
         fill: false,
         borderColor: '#ABE0AD',
+        backgroundColor: '#ABE0AD',
         tension: 0.1
       },
       {
@@ -142,6 +144,7 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         data: processedElectricData,
         fill: false,
         borderColor: '#a3b43e',
+        backgroundColor: '#a3b43e',
         tension: 0.1
       },
       {
@@ -149,6 +152,7 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
         data: processedSteamData,
         fill: false,
         borderColor: '#3d4a3d',
+        backgroundColor: '#3d4a3d',
         tension: 0.1
       }
     ]
