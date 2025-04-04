@@ -39,6 +39,7 @@ export const RevenueAndEmission = ({
   const years = Object.keys(emission).map(Number) // 2020, 2021, 2022, ...
   const emissionData = years.map(year => emission[year].total)
   const revenueData = years.map(year => revenue[year].revenue / 100000000)
+  console.log('afsadf', years, emissionData, revenueData)
 
   const options = {
     responsive: true, // 반응형 지원
