@@ -58,21 +58,28 @@ const Page = () => {
   }, [])
 
   return (
-    <VStack dir="column" w="100%" p={10}>
-      {changeLog ? (
-        Object.entries(changeLog).map(([key, value]) => (
-          <Card.Root width="100%" padding={4}>
-            <Card.Body gap="2">
-              <Card.Title mt="2">{key}</Card.Title>
+    <Flex direction="column" gap="4">
+      <Flex justify="space-between" align="center" paddingTop={5} paddingLeft={10}>
+        <Text textStyle="xl" fontWeight="bolder">
+          사업장 목록
+        </Text>
+      </Flex>
+      <VStack dir="column" w="100%" p={10}>
+        {changeLog ? (
+          Object.entries(changeLog).map(([key, value]) => (
+            <Card.Root width="100%" padding={4}>
+              <Card.Body gap="2">
+                <Card.Title mt="2">{key}</Card.Title>
 
-              <ModifiyHistory data={value} />
-            </Card.Body>
-          </Card.Root>
-        ))
-      ) : (
-        <Text>Loading change logs...</Text>
-      )}
-    </VStack>
+                <ModifiyHistory data={value} />
+              </Card.Body>
+            </Card.Root>
+          ))
+        ) : (
+          <Text>Loading change logs...</Text>
+        )}
+      </VStack>
+    </Flex>
   )
 }
 
