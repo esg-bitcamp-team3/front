@@ -29,7 +29,6 @@ export default function SideNav() {
         height="150px"
         width="250px">
         <Box
-          bg="black"
           padding={2}
           width="100%"
           bg="#5fba71"

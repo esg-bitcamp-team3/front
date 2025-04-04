@@ -13,8 +13,8 @@ import {
   ICarbonEmissionGoalsByYear,
   IChangeLogInfo,
   IOrganizationRevenueByYear,
-  IOrganizationData,
-  IChangeLogInfoBySubsidiary
+  IOrganizationData
+  IFuel
 } from './interfaces/retrieveInterfaces'
 import {ListResponse, PaginatedResponse, PaginationParams, Response} from './type'
 
@@ -363,4 +363,14 @@ export async function getOrganizaionRevenueByYear({id}: {id: string}) {
       withAuth: true
     }
   )
+}
+
+{
+  /* fuel */
+}
+
+export async function getFuelData({id}: {id: string}) {
+  return await apiClient.get<Response<IFuel>>(`/fuels/${id}`, {
+    withAuth: true
+  })
 }

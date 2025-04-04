@@ -1,29 +1,13 @@
 'use client'
 
-import {
-  Button,
-  CloseButton,
-  DataList,
-  Dialog,
-  Field,
-  Fieldset,
-  HStack,
-  Input,
-  Portal,
-  useDialog,
-  UseDialogReturn
-} from '@chakra-ui/react'
+import {Button, CloseButton, Dialog, Portal, useDialog} from '@chakra-ui/react'
 
 import {useForm} from 'react-hook-form'
 import {IOrganization, ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
-import {createSubsidiary} from '@/lib/api/post'
 import {toaster} from '@/components/ui/toaster'
 import {getMyOrganizations} from '@/lib/api/my'
 import {useEffect, useState} from 'react'
-import {revalidatePath} from 'next/cache'
 import {useRouter} from 'next/navigation'
-import SubsidiaryListTab from '../tab/ListTab'
-import {updateSubsidiary} from '@/lib/api/put'
 import {deleteSubsidiary} from '@/lib/api/delete'
 export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
   const dialog = useDialog()
@@ -40,7 +24,7 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
   const fetchSubsidiaryList = async () => {
     try {
       const response = await getMyOrganizations()
-      setOrganization(response.data.organization.organization)
+      setOrganization(response.data.organization)
     } catch (error) {}
   }
 

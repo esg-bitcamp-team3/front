@@ -1,6 +1,6 @@
 import apiClient from './apiClient'
 import {
-  ILogByDate,
+  ILogByData,
   IOrganizationInfo,
   ISubsidiary,
   IUserInfo
@@ -19,7 +19,7 @@ export async function getMyUser() {
 }
 
 export async function getMyChangeLogs() {
-  return await apiClient.get<Response<ILogByDate>>(`/my/change-logs`, {
+  return await apiClient.get<Response<ILogByData>>(`/my/change-logs`, {
     withAuth: true
   })
 }

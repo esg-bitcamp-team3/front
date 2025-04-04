@@ -27,7 +27,7 @@ const Mobile = () => {
 
   return (
     <Flex direction="column" justify="space-between" gap={6} mb={8}>
-      {/* 고정연소 배출산식식 */}
+      {/* 이동연소 배출산식식 */}
       <Card.Root
         display="flex"
         flexDirection="column"

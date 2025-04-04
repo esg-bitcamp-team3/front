@@ -22,8 +22,7 @@ import {
   useDialog,
   UseDialogReturn
 } from '@chakra-ui/react'
-import {Dataform_Station} from './addDetail/dataform/dataform_Station'
-import {Dataform_Mobile} from './addDetail/dataform/dataform_Mobile'
+
 import {
   getActivityDataForElectricity,
   getActivityDataForMobileCombustion,
@@ -63,7 +62,7 @@ import {
   IndirectEmissionActivityTypeForElectricity,
   IndirectEmissionActivityTypeForSteam
 } from '@/lib/api/interfaces/enumTypes'
-import ModifyEmissionData from '@/components/sheet/ModifyDialog'
+
 import {
   createElectricity,
   createMobileCombustion,
