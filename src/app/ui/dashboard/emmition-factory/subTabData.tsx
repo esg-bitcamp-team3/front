@@ -10,10 +10,12 @@ import {
   ButtonGroup,
   CloseButton,
   Dialog,
+  Flex,
   HStack,
   IconButton,
   Pagination,
   Portal,
+  SegmentGroup,
   Span,
   Stack,
   Tabs,
@@ -80,22 +82,21 @@ interface TabContentProps {
 
 function TabContent({value, children}: TabContentProps) {
   return (
-    <Box pos="relative" py={2} height="100%">
-      <Tabs.Content
-        value={value}
-        position="relative"
-        _open={{
-          animationName: 'fade-in, scale-in',
-          animationDuration: '300ms'
-        }}
-        _closed={{
-          animationName: 'fade-out, scale-out',
-          animationDuration: '120ms'
-        }}
-        height="100%">
-        {children}
-      </Tabs.Content>
-    </Box>
+    <Tabs.Content
+      py={2}
+      value={value}
+      position="relative"
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms'
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms'
+      }}
+      height="100%">
+      {children}
+    </Tabs.Content>
   )
 }
 
@@ -204,10 +205,8 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
     }
   }
 
-  const props = apiMap[dataType]
-
-  const handleTabChange = (value: string) => {
-    setDataType(value as ActivityDataType)
+  const handleTabChange = (value: ActivityDataType) => {
+    setDataType(value)
   }
 
   const handleClose = async () => {
@@ -216,106 +215,47 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
     setYear('')
   }
 
+  const props = apiMap[dataType]
+
   return (
     <Stack
       justifyContent="center"
       alignItems="center"
       width="full"
       shadow="md"
-      borderRadius={'lg'}>
-      <Tabs.Root
-        padding={2}
-        width={'full'}
-        value={dataType}
-        variant="plain"
-        onValueChange={e => handleTabChange(e.value)}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Tabs.List bg="bg.muted" rounded="lg" gap={2} padding={1}>
-            <Tabs.Trigger px={4} value={ActivityDataType.STAIONARY_COMBUSTION}>
-              고정연소
-            </Tabs.Trigger>
-            <Tabs.Trigger px={4} value={ActivityDataType.MOBILE_COMBUSTION}>
-              이동연소
-            </Tabs.Trigger>
-            <Tabs.Trigger px={4} value={ActivityDataType.INDIRECT_ELECTRICITY}>
-              간접(전기)
-            </Tabs.Trigger>
-            <Tabs.Trigger px={4} value={ActivityDataType.INDIRECT_STEAM}>
-              간접(스팀)
-            </Tabs.Trigger>
-            <Tabs.Indicator rounded="l2" />
-          </Tabs.List>
-          <YearSelector props={{value: year, onValueChange: setYear}} />
-        </Box>
-        <TabContent value={ActivityDataType.STAIONARY_COMBUSTION}>
-          <HStack justifyContent="end" gap={2}>
-            <ModifyDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={modifyDialog}
-            />
-            <AddDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={addDialog}
-            />
-          </HStack>
-          <DataBox {...props} subsidiaryId={subsidiaryId} />
-        </TabContent>
-        <TabContent value={ActivityDataType.MOBILE_COMBUSTION}>
-          <HStack justifyContent="end" gap={2}>
-            <ModifyDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={modifyDialog}
-            />
-            <AddDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={addDialog}
-            />
-          </HStack>
-          <DataBox {...props} subsidiaryId={subsidiaryId} />
-        </TabContent>
-        <TabContent value={ActivityDataType.INDIRECT_ELECTRICITY}>
-          <HStack justifyContent="end" gap={2}>
-            <ModifyDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={modifyDialog}
-            />
-            <AddDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={addDialog}
-            />
-          </HStack>
-          <DataBox {...props} subsidiaryId={subsidiaryId} />
-        </TabContent>
-        <TabContent value={ActivityDataType.INDIRECT_STEAM}>
-          <HStack justifyContent="end" gap={2}>
-            <ModifyDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={modifyDialog}
-            />
-            <AddDialog
-              {...props}
-              subsidiaryId={subsidiaryId}
-              onClose={handleClose}
-              dialog={addDialog}
-            />
-          </HStack>
-          <DataBox {...props} subsidiaryId={subsidiaryId} />
-        </TabContent>
-      </Tabs.Root>
+      borderRadius={'lg'}
+      padding={4}>
+      <HStack justify={'space-between'} width="full" padding={4}>
+        <SegmentGroup.Root
+          defaultValue={ActivityDataType.STAIONARY_COMBUSTION}
+          value={dataType as ActivityDataType}
+          onValueChange={e => handleTabChange(e.value as ActivityDataType)}>
+          <SegmentGroup.Indicator />
+          <SegmentGroup.Items
+            items={Object.values(ActivityDataType)}
+            gap={2}
+            px={4}
+            fontSize="sm"
+          />
+        </SegmentGroup.Root>
+        <YearSelector props={{value: year, onValueChange: setYear}} />
+      </HStack>
+
+      <HStack key={dataType} justifyContent="end" gap={2} px={4} width="100%">
+        <ModifyDialog
+          {...props}
+          subsidiaryId={subsidiaryId}
+          onClose={handleClose}
+          dialog={modifyDialog}
+        />
+        <AddDialog
+          {...props}
+          subsidiaryId={subsidiaryId}
+          onClose={handleClose}
+          dialog={addDialog}
+        />
+      </HStack>
+      <DataBox {...props} subsidiaryId={subsidiaryId} />
     </Stack>
   )
 }
