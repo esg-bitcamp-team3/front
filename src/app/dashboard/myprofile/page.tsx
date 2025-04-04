@@ -20,7 +20,8 @@ import {
   Separator,
   Menu,
   Portal,
-  Table
+  Table,
+  Card
 } from '@chakra-ui/react'
 import {UserInfo, userInfo} from 'os'
 import {use, useEffect, useState} from 'react'
@@ -47,7 +48,8 @@ const Page = () => {
     try {
       const response = await getMyChangeLogs()
       setChangeLog(response.data)
-      console.log('asdfdsaf', response.data)
+      console.log('response.data', response.data)
+      console.log('asdfdsaf', Object.values(response.data))
     } catch {}
   }
 
@@ -55,20 +57,22 @@ const Page = () => {
     fetchChangeLogs()
   }, [])
 
-  // useEffect(() => {
-  //   if (changeLog) {
-  //     const row = Object.(changeLog) // `changeLog`의 모든 값 가져오기
-  //     // 중첩 배열을 평탄화
-
-  //     setRows(row)
-  //     console.log('qwer', row)
-  //   }
-  // }, [changeLog])
-
   return (
-    <Flex minH="100vh">
-      <Flex flex={1} p={10} bg="gray.50" justify="space-between"></Flex>
-    </Flex>
+    <VStack dir="column" w="100%" p={10}>
+      {changeLog ? (
+        Object.entries(changeLog).map(([key, value]) => (
+          <Card.Root width="100%" padding={4}>
+            <Card.Body gap="2">
+              <Card.Title mt="2">{key}</Card.Title>
+
+              <ModifiyHistory data={value} />
+            </Card.Body>
+          </Card.Root>
+        ))
+      ) : (
+        <Text>Loading change logs...</Text>
+      )}
+    </VStack>
   )
 }
 
