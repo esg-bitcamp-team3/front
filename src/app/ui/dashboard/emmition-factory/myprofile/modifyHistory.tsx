@@ -178,12 +178,12 @@ export const ModifiyHistory = ({data}: {data: ModifyHidtoryProps[]}) => {
                 value={data.data.activityData?.name}
                 logs={data.logs}
               />
-              <TableCell fieldName="total" value={data.data.total} logs={data.logs} />
               <TableCell
                 fieldName="uncertainty"
                 value={data.data.uncertainty}
                 logs={data.logs}
               />
+              <TableCell fieldName="total" value={data.data.total} logs={data.logs} />
               <TableCell fieldName="data1" value={data.data.data1} logs={data.logs} />
               <TableCell fieldName="data2" value={data.data.data2} logs={data.logs} />
               <TableCell fieldName="data3" value={data.data.data3} logs={data.logs} />
