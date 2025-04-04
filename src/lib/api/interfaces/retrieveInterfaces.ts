@@ -275,6 +275,8 @@ export interface IYearlyEmissionData {
 export interface IMothlyData {
   stationary: number[]
   mobile: number[]
+  electric: number[]
+  steam: number[]
   total: number[]
 }
 

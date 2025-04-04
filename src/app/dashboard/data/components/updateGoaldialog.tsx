@@ -1,4 +1,5 @@
 import {toaster} from '@/components/ui/toaster'
+import {InfoTip} from '@/components/ui/toggle-tip'
 import {
   getCarbonEmissionGoalsOfOrganization,
   getOrganizaionRevenueByYear
@@ -13,6 +14,7 @@ import {updateEmissionGoal} from '@/lib/api/put'
 import {
   Button,
   CloseButton,
+  DataList,
   Dialog,
   Field,
   Input,
@@ -21,9 +23,17 @@ import {
 } from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
+import {LuSettings} from 'react-icons/lu'
 
-export function UpdateGoalDialog({id}: {id: string}) {
+export function UpdateGoalDialog({
+  previousValue,
+  id
+}: {
+  previousValue: number
+  id: string
+}) {
   const [originalData, setOriginalData] = useState<ICarbonEmissionGoal>()
+  const [updatedValue, setUpdatedValue] = useState<number>(previousValue)
 
   const {register, handleSubmit, reset} = useForm<ICarbonEmissionGoal>({
     defaultValues: originalData // 초기값 설정
@@ -70,9 +80,11 @@ export function UpdateGoalDialog({id}: {id: string}) {
   }
 
   return (
-    <Dialog.Root size="sm">
+    <Dialog.Root size="xs">
       <Dialog.Trigger asChild>
-        <Button variant="ghost">⋮⋮⋮</Button>
+        <Button variant="ghost">
+          <LuSettings />
+        </Button>
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
@@ -80,30 +92,40 @@ export function UpdateGoalDialog({id}: {id: string}) {
           <Dialog.Content margin="auto" padding={4}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Dialog.Header paddingY="10px">
-                <Dialog.Title>온실가스 배출량 상한값 설정</Dialog.Title>
+                <Dialog.Title>목표 감축률 설정</Dialog.Title>
               </Dialog.Header>
               <Dialog.Body>
                 <Field.Root>
-                  <InputGroup
-                    endAddon={
-                      <span
-                        style={{
-                          fontSize: 'small',
-                          color: 'grey',
-                          width: '65px', // 가로 길이를 늘림
-                          textAlign: 'center'
-                        }}>
-                        tCO2eq
-                      </span>
-                    }>
+                  <InputGroup startAddon={<span style={{padding: '0 10px'}}>%</span>}>
                     <Input
-                      {...register('emissionGoal', {required: true})} // 입력값 등록
+                      {...register('emissionGoal', {
+                        required: true,
+                        onChange: e => {
+                          const inputValue = Number(e.target.value) // 입력값을 숫자로 변환
+                          if (!isNaN(inputValue)) {
+                            // 입력값이 유효한 숫자인 경우
+                            const newValue = previousValue * ((100 - inputValue) / 100)
+                            setUpdatedValue(Number(newValue.toFixed(2))) // 소수점 2자리로 제한
+                          } else {
+                            setUpdatedValue(previousValue)
+                          }
+                        }
+                      })} // 입력값 등록
                       placeholder={originalData?.emissionGoal.toString()}
                       type="number"
                     />
                   </InputGroup>
                 </Field.Root>
               </Dialog.Body>
+              <DataList.Root orientation="horizontal" paddingY="5px">
+                <DataList.Item>
+                  <DataList.ItemLabel>목표 배출량</DataList.ItemLabel>
+                  <InfoTip>올해 온실가스 목표 배출량(tCO2eq)</InfoTip>
+                  <DataList.ItemValue>
+                    {updatedValue.toFixed(2)} tCO2eq
+                  </DataList.ItemValue>
+                </DataList.Item>
+              </DataList.Root>
               <Dialog.Footer paddingY="10px">
                 <Dialog.ActionTrigger asChild>
                   <Button type="reset" variant="outline" size="xs" padding="10px">

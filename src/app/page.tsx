@@ -27,22 +27,22 @@ export default function Page() {
         lineHeight={{md: 'normal'}}
         mb={6}
         textAlign="center">
-        <Box display="flex" justifyContent="center" alignItems="center" gap={4}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap={4}
+          paddingTop={7}>
           {' '}
           <Link href="/">
             <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
               <img
-                src="/gglogo.png"
+                src="/project_logo.png"
                 alt="Green Gauge Logo"
-                style={{width: '50px', height: '50px'}}
+                style={{width: '12vw', height: 'auto'}}
               />{' '}
             </Button>
           </Link>
-          <Heading textStyle="3xl">
-            <Heading size="3xl" color="white" fontWeight="bold">
-              Green Gauge{' '}
-            </Heading>
-          </Heading>
         </Box>
       </Box>
 
