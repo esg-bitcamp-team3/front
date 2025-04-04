@@ -27,9 +27,7 @@ import {CellChange} from 'handsontable/common'
 import {EmissionProps} from '@/app/ui/dashboard/emmition-factory/subTabData'
 import {IEmissionForm} from '@/lib/api/interfaces/updateForm'
 import {toaster} from '../ui/toaster'
-import {set} from 'react-hook-form'
 import Handsontable from 'handsontable'
-import CustomCell from './Cell'
 
 // Register all Handsontable modules
 registerAllModules()
@@ -405,14 +403,13 @@ const ModifyDataTable: React.FC<HandsontableProps> = ({
           description: '데이터를 확인해주세요'
         }
       })
+      onClose() // Close the dialog
 
+      hot.clear()
       await response
 
       setModifiedRows(new Set())
       setSelectedRows(new Set())
-
-      onClose() // Close the dialog
-      hot.clear()
     } catch (error) {
       toaster.error({
         title: '데이터 생성 중 문제가 발생했습니다.',
@@ -583,20 +580,24 @@ const ModifyDataTable: React.FC<HandsontableProps> = ({
         colHeaders={colHeaders}
         columns={columns}
         rowHeaders={rowHeaders}
+        readOnly={false}
         width={width}
         height={height}
-        minRows={20}
-        maxRows={20}
         licenseKey={licenseKey}
         afterChange={afterChangeCallback}
         afterValidate={afterValidationCallback}
-        minSpareRows={1}
+        maxRows={20}
+        minRows={20}
+        allowInsertRow={false}
+        allowInsertColumn={false}
+        allowRemoveRow={true}
         hiddenColumns={{
           copyPasteEnabled: true,
           indicators: true,
           columns: [21]
         }}
-        {...settings}></HotTable>
+        {...settings}
+      />
       <ActionBar.Root open={true}>
         <ActionBar.Positioner>
           <ActionBar.Content padding={4}>

@@ -89,7 +89,7 @@ const ModifyDialog = (
     fetchData()
     fetchActivityData()
     setEmissionActivity(emissionData)
-  }, [page, pageSize])
+  }, [page, pageSize, getEmissionData, getActivityData, subsidiaryId])
 
   const handleDelete = async (id: string) => {
     try {

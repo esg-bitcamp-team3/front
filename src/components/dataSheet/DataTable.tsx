@@ -54,7 +54,7 @@ const DataTable: React.FC<HandsontableProps> = ({
   ],
   rowHeaders = true,
   width = '100%',
-  height = 500,
+  height = 300,
   licenseKey = 'non-commercial-and-evaluation',
   settings = {},
   emissionActivity,
@@ -271,8 +271,8 @@ const DataTable: React.FC<HandsontableProps> = ({
         width={width}
         height={height}
         licenseKey={licenseKey}
-        maxRows={20}
-        minRows={20}
+        maxRows={10}
+        minRows={10}
         readOnly={true} // Make entire table read-only
         disableVisualSelection={true} // Disable visual selection
         manualRowMove={false} // Disable row movement

@@ -4,7 +4,7 @@ import {TabContentData} from '@/app/ui/dashboard/emmition-factory/subTabData'
 import SubsidiaryDetail from '@/app/ui/dashboard/emmition-factory/tabs'
 import {Box, Flex, Tabs, Text} from '@chakra-ui/react'
 import {ReactNode, useEffect, useState} from 'react'
-import {LuFolder, LuSettings, LuSquareCheck} from 'react-icons/lu'
+import {LuChartLine, LuFolder, LuSettings, LuSquareCheck, LuTable} from 'react-icons/lu'
 import SubsidiaryDetailData from '../[id]/SubsidiaryDetail'
 import {ISubsidiary} from '@/lib/api/interfaces/retrieveInterfaces'
 import {toaster} from '@/components/ui/toaster'
@@ -17,22 +17,21 @@ interface TabContentProps {
 
 function TabContent({value, children}: TabContentProps) {
   return (
-    <Box pos="relative" py={2} height="100%">
-      <Tabs.Content
-        value={value}
-        position="relative"
-        _open={{
-          animationName: 'fade-in, scale-in',
-          animationDuration: '300ms'
-        }}
-        _closed={{
-          animationName: 'fade-out, scale-out',
-          animationDuration: '120ms'
-        }}
-        height="100%">
-        {children}
-      </Tabs.Content>
-    </Box>
+    <Tabs.Content
+      py={2}
+      value={value}
+      position="relative"
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms'
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms'
+      }}
+      height="100%">
+      {children}
+    </Tabs.Content>
   )
 }
 
@@ -47,6 +46,7 @@ function TabTrigger({icon, value, label}: TabTriggerProps) {
     <Tabs.Trigger
       value={value}
       gap={2}
+      padding={2}
       fontSize="sm"
       fontWeight="semibold"
       _selected={{
@@ -97,10 +97,9 @@ const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
         lazyMount
         unmountOnExit>
         <Tabs.List gap={4}>
-          <TabTrigger value="detail" label="Detail" icon={<LuFolder />} />
-          <TabTrigger value="graph" label="Graph" icon={<LuFolder />} />
-          <TabTrigger value="data" label="Data" icon={<LuSquareCheck />} />
-          <TabTrigger value="settings" label="Settings" icon={<LuSettings />} />
+          <TabTrigger value="detail" label="세부 정보" icon={<LuFolder />} />
+          <TabTrigger value="graph" label="데이터 분석" icon={<LuChartLine />} />
+          <TabTrigger value="data" label="데이터" icon={<LuTable />} />
         </Tabs.List>
         <TabContent
           value="detail"
@@ -112,7 +111,6 @@ const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
           value="data"
           children={<TabContentData subsidiaryId={subsidiaryId} />}
         />
-        <TabContent value="settings" children={<Text>Settings</Text>}></TabContent>
       </Tabs.Root>
     </Box>
   )

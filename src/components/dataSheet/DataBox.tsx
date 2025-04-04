@@ -55,7 +55,7 @@ const DataBox = (
     subsidiaryId
   } = props
   const [page, setPage] = useState<number>(1)
-  const [pageSize, setPageSize] = useState<number>(20)
+  const [pageSize, setPageSize] = useState<number>(10)
   const [data, setData] = useState<IEmissionInfo[]>([])
   const [totalCount, setTotalCount] = useState<number>(0)
   const [activityData, setActivityData] = useState<IFuelInfo[]>([])
@@ -83,7 +83,7 @@ const DataBox = (
     fetchData()
     fetchActivityData()
     setEmissionActivity(emissionData)
-  }, [page, pageSize])
+  }, [page, pageSize, getEmissionData, getActivityData, subsidiaryId])
 
   return (
     <VStack width="100%" height={'100%'}>
@@ -102,7 +102,7 @@ const DataBox = (
         onPageChange={e => setPage(e.page)}
         page={page}
         count={totalCount}
-        pageSize={20}
+        pageSize={pageSize}
         defaultPage={1}>
         <ButtonGroup variant="ghost" size="sm">
           <Pagination.PrevTrigger asChild>
