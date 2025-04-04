@@ -11,27 +11,19 @@ interface DataProps {
 
 const EmissionStat = ({data}: {data: DataProps}) => {
   const {label, value, previousValue, unit} = data
-  const percentChange = value / previousValue
-  const isIncrease = percentChange > 0
+  const percentIncrease = (value / previousValue) * 100
+  const percentChange = Math.abs(100 - percentIncrease)
+  const isIncrease = percentIncrease > 100
 
   const changeType = isIncrease ? 'increase' : 'decrease'
   const changeColor = isIncrease ? 'red.500' : 'green.500'
-
-  const formatNumber = (num: number) => {
-    if (Math.abs(num) < 0.001) {
-      return num.toExponential(2)
-    }
-    return num.toFixed(4)
-  }
-
-  const formattedValue = formatNumber(value)
 
   return (
     <Box p={4} borderRadius="lg" boxShadow="lg">
       <Stat.Root>
         <Stat.Label padding={2}>{label}</Stat.Label>
         <Stat.ValueText alignItems="baseline" justifyContent="space-between" padding={2}>
-          {formattedValue}
+          {value.toFixed(2)}
           <Stat.ValueUnit>{unit}</Stat.ValueUnit>
         </Stat.ValueText>
         <Badge colorScheme={changeColor}>

@@ -66,6 +66,7 @@ export interface IFuel {
   code: string
   name: string
   type: string
+  unit: string
 }
 
 export interface IEmissionFactor {
@@ -274,6 +275,8 @@ export interface IYearlyEmissionData {
 export interface IMothlyData {
   stationary: number[]
   mobile: number[]
+  electric: number[]
+  steam: number[]
   total: number[]
 }
 

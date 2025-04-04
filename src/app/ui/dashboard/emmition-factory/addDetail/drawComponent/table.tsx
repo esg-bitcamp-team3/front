@@ -9,7 +9,15 @@ import {
 } from '@/lib/api/get'
 import {IEmissionInfo} from '@/lib/api/interfaces/retrieveInterfaces'
 
-import {Button, ButtonGroup, IconButton, Pagination, Stack, Table} from '@chakra-ui/react'
+import {
+  Button,
+  ButtonGroup,
+  IconButton,
+  Pagination,
+  Stack,
+  Table,
+  Text
+} from '@chakra-ui/react'
 import {use, useEffect, useState} from 'react'
 
 import {LuChevronLeft, LuChevronRight} from 'react-icons/lu'

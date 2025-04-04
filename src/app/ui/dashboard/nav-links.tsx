@@ -5,7 +5,11 @@ import {usePathname} from 'next/navigation'
 import {Link, Box} from '@chakra-ui/react'
 
 const links = [
-  {name: '대시보드', href: '/dashboard', icon: HomeIcon},
+  {
+    name: '대시보드',
+    href: '/dashboard/data',
+    icon: DocumentDuplicateIcon
+  },
   {
     name: '사업장',
     href: '/dashboard/emmition-factory',
@@ -28,7 +32,7 @@ export default function NavLinks() {
 
   // ✅ 정확히 일치 or 하위 경로만 활성화
   const isActive = (href: string) => {
-    if (href === '/dashboard') return pathname === href
+    if (href === '/dashboard/') return pathname === href
     return pathname === href || pathname.startsWith(href + '/')
   }
 

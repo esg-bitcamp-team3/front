@@ -208,6 +208,14 @@ const ModifyDataTable: React.FC<HandsontableProps> = ({
         })
       }
 
+      if (prop === 'activityData') {
+        hot.setDataAtRowProp(
+          row,
+          'unit',
+          activityData.find(activity => newValue === activity.fuel.name)?.fuel.unit
+        )
+      }
+
       // Check if the change is in one of the data columns (data1 to data12)
       if (typeof prop === 'string' && prop.startsWith('data')) {
         // Calculate total - sum of all monthly data (data1 through data12)
@@ -259,6 +267,9 @@ const ModifyDataTable: React.FC<HandsontableProps> = ({
       facilityName: item.facilityName || '',
       emissionActivity: item.emissionActivity || '',
       activityData: item.activityData?.name || '', // 이름으로 표시
+      unit:
+        activityData.find(activity => item.activityData?._id == activity.fuel._id)?.fuel
+          .unit || '',
       total: item.total || 0,
       uncertainty: item.uncertainty || 0,
       data1: item.data1 || 0,
@@ -489,7 +500,7 @@ const ModifyDataTable: React.FC<HandsontableProps> = ({
       {data: 'facilityName', type: 'text'}, // 내부시설명
       {data: 'emissionActivity', type: 'dropdown', source: emissionActivityNames}, // 배출활동
       {data: 'activityData', type: 'dropdown', source: activityDataNames}, // 활동자료
-      {data: 'unit', type: 'dropdown', source: ['kWh', 'L', 'km', 'kg', 'ton']}, // 단위
+      {data: 'unit', type: 'text', readOnly: true}, // 단위
       {data: 'total', type: 'numeric', readOnly: true, numericFormat: {pattern: '0.00'}}, // 합계
       {data: 'uncertainty', type: 'numeric', numericFormat: {pattern: '0.00'}}, // 불확도
       {

@@ -142,7 +142,7 @@ const AddDataTable: React.FC<HandsontableProps> = ({
       {data: 'facilityName', type: 'text'}, // 내부시설명
       {data: 'emissionActivity', type: 'dropdown', source: emissionActivityNames}, // 배출활동
       {data: 'activityData', type: 'dropdown', source: activityDataNames}, // 활동자료
-      {data: 'unit', type: 'dropdown', source: ['kWh', 'L', 'km', 'kg', 'ton']}, // 단위
+      {data: 'unit', type: 'text', readOnly: true}, // 단위
       {data: 'total', type: 'numeric', readOnly: true, numericFormat: {pattern: '0.00'}}, // 합계
       {data: 'uncertainty', type: 'numeric', numericFormat: {pattern: '0.00'}}, // 불확도
       {
@@ -241,6 +241,14 @@ const AddDataTable: React.FC<HandsontableProps> = ({
           newValue ? newSet.add(row as number) : newSet.delete(row as number)
           return newSet
         })
+      }
+
+      if (prop === 'activityData') {
+        hot.setDataAtRowProp(
+          row,
+          'unit',
+          activityData.find(activity => newValue === activity.fuel.name)?.fuel.unit
+        )
       }
 
       // Check if the change is in one of the data columns (data1 to data12)
