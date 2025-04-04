@@ -1,7 +1,12 @@
 import apiClient from './apiClient'
-import {ICarbonEmissionGoal, ISubsidiary} from './interfaces/retrieveInterfaces'
+import {
+  ICarbonEmissionGoal,
+  ISubsidiary,
+  IUserInfo
+} from './interfaces/retrieveInterfaces'
 import {useEffect, useState} from 'react'
 import {Response} from './type'
+import {NewPassword} from './interfaces/auth'
 
 // `updateSubsidiary` 함수에서 API 경로를 `/subsidiary`로 변경
 
@@ -49,4 +54,10 @@ export async function updateEmissionGoal({
       withAuth: true
     }
   )
+}
+export async function updatePassword({data}: {data: NewPassword}) {
+  return await apiClient.put<Response<IUserInfo>, NewPassword>(`/user/password`, {
+    body: data,
+    withAuth: true
+  })
 }
