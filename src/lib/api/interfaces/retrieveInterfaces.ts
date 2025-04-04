@@ -66,6 +66,7 @@ export interface IFuel {
   code: string
   name: string
   type: string
+  unit: string
 }
 
 export interface IEmissionFactor {

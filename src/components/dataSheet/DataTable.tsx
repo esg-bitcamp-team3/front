@@ -69,6 +69,9 @@ const DataTable: React.FC<HandsontableProps> = ({
       facilityName: item.facilityName || '',
       emissionActivity: item.emissionActivity || '',
       activityData: item.activityData?.name || '', // 이름으로 표시
+      unit:
+        activityData.find(activity => item.activityData?._id == activity.fuel._id)?.fuel
+          .unit || '',
       total: item.total || 0,
       uncertainty: item.uncertainty || 0,
       data1: item.data1 || 0,
@@ -161,8 +164,6 @@ const DataTable: React.FC<HandsontableProps> = ({
       {data: 'activityData', type: 'dropdown', source: activityDataNames, readOnly: true}, // 활동자료
       {
         data: 'unit',
-        type: 'dropdown',
-        source: ['kWh', 'L', 'km', 'kg', 'ton'],
         readOnly: true
       }, // 단위
       {data: 'total', type: 'numeric', readOnly: true, numericFormat: {pattern: '0.00'}}, // 합계
