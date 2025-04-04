@@ -162,7 +162,6 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
   const [dataType, setDataType] = useState<ActivityDataType>(
     ActivityDataType.STAIONARY_COMBUSTION
   )
-  const [data, setData] = useState<IEmissionInfo[]>([])
   const modifyDialog = useDialog()
   const addDialog = useDialog()
 

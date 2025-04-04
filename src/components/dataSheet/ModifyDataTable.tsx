@@ -403,14 +403,13 @@ const ModifyDataTable: React.FC<HandsontableProps> = ({
           description: '데이터를 확인해주세요'
         }
       })
+      onClose() // Close the dialog
 
       hot.clear()
       await response
 
       setModifiedRows(new Set())
       setSelectedRows(new Set())
-
-      onClose() // Close the dialog
     } catch (error) {
       toaster.error({
         title: '데이터 생성 중 문제가 발생했습니다.',
