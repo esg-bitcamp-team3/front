@@ -1,6 +1,6 @@
 import SideNav from '@/app/ui/dashboard/sidenav'
 import {Box} from '@chakra-ui/react'
-import {NavBar} from '../ui/dashboard/navBar'
+import NavBar from '../ui/dashboard/navBar'
 
 export default function Layout({children}: {children: React.ReactNode}) {
   return (

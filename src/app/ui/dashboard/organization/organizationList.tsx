@@ -23,8 +23,10 @@ import {
   useDialog,
   Portal,
   CloseButton,
-  Separator
+  Separator,
+  SimpleGrid
 } from '@chakra-ui/react'
+import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api'
 import {useEffect, useState} from 'react'
 import {FiPower} from 'react-icons/fi' // Using react-icons for the power icon
 import {LuArrowDown, LuArrowUp} from 'react-icons/lu'
@@ -39,6 +41,11 @@ export const OrganizaionInfoList = () => {
   )
   const [year, setYear] = useState<number>(2025)
   const dialog = useDialog()
+  const [center, setCenter] = useState<{lat: number; lng: number}>({
+    lat: 37.5665,
+    lng: 126.978
+  }) // Default to Seoul, South Korea
+  const [mapLoaded, setMapLoaded] = useState<boolean>(false) // Track if the map is loaded
 
   const fetchOrgnization = async () => {
     try {
@@ -256,45 +263,154 @@ export const OrganizaionInfoList = () => {
                 {subsidiaryList?.map(sub => (
                   <Table.Row
                     key={sub._id}
+                    cursor="pointer"
                     _hover={{bg: 'gray.100'}}
                     onClick={() => {
                       dialog.setOpen(true)
                       setSelectedSubsidiaryId(sub._id)
                     }}>
-                    <Table.Cell padding={2}>{sub.name}</Table.Cell>
-                    <Table.Cell padding={2}>
-                      {emissionData[sub._id]?.[year]?.total?.toFixed(2) || '-'} 톤
-                    </Table.Cell>
-                    <Table.Cell padding={2}>
-                      {(() => {
-                        const current = emissionData[sub._id]?.[year]?.total
-                        const previous = emissionData[sub._id]?.[year - 1]?.total
-                        if (current && previous) {
-                          const change = (
-                            ((current - previous) / previous) *
-                            100
-                          ).toFixed(2)
-                          return (
-                            <HStack>
-                              {current > previous ? (
-                                <LuArrowUp color="red" />
-                              ) : (
-                                <LuArrowDown color="green" />
-                              )}{' '}
-                              {change}%
-                            </HStack>
-                          )
-                        }
-                        return '-'
-                      })()}
-                    </Table.Cell>
+                    <Box
+                      as="tr"
+                      display="contents" // 테이블 구조 유지하면서 Box 감싸기
+                    >
+                      <Table.Cell padding={2}>{sub.name}</Table.Cell>
+                      <Table.Cell padding={2}>
+                        {emissionData[sub._id]?.[year]?.total?.toFixed(2) || '-'} 톤
+                      </Table.Cell>
+                      <Table.Cell padding={2}>
+                        {(() => {
+                          const current = emissionData[sub._id]?.[year]?.total
+                          const previous = emissionData[sub._id]?.[year - 1]?.total
+                          if (current && previous) {
+                            const change = (
+                              ((current - previous) / previous) *
+                              100
+                            ).toFixed(2)
+                            return (
+                              <HStack>
+                                {current > previous ? (
+                                  <LuArrowUp color="red" />
+                                ) : (
+                                  <LuArrowDown color="green" />
+                                )}{' '}
+                                {change}
+                              </HStack>
+                            )
+                          }
+                          return '-'
+                        })()}
+                      </Table.Cell>
+                    </Box>
                   </Table.Row>
                 ))}
               </Table.Body>
             </Table.Root>
           </Card.Body>
         </Card.Root>
+        <Card.Root
+          display="flex"
+          flexDirection="column"
+          bg="white"
+          p={4}
+          borderRadius="lg"
+          boxShadow="sm"
+          w="48%" // Adjust width for side-by-side layout
+          h="100%"
+          flexGrow={1} // This ensures the box grows vertically to fill space
+        >
+          <Card.Title>
+            <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={4}>
+              사업장정보
+            </Text>
+          </Card.Title>
+          <Card.Body>
+            <Table.Root size="lg">
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeader padding={2}>사업장명</Table.ColumnHeader>
+                  <Table.ColumnHeader padding={2}>배출량</Table.ColumnHeader>
+                  <Table.ColumnHeader padding={2}>전년도 대비 증감률</Table.ColumnHeader>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {subsidiaryList?.map(sub => (
+                  <Table.Row
+                    key={sub._id}
+                    cursor="pointer"
+                    _hover={{bg: 'gray.100'}}
+                    onClick={() => {
+                      dialog.setOpen(true)
+                      setSelectedSubsidiaryId(sub._id)
+                    }}>
+                    <Box
+                      as="tr"
+                      display="contents" // 테이블 구조 유지하면서 Box 감싸기
+                    >
+                      <Table.Cell padding={2}>{sub.name}</Table.Cell>
+                      <Table.Cell padding={2}>
+                        {emissionData[sub._id]?.[year]?.total?.toFixed(2) || '-'} 톤
+                      </Table.Cell>
+                      <Table.Cell padding={2}>
+                        {(() => {
+                          const current = emissionData[sub._id]?.[year]?.total
+                          const previous = emissionData[sub._id]?.[year - 1]?.total
+                          if (current && previous) {
+                            const change = (
+                              ((current - previous) / previous) *
+                              100
+                            ).toFixed(2)
+                            return (
+                              <HStack>
+                                {current > previous ? (
+                                  <LuArrowUp color="red" />
+                                ) : (
+                                  <LuArrowDown color="green" />
+                                )}{' '}
+                                {change}
+                              </HStack>
+                            )
+                          }
+                          return '-'
+                        })()}
+                      </Table.Cell>
+                    </Box>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          </Card.Body>
+        </Card.Root>
+        <Card.Root
+          display="flex"
+          flexDirection="column"
+          bg="white"
+          p={4}
+          w="60%"
+          borderRadius="lg"
+          boxShadow="sm">
+          <Card.Title>
+            <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={4}>
+              사업장 위치
+            </Text>
+          </Card.Title>
+          <Card.Body>
+            <LoadScript googleMapsApiKey="AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc">
+              <GoogleMap
+                mapContainerStyle={{width: '100%', height: '400px'}}
+                center={center}
+                zoom={10}
+                onLoad={() => setMapLoaded(true)}>
+                {mapLoaded && subsidiary?.address && subsidiary?.address && (
+                  <Marker position={center} />
+                )}
+              </GoogleMap>
+            </LoadScript>
+          </Card.Body>
+        </Card.Root>
       </Flex>
+      <SimpleGrid columns={2} columnGap="" rowGap="4">
+        <Card.Root p={4}></Card.Root>
+      </SimpleGrid>
 
       {selectedSubsidiaryId && (
         <Dialog.RootProvider value={dialog}>

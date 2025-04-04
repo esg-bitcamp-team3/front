@@ -25,6 +25,7 @@ import {
   CloseButton,
   Separator
 } from '@chakra-ui/react'
+import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api'
 import {useEffect, useState} from 'react'
 import {FiPower} from 'react-icons/fi' // Using react-icons for the power icon
 import {LuArrowDown, LuArrowUp} from 'react-icons/lu'
@@ -37,6 +38,47 @@ export const OrganizaionInfoListTest = () => {
   const [emissionData, setEmissionData] = useState<{[id: string]: IYearlyEmissionData}>(
     {}
   )
+  const [markerPositions, setMarkerPositions] = useState<{lat: number; lng: number}[]>([])
+  const geocodeAddress = async (
+    address: string
+  ): Promise<{lat: number; lng: number} | null> => {
+    try {
+      const res = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address
+        )}&key=AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc`
+      )
+      const data = await res.json()
+      if (data.status === 'OK') {
+        const location = data.results[0].geometry.location
+        return {lat: location.lat, lng: location.lng}
+      } else {
+        console.error('Geocoding failed:', address)
+        return null
+      }
+    } catch (err) {
+      console.error('Geocoding error:', err)
+      return null
+    }
+  }
+  useEffect(() => {
+    const fetchMarkers = async () => {
+      if (!subsidiaryList) return
+      const positions: {lat: number; lng: number}[] = []
+      for (const sub of subsidiaryList) {
+        if (sub.address) {
+          const coords = await geocodeAddress(sub.address)
+          if (coords) {
+            positions.push(coords)
+          }
+        }
+      }
+      setMarkerPositions(positions)
+    }
+
+    fetchMarkers()
+  }, [subsidiaryList])
+
   const [year, setYear] = useState<number>(2025)
   const dialog = useDialog()
 
@@ -83,7 +125,43 @@ export const OrganizaionInfoListTest = () => {
       })
     }
   }
+  const [center, setCenter] = useState<{lat: number; lng: number}>({
+    lat: 37.5665,
+    lng: 126.978
+  })
+  const [mapLoaded, setMapLoaded] = useState(false)
 
+  useEffect(() => {
+    const address = subsidiary?.address // Define 'address' from subsidiary object
+    if (address) {
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc`
+      )
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'OK') {
+            const location = data.results[0].geometry.location
+            setCenter({lat: location.lat, lng: location.lng}) // Update the center state
+          } else {
+            toaster.error({
+              title: '주소 변환 실패',
+              description: '해당 주소를 찾을 수 없습니다.'
+            })
+          }
+        })
+        .catch(err => {
+          console.error('Geocoding API error:', err)
+          toaster.error({
+            title: 'Geocoding API 에러',
+            description: '주소를 변환하는데 문제가 발생했습니다.'
+          })
+        })
+    }
+  }, [subsidiary?.address])
+  // 숫자에 쉼표 추가
+  const formatNumberWithCommas = (number: number) => {
+    return new Intl.NumberFormat().format(number)
+  }
   useEffect(() => {
     setYear(new Date().getFullYear())
     fetchOrgnization()
@@ -101,6 +179,48 @@ export const OrganizaionInfoListTest = () => {
     }
   }, [selectedSubsidiaryId])
 
+  function handleMapLoaded(arg0: boolean): void | Promise<void> {
+    throw new Error('Function not implemented.')
+  }
+  function initMap() {
+    const mapElement = document.getElementById('map')
+    if (!mapElement) {
+      throw new Error('Map element not found')
+    }
+    const map = new google.maps.Map(mapElement as HTMLElement, {
+      zoom: 10,
+      center: {lat: 37.48144, lng: 126.882652}
+    })
+    const infoWindow = new google.maps.InfoWindow({
+      content: '',
+      disableAutoPan: true
+    })
+
+    //마커에 표시될 문자
+    const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+    //지도에 마커 추가
+    const location = [{lat: 37.7749, lng: -122.4194}] // Example location array
+    const markers = location.map((position: any, i: number) => {
+      const label = labels[i % labels.length]
+      const marker = new google.maps.Marker({
+        position,
+        label
+      })
+
+      //lat - 위도 , lng - 경도
+      //마커 클릭 시 정보 창 열기
+      marker.addListener('click', () => {
+        infoWindow.setContent(label)
+        infoWindow.open(map, marker)
+      })
+
+      //생성한 마커 지도에 추가
+      marker.setMap(map)
+
+      return marker
+    })
+  }
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       {/* 로고와 환영 텍스트 박스 */}
@@ -133,7 +253,7 @@ export const OrganizaionInfoListTest = () => {
         </Text>
       </Flex>
       <br />
-      <Flex direction="row" justify="space-between" gap={6} mb={8}>
+      <Flex direction="row" gap={6} mb={8}>
         {/* 기업 정보 박스 */}
 
         <Card.Root
@@ -141,7 +261,7 @@ export const OrganizaionInfoListTest = () => {
           flexDirection="column"
           bg="white"
           p={4}
-          w="md"
+          w="50%"
           borderRadius="lg"
           boxShadow="sm">
           <Card.Title>
@@ -232,73 +352,104 @@ export const OrganizaionInfoListTest = () => {
             </DataList.Root>
           </Card.Body>
         </Card.Root>
-
-        {/* 사업장 정보 */}
+        <Flex direction="column" w="50%">
+          {/* 사업장 정보 */}
+          <Card.Root
+            display="flex"
+            flexDirection="column"
+            bg="white"
+            p={4}
+            borderRadius="lg"
+            boxShadow="sm"
+            w="100%" // Adjust width for side-by-side layout
+            h="100%"
+            flexGrow={1} // This ensures the box grows vertically to fill space
+          >
+            <Card.Title>
+              <Text fontSize="md" fontWeight="bold" color="black" mb={4}>
+                사업장정보
+              </Text>
+            </Card.Title>
+            <Card.Body>
+              <Table.Root size="lg">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeader padding={2}>사업장명</Table.ColumnHeader>
+                    <Table.ColumnHeader padding={2}>배출량</Table.ColumnHeader>
+                    <Table.ColumnHeader padding={2}>
+                      전년도 대비 증감률
+                    </Table.ColumnHeader>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {subsidiaryList?.map(sub => (
+                    <Table.Row
+                      key={sub._id}
+                      _hover={{bg: 'gray.100'}}
+                      onClick={() => {
+                        dialog.setOpen(true)
+                        setSelectedSubsidiaryId(sub._id)
+                      }}>
+                      <Table.Cell padding={2}>{sub.name}</Table.Cell>
+                      <Table.Cell padding={2}>
+                        {emissionData[sub._id]?.[year]?.total?.toFixed(2) || '-'} 톤
+                      </Table.Cell>
+                      <Table.Cell padding={2}>
+                        {(() => {
+                          const current = emissionData[sub._id]?.[year]?.total
+                          const previous = emissionData[sub._id]?.[year - 1]?.total
+                          if (current && previous) {
+                            const change = (
+                              ((current - previous) / previous) *
+                              100
+                            ).toFixed(2)
+                            return (
+                              <HStack>
+                                {current > previous ? (
+                                  <LuArrowUp color="red" />
+                                ) : (
+                                  <LuArrowDown color="green" />
+                                )}{' '}
+                                {change}%
+                              </HStack>
+                            )
+                          }
+                          return '-'
+                        })()}
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </Card.Body>
+          </Card.Root>
+        </Flex>
         <Card.Root
-          display="flex"
+          display=""
           flexDirection="column"
           bg="white"
           p={4}
+          w="60%"
           borderRadius="lg"
-          boxShadow="sm"
-          w="48%" // Adjust width for side-by-side layout
-          h="100%"
-          flexGrow={1} // This ensures the box grows vertically to fill space
-        >
+          boxShadow="sm">
           <Card.Title>
-            <Text fontSize="md" fontWeight="bold" color="black" mb={4}>
-              사업장정보
+            <Text fontSize="md" fontWeight="bold" color="gray.700" mb={4}>
+              사업장 위치
             </Text>
           </Card.Title>
           <Card.Body>
-            <Table.Root size="lg">
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeader padding={2}>사업장명</Table.ColumnHeader>
-                  <Table.ColumnHeader padding={2}>배출량</Table.ColumnHeader>
-                  <Table.ColumnHeader padding={2}>전년도 대비 증감률</Table.ColumnHeader>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {subsidiaryList?.map(sub => (
-                  <Table.Row
-                    key={sub._id}
-                    _hover={{bg: 'gray.100'}}
-                    onClick={() => {
-                      dialog.setOpen(true)
-                      setSelectedSubsidiaryId(sub._id)
-                    }}>
-                    <Table.Cell padding={2}>{sub.name}</Table.Cell>
-                    <Table.Cell padding={2}>
-                      {emissionData[sub._id]?.[year]?.total?.toFixed(2) || '-'} 톤
-                    </Table.Cell>
-                    <Table.Cell padding={2}>
-                      {(() => {
-                        const current = emissionData[sub._id]?.[year]?.total
-                        const previous = emissionData[sub._id]?.[year - 1]?.total
-                        if (current && previous) {
-                          const change = (
-                            ((current - previous) / previous) *
-                            100
-                          ).toFixed(2)
-                          return (
-                            <HStack>
-                              {current > previous ? (
-                                <LuArrowUp color="red" />
-                              ) : (
-                                <LuArrowDown color="green" />
-                              )}{' '}
-                              {change}%
-                            </HStack>
-                          )
-                        }
-                        return '-'
-                      })()}
-                    </Table.Cell>
-                  </Table.Row>
+            <LoadScript googleMapsApiKey="AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc">
+              <GoogleMap
+                mapContainerStyle={{width: '100%', height: '400px'}}
+                center={center}
+                zoom={10}
+                onLoad={() => setMapLoaded(true)}>
+                {/* 개별 마커 렌더링 */}
+                {markerPositions.map((position, index) => (
+                  <Marker key={index} position={position} />
                 ))}
-              </Table.Body>
-            </Table.Root>
+              </GoogleMap>
+            </LoadScript>
           </Card.Body>
         </Card.Root>
       </Flex>

@@ -61,24 +61,6 @@ export default function SideNav() {
           rounded="md"
           bg="gray.50"
         />
-        <Button
-          onClick={handleLogout}
-          display="flex"
-          h="48px"
-          w="full"
-          alignItems="center"
-          justifyContent="center"
-          gap={2}
-          rounded="md"
-          bg="gray.500"
-          p={3}
-          fontSize="sm"
-          fontWeight="medium"
-          _hover={{bg: 'sky.100', color: 'black'}}
-          md={{display: 'flex', justifyContent: 'start', px: 3, p: 2}}>
-          <LuLogOut size={24} />
-          <Box display={{base: 'none', md: 'block'}}>로그아웃</Box>
-        </Button>
       </Flex>
     </Box>
   )
