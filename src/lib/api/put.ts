@@ -1,9 +1,15 @@
 import apiClient from './apiClient'
+import {
+  ICarbonEmissionGoal,
+  ISubsidiary,
+  IUserInfo
+} from './interfaces/retrieveInterfaces'
 
-import {IEmissionInfo, ISubsidiary, ICarbonEmissionGoal} from './interfaces/retrieveInterfaces'
+import {IEmissionInfo} from './interfaces/retrieveInterfaces'
 
 import {useEffect, useState} from 'react'
 import {Response} from './type'
+import {NewPassword} from './interfaces/auth'
 import {IEmissionForm} from './interfaces/updateForm'
 
 // `updateSubsidiary` 함수에서 API 경로를 `/subsidiary`로 변경
@@ -37,7 +43,6 @@ export async function updateSubsidiary(id: string, data: Partial<ISubsidiary>) {
     throw error // 예외 발생 시 다시 throw
   }
 }
-
 
 export async function updateEmissionDataFromElectricity({
   id,
@@ -101,4 +106,10 @@ export async function updateEmissionDataFromSteam({
       body: data
     }
   )
+}
+export async function updatePassword({data}: {data: NewPassword}) {
+  return await apiClient.put<Response<IUserInfo>, NewPassword>(`/user/password`, {
+    body: data,
+    withAuth: true
+  })
 }

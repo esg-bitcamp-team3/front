@@ -1,17 +1,17 @@
+'use client'
+
 import Link from 'next/link'
 import {lusitana} from '@/app/ui/fonts'
 import {Box, Text, Button, Stack, Flex, Heading} from '@chakra-ui/react'
+import {motion} from 'framer-motion'
+
+const MotionBox = motion(Box)
 import {LuArrowRight} from 'react-icons/lu'
 
 export default function Page() {
   return (
     <Box
-      as="main"
-      display="flex"
-      minH="100vh"
       flexDirection="column"
-      p={6}
-      bg="white"
       style={{
         backgroundImage:
           'linear-gradient(to right top, #a4b33a, #82b855, #5fba71, #3bba8d, #14b8a6)',
@@ -38,7 +38,11 @@ export default function Page() {
               />{' '}
             </Button>
           </Link>
-          <Heading textStyle="3xl">Welcome to Green Gauge</Heading>
+          <Heading textStyle="3xl">
+            <Heading size="3xl" color="white" fontWeight="bold">
+              Green Gauge{' '}
+            </Heading>
+          </Heading>
         </Box>
       </Box>
 
@@ -50,15 +54,14 @@ export default function Page() {
         // 버튼을 세로로 정렬
         borderRadius="lg"
         p={8}
-        mt={200}
+        mt={0}
         w={'100%'}>
         <Stack align="start" textAlign="start" margin="auto" ml={10} width={'40%'}>
           <Heading size="6xl" color="white" fontWeight="bold">
-            Green Gauge
+            그린 게이지
           </Heading>
           <Text mb="3" fontSize="lg" color="white">
-            Join us in making the world greener. Together, we can make a big impact on the
-            planet.
+            당신의 한 걸음이 지구의 미소가 됩니다.
           </Text>
           <Link href="/login">
             <Button
@@ -69,14 +72,45 @@ export default function Page() {
               fontWeight="bold"
               padding={4}
               colorPalette="gray">
-              Login <LuArrowRight size="xl" />
+              로그인 <LuArrowRight size="xl" />
             </Button>
           </Link>
         </Stack>
+        <MotionBox
+          flex="1"
+          display="flex"
+          justifyContent="end"
+          alignItems="center"
+          initial={{opacity: 0, scale: 0.85, rotate: -5}}
+          animate={{opacity: 1, scale: 1, rotate: 0}}
+          transition={{duration: 1.3, delay: 0.2}}>
+          <Box as="div" display="flex" justifyContent="center" alignItems="center">
+            <img
+              src="/earth-eco.png"
+              alt="Eco Earth"
+              style={{
+                maxWidth: '80%',
+
+                filter: 'drop-shadow(0px 4px 15px rgba(0,0,0,0.3))'
+              }}
+            />
+          </Box>
+        </MotionBox>
       </Box>
 
       {/* 섹션 2 */}
       <Box flex="1" />
+      <Flex
+        justifyContent="center"
+        alignItems="flex-start" // ← 위로 붙이기
+        mt={8} // ← margin top 줄이기
+        px={{base: 4, md: 16}}
+        gap={12}
+        flexWrap="wrap">
+        {/* 텍스트 메시지 */}
+        {/* s
+        {/* 지구 이미지 */}
+      </Flex>
 
       {/* 푸터 시작 */}
       <Box
@@ -93,10 +127,11 @@ export default function Page() {
         opacity={0.6} // 투명도 조정
       >
         <Text fontSize="md" textAlign="center">
-          <strong>Green Gauge</strong> | Making the World Greener Together
+          <strong>주식회사 그린게이지지</strong> | 사용자이용약관 개인정보보호정책
         </Text>
         <Text fontSize="sm" textAlign="center" mt={2}>
-          Address: 123 Green St, Eco City, Earth
+          본사: 서울시 영등포구 의사당대로 83 오투타워 O2 Tower, 83, Uisadang-daero,
+          Yeongdeungpo-gu, Seoul, 07325, Korea
         </Text>
         <Text fontSize="xs" textAlign="center" mt={1}>
           Email: contact@greengauge.com | Phone: +123 456 7890
