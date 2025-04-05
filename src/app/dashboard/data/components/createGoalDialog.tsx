@@ -30,14 +30,12 @@ export function CreateGoalDialog({id}: {id: string}) {
       const response = createEmissionGoal(data)
       toaster.promise(response, {
         success: {
-          title: 'Successfully uploaded!',
-          description: 'Looks great'
+          title: '변경 사항이 저장되었습니다!'
         },
         error: {
-          title: 'Upload failed',
-          description: 'Something wrong with the upload'
+          title: '변경 사항 저장에 실패했습니다.'
         },
-        loading: {title: 'Uploading...', description: 'Please wait'}
+        loading: {title: '저장 중...'}
       })
     } catch {
       toaster.error({
@@ -76,11 +74,11 @@ export function CreateGoalDialog({id}: {id: string}) {
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
                   <Button type="reset" variant="outline">
-                    Cancel
+                    취소
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button type="submit">Save</Button>
+                  <Button type="submit">저장</Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>
               <Dialog.CloseTrigger asChild>

@@ -48,14 +48,12 @@ export const AddSubsidiary = () => {
     const response = createSubsidiary(data)
     toaster.promise(response, {
       success: {
-        title: 'Successfully uploaded!',
-        description: 'Looks great'
+        title: '저장되었습니다!'
       },
       error: {
-        title: 'Upload failed',
-        description: 'Something wrong with the upload'
+        title: '저장 중 문제가 발생했습니다.'
       },
-      loading: {title: 'Uploading...', description: 'Please wait'}
+      loading: {title: '저장 중...'}
     })
     window.location.reload()
   }

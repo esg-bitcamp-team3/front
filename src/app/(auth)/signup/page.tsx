@@ -53,9 +53,9 @@ const SignUpPage = () => {
         organization: organization
       })
       toaster.success({
-        title: response.data
+        title: '회원 가입 성공!'
       })
-      router.push('/dashboard')
+      router.push('/dashboard/data')
     } catch (error) {
       toaster.error({
         title:

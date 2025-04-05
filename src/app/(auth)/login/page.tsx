@@ -35,7 +35,7 @@ const LoginPage = () => {
     try {
       const response = await login({username, password})
       console.log(response.data)
-      router.push('/dashboard')
+      router.push('/dashboard/data')
     } catch (error) {
       setError('로그인에 실패했습니다. 다시 시도해주세요.')
     }

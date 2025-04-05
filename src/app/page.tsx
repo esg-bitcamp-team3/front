@@ -127,7 +127,7 @@ export default function Page() {
         opacity={0.6} // 투명도 조정
       >
         <Text fontSize="md" textAlign="center">
-          <strong>주식회사 그린게이지지</strong> | 사용자이용약관 개인정보보호정책
+          <strong>그린게이지</strong> | 사용자이용약관 개인정보보호정책
         </Text>
         <Text fontSize="sm" textAlign="center" mt={2}>
           본사: 서울시 영등포구 의사당대로 83 오투타워 O2 Tower, 83, Uisadang-daero,
