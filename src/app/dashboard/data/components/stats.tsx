@@ -26,8 +26,12 @@ const EmissionStat = ({data}: {data: DataProps}) => {
           {value.toFixed(2)}
           <Stat.ValueUnit>{unit}</Stat.ValueUnit>
         </Stat.ValueText>
-        <Badge colorScheme={changeColor}>
-          {changeType === 'increase' ? <Stat.UpIndicator /> : <Stat.DownIndicator />}
+        <Badge>
+          {changeType === 'increase' ? (
+            <Stat.UpIndicator color={changeColor} />
+          ) : (
+            <Stat.DownIndicator color={changeColor} />
+          )}
           {percentChange.toFixed(2)}%
         </Badge>
       </Stat.Root>

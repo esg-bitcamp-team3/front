@@ -54,7 +54,7 @@ export const RevenueAndEmission = ({
       title: {
         display: true, // 제목 표시 여부
         align: 'center', // 제목 정렬 설정
-        text: '온실가스 배출량 & 매출량', // 차트 제목
+        text: '온실가스 배출량 & 매출액', // 차트 제목
         font: {
           family: 'Pretendard',
           size: 20
@@ -114,7 +114,7 @@ export const RevenueAndEmission = ({
         type: 'line'
       },
       {
-        label: '매출량',
+        label: '매출액',
         data: revenueData,
         fill: false,
         borderColor: '#89f9ba',
@@ -128,7 +128,14 @@ export const RevenueAndEmission = ({
   }
 
   return (
-    <Box p={4} borderRadius="lg" boxShadow="lg" w="50vw" h="38vh" justifyContent="end">
+    <Box
+      display="flex"
+      p={4}
+      borderRadius="lg"
+      boxShadow="lg"
+      w="50vw"
+      h="38vh"
+      justifyContent="center">
       {/* 차트 크기 조정 */}
       <Line
         options={options}

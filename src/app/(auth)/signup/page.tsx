@@ -122,9 +122,9 @@ const SignUpPage = () => {
           <Link href="/">
             <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
               <img
-                src="/gglogo.png"
+                src="/project_logo.png" // 로고 이미지 경로
                 alt="Green Gauge Logo"
-                style={{width: '50px', height: '50px'}}
+                style={{width: '100px', height: '50px'}}
               />
             </Button>
           </Link>
@@ -198,7 +198,7 @@ const SignUpPage = () => {
 
               <Field.Root w="48%">
                 <FieldLabel htmlFor="organization" color="white">
-                  조직명
+                  기업코드
                 </FieldLabel>
                 <Input
                   color="white"
