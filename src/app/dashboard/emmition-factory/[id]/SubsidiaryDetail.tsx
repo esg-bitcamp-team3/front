@@ -8,19 +8,22 @@ import {
   Card,
   Button,
   useDisclosure,
-  useDialog
+  useDialog,
+  Spinner
 } from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api'
 import {SimpleGrid} from '@chakra-ui/react'
 import {EditSubsidiary} from './EditDialog'
 import {DeleteSubsidiary} from './DeleteDialog'
+import {set} from 'react-hook-form'
 
 const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
   const [subsidiary, setSubsidiary] = useState<ISubsidiary>()
 
   const [mapLoaded, setMapLoaded] = useState(false)
   const [editedSubsidiary, setEditedSubsidiary] = useState<ISubsidiary | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const fetchSubsidiary = async (id: string) => {
     try {
       const response = await getSubsidiaryById(id)
@@ -45,6 +48,8 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
   useEffect(() => {
     const address = subsidiary?.address // Define 'address' from subsidiary object
     if (address) {
+      setIsLoading(true)
+
       fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc`
       )
@@ -67,8 +72,11 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
             description: '주소를 변환하는데 문제가 발생했습니다.'
           })
         })
+        .finally(() => {
+          setIsLoading(false) // Set loading to false after fetching
+        })
     }
-  }, [])
+  }, [subsidiary?.address])
   // 숫자에 쉼표 추가
   const formatNumberWithCommas = (number: number) => {
     return new Intl.NumberFormat().format(number)
@@ -212,15 +220,19 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
             </Text>
           </Card.Title>
           <Card.Body>
-            <LoadScript googleMapsApiKey="AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc">
-              <GoogleMap
-                mapContainerStyle={{width: '100%', height: '400px'}}
-                center={center}
-                zoom={10}
-                onLoad={() => setMapLoaded(true)}>
-                {mapLoaded && subsidiary?.address && <Marker position={center} />}
-              </GoogleMap>
-            </LoadScript>
+            {isLoading ? (
+              <Text>{''}</Text>
+            ) : (
+              <LoadScript googleMapsApiKey="AIzaSyBx0SlxezqTxbd5GhY-GRsJHbrszcVmFqc">
+                <GoogleMap
+                  mapContainerStyle={{width: '100%', height: '400px'}}
+                  center={center}
+                  zoom={10}
+                  onLoad={() => setMapLoaded(true)}>
+                  {mapLoaded && subsidiary?.address && <Marker position={center} />}
+                </GoogleMap>
+              </LoadScript>
+            )}
           </Card.Body>
         </Card.Root>
       </Flex>
