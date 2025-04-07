@@ -74,7 +74,8 @@ export const SubsidiaryCard = ({
       borderWidth="1px"
       shadow="lg"
       borderRadius="lg"
-      padding={4}>
+      padding={4}
+      overflowY="auto">
       <Text textStyle={'xl'} fontWeight={'bold'} padding={4}>
         사업장 별 배출량 비중
       </Text>
