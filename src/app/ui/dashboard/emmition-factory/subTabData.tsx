@@ -253,7 +253,7 @@ export const TabContentData = ({subsidiaryId}: {subsidiaryId: string}) => {
           dialog={addDialog}
         />
       </HStack>
-      <DataBox {...props} subsidiaryId={subsidiaryId} />
+      <DataBox {...props} subsidiaryId={subsidiaryId} year={year} />
     </Stack>
   )
 }
