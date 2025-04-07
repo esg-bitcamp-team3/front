@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import {lusitana} from '@/app/ui/fonts'
-import {Box, Text, Button, Stack, Flex, Heading} from '@chakra-ui/react'
+import {Box, Text, Button, Stack, Flex, Heading, Image} from '@chakra-ui/react'
 import {motion} from 'framer-motion'
 
 const MotionBox = motion(Box)
@@ -36,7 +36,7 @@ export default function Page() {
           {' '}
           <Link href="/">
             <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
-              <img
+              <Image
                 src="/project_logo.png"
                 alt="Green Gauge Logo"
                 style={{width: '12vw', height: 'auto'}}
