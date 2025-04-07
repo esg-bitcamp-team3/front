@@ -94,8 +94,9 @@ const SubsidiaryTab = ({subsidiaryId}: {subsidiaryId: string}) => {
         variant="line"
         colorPalette="blue"
         lazyMount
-        unmountOnExit>
-        <Tabs.List gap={4}>
+        unmountOnExit
+        size={'lg'}>
+        <Tabs.List gap={2}>
           <TabTrigger value="detail" label="세부 정보" icon={<LuFolder />} />
           <TabTrigger value="graph" label="데이터 분석" icon={<LuChartLine />} />
           <TabTrigger value="data" label="데이터" icon={<LuTable />} />

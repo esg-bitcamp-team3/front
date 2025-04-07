@@ -70,11 +70,12 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
     <Dialog.RootProvider value={dialog} size={'xl'}>
       <Dialog.Trigger asChild>
         <Button
-          variant="surface"
+          variant="solid"
           colorPalette="red"
           border={'20px'}
-          size="xl"
-          padding={2}>
+          size="sm"
+          padding={2}
+          mt={4}>
           사업장 삭제
         </Button>
       </Dialog.Trigger>

@@ -47,40 +47,41 @@ const NavBar = () => {
               }}
             />
           </Button>
+          {isHovered && (
+            <Box
+              position="absolute"
+              bottom="60px"
+              right="2"
+              bg="gray.100"
+              borderRadius="md"
+              boxShadow="lg"
+              border={'2px solid #E2E8F0'}
+              p={4}
+              zIndex={10}
+              minW="100px"
+              minH="30px">
+              <VStack align="center" gap={1}>
+                <Button variant={'ghost'}>
+                  <Link href="/dashboard/history">
+                    <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>수정내역</Text>
+                  </Link>
+                </Button>
+                <Button variant={'ghost'}>
+                  <Link href="/dashboard/my">
+                    <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>정보수정</Text>
+                  </Link>
+                </Button>
+                <Button variant={'ghost'} onClick={handleLogout}>
+                  <Text>
+                    <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>로그아웃</Text>
+                  </Text>
+                </Button>
+              </VStack>
+            </Box>
+          )}
         </HStack>
 
         {/* Hover 메뉴 */}
-        {isHovered && (
-          <Box
-            position="absolute"
-            bottom="60px"
-            right="0"
-            bg="gray.100"
-            borderRadius="md"
-            boxShadow="md"
-            p={3}
-            zIndex={10}
-            minW="100px"
-            minH="30px">
-            <VStack align="center" gap={1}>
-              <Button variant={'ghost'}>
-                <Link href="/dashboard/history">
-                  <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>수정내역</Text>
-                </Link>
-              </Button>
-              <Button variant={'ghost'}>
-                <Link href="/dashboard/my">
-                  <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>정보수정</Text>
-                </Link>
-              </Button>
-              <Button variant={'ghost'} onClick={handleLogout}>
-                <Text>
-                  <Text _hover={{color: 'blue.500', cursor: 'pointer'}}>로그아웃</Text>
-                </Text>
-              </Button>
-            </VStack>
-          </Box>
-        )}
       </Box>
     </Box>
   )

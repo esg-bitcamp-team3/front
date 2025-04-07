@@ -87,8 +87,8 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
   return (
     <Dialog.RootProvider value={dialog} size={'xl'}>
       <Dialog.Trigger asChild>
-        <Button variant="ghost" size="xl">
-          수정
+        <Button variant="outline" size="sm" mt={8}>
+          정보 수정
         </Button>
       </Dialog.Trigger>
       <Portal>

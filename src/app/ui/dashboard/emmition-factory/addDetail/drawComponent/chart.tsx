@@ -159,7 +159,7 @@ export function ChartforSubsidary({total}: {total: IMothlyData}) {
   }
 
   return (
-    <Box h="250px">
+    <Box h="300px">
       {/* 차트 크기 조정 */}
       <Line
         options={{

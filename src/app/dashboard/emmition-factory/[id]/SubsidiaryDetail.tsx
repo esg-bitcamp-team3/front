@@ -31,22 +31,6 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
       })
     }
   }
-  const {onOpen, onClose} = useDisclosure() // Modal Control
-
-  // Replace with actual coordinates
-
-  const dialog = useDialog()
-  const fetchSubsidary = async (id: string) => {
-    try {
-      const response = await getSubsidiaryById(id)
-      setSubsidiary(response.data)
-      console.log(response.data)
-    } catch (error) {
-      toaster.error({
-        title: '사업장 데이터를 가져오는 데 실패했습니다.'
-      })
-    }
-  }
 
   useEffect(() => {
     if (subsidiaryId) {
@@ -84,7 +68,7 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
           })
         })
     }
-  }, [subsidiary?.address])
+  }, [])
   // 숫자에 쉼표 추가
   const formatNumberWithCommas = (number: number) => {
     return new Intl.NumberFormat().format(number)
@@ -128,7 +112,7 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
             </DataList.Root>
           </Card.Body>
           <Card.Body>
-            <DataList.Root orientation="horizontal" size="lg">
+            <DataList.Root orientation="horizontal" size="lg" gap={4}>
               <DataList.Item>
                 <DataList.ItemLabel>온실가스비용</DataList.ItemLabel>
                 <DataList.ItemValue>
@@ -234,9 +218,7 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
                 center={center}
                 zoom={10}
                 onLoad={() => setMapLoaded(true)}>
-                {mapLoaded && subsidiary?.address && subsidiary?.address && (
-                  <Marker position={center} />
-                )}
+                {mapLoaded && subsidiary?.address && <Marker position={center} />}
               </GoogleMap>
             </LoadScript>
           </Card.Body>

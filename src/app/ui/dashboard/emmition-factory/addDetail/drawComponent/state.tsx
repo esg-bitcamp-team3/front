@@ -1,5 +1,5 @@
 import {IMothlyData, IYearlyEmissionData} from '@/lib/api/interfaces/retrieveInterfaces'
-import {Badge, FormatNumber, HStack, Stat, VStack} from '@chakra-ui/react'
+import {Badge, FormatNumber, HStack, SimpleGrid, Stat, VStack} from '@chakra-ui/react'
 
 export function TotalState({
   total,
@@ -61,7 +61,7 @@ export function TotalState({
   const changeSteamColor = isSteamIncrease ? 'red.500' : 'green.500'
 
   return (
-    <HStack spaceX={20}>
+    <SimpleGrid columns={5} gap={24} w="100%">
       {/* Total state */}
       <Stat.Root size="lg">
         <Stat.Label fontWeight="bold" color="rgb(206,182,236)">
@@ -148,6 +148,6 @@ export function TotalState({
           {percentChangeSteam.toFixed(2)}%
         </Badge>
       </Stat.Root>
-    </HStack>
+    </SimpleGrid>
   )
 }

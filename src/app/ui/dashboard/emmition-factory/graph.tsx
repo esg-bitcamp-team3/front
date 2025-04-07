@@ -61,15 +61,13 @@ export const SelectYear = ({props}: {props: yearAndSubs}) => {
   }, [year])
 
   return (
-    <>
-      <VStack display="flex" justifyContent="center" alignItems="center" padding={10}>
-        <Box>
-          {yearlyTotal && <TotalState total={yearlyTotal} yearChoice={parseInt(year)} />}
-        </Box>
-        <Box w="10/12" paddingY={20}>
-          {monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}
-        </Box>
-      </VStack>
-    </>
+    <VStack display="flex" justifyContent="center" alignItems="center">
+      <Box w={'100%'}>
+        {yearlyTotal && <TotalState total={yearlyTotal} yearChoice={parseInt(year)} />}
+      </Box>
+      <Box w="100%" paddingY={20}>
+        {monthlyTotal && <ChartforSubsidary total={monthlyTotal} />}
+      </Box>
+    </VStack>
   )
 }

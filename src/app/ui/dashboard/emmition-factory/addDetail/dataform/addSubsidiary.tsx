@@ -61,8 +61,8 @@ export const AddSubsidiary = () => {
   return (
     <Dialog.RootProvider value={dialog} size={'xl'}>
       <Dialog.Trigger asChild>
-        <Button variant="ghost" size="xl">
-          추가하기
+        <Button variant="solid" size="sm" margin={2} px={4} colorPalette={'green'}>
+          사업장 추가하기
         </Button>
       </Dialog.Trigger>
       <Portal>
@@ -172,13 +172,13 @@ export const AddSubsidiary = () => {
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
-                  <Button variant="outline" m={2}>
-                    Cancel
+                  <Button variant="outline" padding={4}>
+                    취소
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
-                  <Button type="submit" m={2}>
-                    Save
+                  <Button type="submit" padding={4}>
+                    저장
                   </Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>
