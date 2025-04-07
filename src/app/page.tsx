@@ -85,7 +85,7 @@ export default function Page() {
           animate={{opacity: 1, scale: 1, rotate: 0}}
           transition={{duration: 1.3, delay: 0.2}}>
           <Box as="div" display="flex" justifyContent="center" alignItems="center">
-            <img
+            <Image
               src="/earth-eco.png"
               alt="Eco Earth"
               style={{

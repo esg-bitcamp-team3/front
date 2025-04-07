@@ -18,6 +18,7 @@ import {
   Field,
   Link
 } from '@chakra-ui/react'
+import {set} from 'react-hook-form'
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('')
@@ -61,36 +62,6 @@ const SignUpPage = () => {
         title:
           error instanceof ApiError ? error.message : '알 수 없는 오류가 발생했습니다.'
       })
-    }
-  }
-
-  const handleUsernameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setUsername(value)
-
-    // 아이디 중복 확인
-    if (value) {
-      const isUsernameTaken = await checkUsername(value)
-      if (isUsernameTaken) {
-        setUsernameError('중복된 아이디입니다.')
-      } else {
-        setUsernameError('')
-      }
-    }
-  }
-
-  const handleEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setEmail(value)
-
-    // 이메일 중복 확인
-    if (value) {
-      const isEmailTaken = await checkEmail(value)
-      if (isEmailTaken) {
-        setEmailError('중복된 이메일입니다.')
-      } else {
-        setEmailError('')
-      }
     }
   }
 
@@ -158,7 +129,7 @@ const SignUpPage = () => {
                   id="email"
                   type="email"
                   value={email}
-                  onChange={handleEmailChange}
+                  onChange={e => setEmail(e.target.value)}
                   placeholder="이메일을 입력하세요"
                 />
                 {emailError && <Text color="red.500">{emailError}</Text>}
@@ -190,7 +161,7 @@ const SignUpPage = () => {
                   id="username"
                   type="text"
                   value={username}
-                  onChange={handleUsernameChange}
+                  onChange={e => setUsername(e.target.value)}
                   placeholder="아이디를 입력하세요"
                 />
                 {usernameError && <Text color="red.500">{usernameError}</Text>}

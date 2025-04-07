@@ -128,7 +128,14 @@ export const RevenueAndEmission = ({
   }
 
   return (
-    <Box p={4} borderRadius="lg" boxShadow="lg" w="50vw" h="38vh" justifyContent="end">
+    <Box
+      display="flex"
+      p={2}
+      borderRadius="lg"
+      boxShadow="lg"
+      w="50vw"
+      h="38vh"
+      justifyContent="center">
       {/* 차트 크기 조정 */}
       <Line
         options={options}
