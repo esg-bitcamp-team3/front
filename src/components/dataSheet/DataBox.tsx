@@ -42,6 +42,7 @@ import DataTable from './DataTable'
 const DataBox = (
   props: EmissionProps & {
     subsidiaryId: string
+    year?: string
   }
 ) => {
   const {
@@ -73,7 +74,12 @@ const DataBox = (
 
     const fetchData = async () => {
       try {
-        const {data, total} = await getEmissionData({page, pageSize, id: subsidiaryId})
+        const {data, total} = await getEmissionData({
+          page,
+          pageSize,
+          id: subsidiaryId,
+          ...(props.year ? {year: props.year} : {})
+        })
         setData(data)
         setTotalCount(total)
       } catch (error) {
@@ -83,7 +89,7 @@ const DataBox = (
     fetchData()
     fetchActivityData()
     setEmissionActivity(emissionData)
-  }, [page, pageSize, getEmissionData, getActivityData, subsidiaryId])
+  }, [page, pageSize, getEmissionData, getActivityData, subsidiaryId, props.year])
 
   return (
     <VStack width="100%" height={'100%'}>
