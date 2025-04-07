@@ -27,8 +27,7 @@ const SubsidiaryDetailData = ({subsidiaryId}: {subsidiaryId: string}) => {
       setSubsidiary(response.data)
     } catch (error) {
       toaster.error({
-        title: 'Failed to fetch subsidiary data',
-        description: 'Could not retrieve the subsidiary information.'
+        title: '데이터를 가져오는 데 실패했습니다.'
       })
     }
   }

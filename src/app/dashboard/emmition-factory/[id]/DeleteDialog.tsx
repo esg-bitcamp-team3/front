@@ -50,22 +50,18 @@ export const DeleteSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
       // 성공 알림
       toaster.promise(response, {
         success: {
-          title: 'Successfully delete!',
-          description: 'The subsidiary information has been updated.'
+          title: '사업장을 삭제했습니다!'
         },
         error: {
-          title: 'Delete failed',
-          description: 'Something went wrong during the update.'
+          title: '사업장 삭제에 실패했습니다.'
         },
-        loading: {title: 'Updating...', description: 'Please wait'}
+        loading: {title: '삭제 중...'}
       })
 
       router.push('/dashboard/emmition-factory')
     } catch (error) {
-      console.error('Error updating subsidiary:', error)
       toaster.error({
-        title: 'Failed to update',
-        description: 'There was an issue updating the subsidiary.'
+        title: '삭제 중 문제가 발생했습니다.'
       })
     }
   }

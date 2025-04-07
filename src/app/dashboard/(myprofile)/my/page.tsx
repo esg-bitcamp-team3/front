@@ -29,12 +29,12 @@ const Page = () => {
       const response = updatePassword({data})
       toaster.promise(response, {
         success: {
-          title: 'Successfully uploaded!'
+          title: '비밀번호가 변경되었습니다.'
         },
         error: {
-          title: 'Upload failed'
+          title: '비밀번호 변경에 실패했습니다.'
         },
-        loading: {title: 'Uploading...'}
+        loading: {title: '잠시만 기다려주세요...'}
       })
     } catch {
       toaster.error({

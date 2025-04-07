@@ -66,14 +66,12 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
       // 성공 알림
       toaster.promise(() => updateSubsidiary(subsidiary._id, data), {
         success: {
-          title: 'Successfully updated!',
-          description: 'The subsidiary information has been updated.'
+          title: '변경 사항이 저장되었습니다!'
         },
         error: {
-          title: 'Update failed',
-          description: 'Something went wrong during the update.'
+          title: '변경 사항 저장에 실패했습니다.'
         },
-        loading: {title: 'Updating...', description: 'Please wait'}
+        loading: {title: '저장 중...'}
       })
 
       window.location.reload()
@@ -211,12 +209,12 @@ export const EditSubsidiary = ({subsidiary}: {subsidiary: ISubsidiary}) => {
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
                   <Button variant="outline" m={2}>
-                    Cancel
+                    취소
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
                   <Button type="submit" m={2}>
-                    Save
+                    저장
                   </Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>

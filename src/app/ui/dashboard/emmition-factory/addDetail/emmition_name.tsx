@@ -45,14 +45,12 @@ const AddEmmition = () => {
     const response = createSubsidiary(data)
     toaster.promise(response, {
       success: {
-        title: 'Successfully uploaded!',
-        description: 'Looks great'
+        title: '저장되었습니다!'
       },
       error: {
-        title: 'Upload failed',
-        description: 'Something wrong with the upload'
+        title: '저장 중 문제가 발생했습니다.'
       },
-      loading: {title: 'Uploading...', description: 'Please wait'}
+      loading: {title: '저장 중...'}
     })
   }
 
@@ -118,12 +116,12 @@ const AddEmmition = () => {
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
                   <Button variant="outline" m={2}>
-                    Cancel
+                    취소
                   </Button>
                 </Dialog.ActionTrigger>
                 <Dialog.ActionTrigger asChild>
                   <Button onClick={handleSubmit(onSubmit)} m={2}>
-                    Save
+                    저장
                   </Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>

@@ -234,7 +234,7 @@ const Page = () => {
       setSubsidiaryList(response.data.subsidiaries)
     } catch (error) {
       toaster.error({
-        title: '기업 데이터를 가져오는 데 실패했습니다.'
+        title: '데이터를 가져오는 데 실패했습니다.'
       })
     } finally {
       setIsOrganizationLoading(false)

@@ -12,6 +12,7 @@ import {
   Portal,
   Select,
   Separator,
+  Spinner,
   TableBody,
   TableCell,
   TableColumnHeader,
@@ -119,9 +120,11 @@ const SubsidiaryTable = () => {
   const [subsidiaryList, setSubsidiaryList] = useState<ISubsidiary[]>([])
   const [searchCriteria, setSearchCriteria] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
   const fetchSubsidiaryList = async () => {
+    setIsLoading(true)
     try {
       const response = await searchMyOrganizations({
         criteria: searchCriteria,
@@ -130,6 +133,8 @@ const SubsidiaryTable = () => {
       setSubsidiaryList(response.data)
     } catch (error) {
       router.push('/login')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -181,7 +186,13 @@ const SubsidiaryTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {subsidiaryList.length > 0 ? (
+          {isLoading ? (
+            <TableRow>
+              <TableCell colSpan={7} textAlign="center" padding={4}>
+                <Spinner />
+              </TableCell>
+            </TableRow>
+          ) : subsidiaryList.length > 0 ? (
             subsidiaryList.map(subsidiary => (
               <TableRow
                 key={subsidiary._id}
@@ -217,7 +228,7 @@ const SubsidiaryTable = () => {
           ) : (
             <TableRow>
               <TableCell colSpan={7} textAlign="center" padding={4}>
-                프로젝트 목록이 없습니다.
+                사업장이 없습니다
               </TableCell>
             </TableRow>
           )}
