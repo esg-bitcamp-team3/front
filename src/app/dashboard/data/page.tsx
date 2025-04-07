@@ -44,7 +44,7 @@ import {PieForOrganization} from './components/pie'
 import {LineChart} from './components/lineChart'
 import {SubsidiaryCard} from './components/subsidiaryCard'
 import {RevenueAndEmission} from './components/revenueAndEmission'
-import {GoalProgress} from './components/Goalprogress'
+import {GoalProgress} from './components/goalprogress'
 
 // Define prop types for components
 interface StatsSectionProps {
@@ -317,7 +317,7 @@ const Page = () => {
 
   return (
     <Box paddingTop={6} pb={10}>
-      <HStack justifyContent="space-between">
+      <HStack>
         <VStack w="full">
           {/* 기업 이름과 목표 달성 */}
           <HStack>
@@ -350,13 +350,13 @@ const Page = () => {
               previousYearMonthlyEmissions={previousYearMonthlyEmissions}
               organizationRevenueRecords={organizationRevenueRecords}
               year={year}
-              month={month}
+              month={month + 1}
               isLoading={isStatsLoading}
             />
           </Box>
         </VStack>
 
-        <Box display="flex" alignItems={'end'} w="full" spaceX="4">
+        <Box>
           {historicalYearlyEmissions && organizationRevenueRecords && (
             <RevenueAndEmission
               emission={historicalYearlyEmissions}

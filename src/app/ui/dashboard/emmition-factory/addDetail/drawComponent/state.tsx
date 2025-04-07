@@ -71,8 +71,12 @@ export function TotalState({
           {totalForSubsidiary[yearChoice]}
           <Stat.ValueUnit>tCO2eq</Stat.ValueUnit>
         </Stat.ValueText>
-        <Badge colorScheme={changeTotalColor}>
-          {changeTotalType === 'increase' ? <Stat.UpIndicator /> : <Stat.DownIndicator />}
+        <Badge>
+          {changeTotalType === 'increase' ? (
+            <Stat.UpIndicator color={changeTotalColor} />
+          ) : (
+            <Stat.DownIndicator color={changeTotalColor} />
+          )}
           {percentChangeTotal.toFixed(2)}%
         </Badge>
       </Stat.Root>
@@ -86,11 +90,11 @@ export function TotalState({
           {stationary[yearChoice]}
           <Stat.ValueUnit>tCO2eq</Stat.ValueUnit>
         </Stat.ValueText>
-        <Badge colorScheme={changeStationaryColor}>
+        <Badge>
           {changeStationaryType === 'increase' ? (
-            <Stat.UpIndicator />
+            <Stat.UpIndicator color={changeStationaryColor} />
           ) : (
-            <Stat.DownIndicator />
+            <Stat.DownIndicator color={changeStationaryColor} />
           )}
           {percentChangeStationary.toFixed(2)}%
         </Badge>
@@ -105,11 +109,11 @@ export function TotalState({
           {mobile[yearChoice]}
           <Stat.ValueUnit>tCO2eq</Stat.ValueUnit>
         </Stat.ValueText>
-        <Badge colorScheme={changeMobileColor}>
+        <Badge>
           {changeMobileType === 'increase' ? (
-            <Stat.UpIndicator />
+            <Stat.UpIndicator color={changeMobileColor} />
           ) : (
-            <Stat.DownIndicator />
+            <Stat.DownIndicator color={changeMobileColor} />
           )}
           {percentChangeMobile.toFixed(2)}%
         </Badge>
@@ -124,11 +128,11 @@ export function TotalState({
           {electric[yearChoice]}
           <Stat.ValueUnit>tCO2eq</Stat.ValueUnit>
         </Stat.ValueText>
-        <Badge colorScheme={changeElectricColor}>
+        <Badge>
           {changeElectricType === 'increase' ? (
-            <Stat.UpIndicator />
+            <Stat.UpIndicator color={changeElectricColor} />
           ) : (
-            <Stat.DownIndicator />
+            <Stat.DownIndicator color={changeElectricColor} />
           )}
           {percentChangeElectric.toFixed(2)}%
         </Badge>
@@ -143,8 +147,12 @@ export function TotalState({
           {steam[yearChoice]}
           <Stat.ValueUnit>tCO2eq</Stat.ValueUnit>
         </Stat.ValueText>
-        <Badge colorScheme={changeSteamColor}>
-          {changeSteamType === 'increase' ? <Stat.UpIndicator /> : <Stat.DownIndicator />}
+        <Badge>
+          {changeSteamType === 'increase' ? (
+            <Stat.UpIndicator color={changeSteamColor} />
+          ) : (
+            <Stat.DownIndicator color={changeSteamColor} />
+          )}
           {percentChangeSteam.toFixed(2)}%
         </Badge>
       </Stat.Root>

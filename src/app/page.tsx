@@ -36,11 +36,11 @@ export default function Page() {
           {' '}
           <Link href="/">
             <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
-              <Image
+              <img
                 src="/project_logo.png"
                 alt="Green Gauge Logo"
-                style={{width: '12vw', height: 'auto'}}
-              />{' '}
+                style={{width: '50px', height: '50px'}}
+              />
             </Button>
           </Link>
         </Box>

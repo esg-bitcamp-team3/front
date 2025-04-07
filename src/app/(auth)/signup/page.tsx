@@ -16,9 +16,15 @@ import {
   Text,
   useBreakpointValue,
   Field,
-  Link
+  Link,
+  Image,
+  Heading
 } from '@chakra-ui/react'
-import {set} from 'react-hook-form'
+import {motion} from 'framer-motion'
+
+const MotionBox = motion(Box)
+const MotionButton = motion(Button)
+const MotionFlex = motion(Flex)
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('')
@@ -28,8 +34,6 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
-  const [usernameError, setUsernameError] = useState('') // 아이디 중복 오류 메시지
-  const [emailError, setEmailError] = useState('') // 이메일 중복 오류 메시지
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,6 +69,8 @@ const SignUpPage = () => {
     }
   }
 
+  const formWidth = useBreakpointValue({base: '90%', md: '600px'})
+
   return (
     <Flex
       direction="column"
@@ -80,65 +86,73 @@ const SignUpPage = () => {
         backgroundRepeat: 'no-repeat' // 배경 이미지 반복 방지
       }}>
       {/* 상단 타이틀과 로고 */}
-      <Text
-        className="lusitana" // Assuming you have the 'lusitana' class from your previous setup
-        fontSize={{base: 'xl', md: '3xl'}}
-        color="green.600"
-        lineHeight={{md: 'normal'}}
-        mb={250}
-        textAlign="center"
-        style={{marginTop: '0'}} // 상단에 완전히 붙이기 위해 marginTop을 0으로 설정
-      >
-        <Box display="flex" justifyContent="center" alignItems="center" gap={4}>
-          <Link href="/">
-            <Button as="a" bg="rgba(0, 0, 0, 0.0)" color="white" padding={4}>
-              <img
-                src="/gglogo.png"
-                alt="Green Gauge Logo"
-                style={{width: '50px', height: '50px'}}
-              />
-            </Button>
-          </Link>
-          <Text color="white">Welcome to Green Gauge</Text>
-        </Box>
-      </Text>
+      <MotionFlex
+        zIndex={1}
+        direction="column"
+        align="center"
+        justify="center"
+        gap={10}
+        initial={{opacity: 0, y: 20}}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 1}}
+        px={4}>
+        {/* 로고 + 타이틀 */}
+        <MotionBox
+          display="flex"
+          alignItems="center"
+          justifyContent={'center'}
+          gap={4}
+          as={motion.div}
+          initial={{opacity: 0, y: -10}}
+          animate={{opacity: 1, y: 0}}
+          transition={{delay: 0.5}}>
+          <Image
+            src="/project_logo.png"
+            alt="Green Gauge Logo"
+            width="40%"
+            height="auto"
+            paddingTop={2}
+          />
+        </MotionBox>
 
-      {/* 회원가입 폼 */}
-      <Box
-        w="100%"
-        maxW="600px"
-        bg="rgba(0, 0, 0, 0.5)" // 투명한 배경색 (흰색 배경에 80% 투명도)
-        p={8}
-        borderRadius="8px"
-        boxShadow="lg"
-        textAlign="center">
-        <Text fontSize="2xl" color="white" fontWeight="bold" mb={6}>
-          회원가입
-        </Text>
+        {/* 회원가입 폼 */}
+        <MotionBox
+          width={formWidth}
+          bg="rgba(255, 255, 255, 0.08)"
+          backdropFilter="blur(10px)"
+          border="1px solid rgba(255,255,255,0.15)"
+          borderRadius="xl"
+          boxShadow="xl"
+          p={8}
+          as="form"
+          onSubmit={handleSubmit}
+          initial={{opacity: 0, scale: 0.95}}
+          animate={{opacity: 1, scale: 1}}
+          transition={{delay: 0.6}}>
+          <Heading color="white" size="md" mb={6} textAlign="center">
+            회원가입
+          </Heading>
 
-        <form onSubmit={handleSubmit}>
           <Stack gap={4}>
             {/* 첫 번째 줄 */}
             <Flex justify="space-between" gap={4}>
               <Field.Root w="48%">
-                <FieldLabel htmlFor="email" color="white">
+                <Field.Label htmlFor="email" color="white">
                   이메일
-                </FieldLabel>
+                </Field.Label>
                 <Input
                   color="white"
                   id="email"
-                  type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="이메일을 입력하세요"
                 />
-                {emailError && <Text color="red.500">{emailError}</Text>}
               </Field.Root>
 
               <Field.Root w="48%">
-                <FieldLabel htmlFor="name" color="white">
+                <Field.Label htmlFor="name" color="white">
                   이름
-                </FieldLabel>
+                </Field.Label>
                 <Input
                   color="white"
                   id="name"
@@ -153,9 +167,9 @@ const SignUpPage = () => {
             {/* 두 번째 줄 */}
             <Flex justify="space-between" gap={4}>
               <Field.Root w="48%">
-                <FieldLabel htmlFor="username" color="white">
+                <Field.Label htmlFor="username" color="white">
                   아이디
-                </FieldLabel>
+                </Field.Label>
                 <Input
                   color="white"
                   id="username"
@@ -164,13 +178,12 @@ const SignUpPage = () => {
                   onChange={e => setUsername(e.target.value)}
                   placeholder="아이디를 입력하세요"
                 />
-                {usernameError && <Text color="red.500">{usernameError}</Text>}
               </Field.Root>
 
               <Field.Root w="48%">
-                <FieldLabel htmlFor="organization" color="white">
+                <Field.Label htmlFor="organization" color="white">
                   조직명
-                </FieldLabel>
+                </Field.Label>
                 <Input
                   color="white"
                   id="organization"
@@ -185,9 +198,9 @@ const SignUpPage = () => {
             {/* 세 번째 줄 */}
             <Flex justify="space-between" gap={4}>
               <Field.Root w="48%">
-                <FieldLabel htmlFor="password" color="white">
+                <Field.Label htmlFor="password" color="white">
                   비밀번호
-                </FieldLabel>
+                </Field.Label>
                 <Input
                   color="white"
                   id="password"
@@ -199,9 +212,9 @@ const SignUpPage = () => {
               </Field.Root>
 
               <Field.Root w="48%">
-                <FieldLabel htmlFor="confirmPassword" color="white">
+                <Field.Label htmlFor="confirmPassword" color="white">
                   비밀번호 확인
-                </FieldLabel>
+                </Field.Label>
                 <Input
                   color="white"
                   id="confirmPassword"
@@ -219,26 +232,26 @@ const SignUpPage = () => {
             {/* 회원가입 버튼 */}
             <Button
               type="submit"
-              bg="green.500"
-              _hover={{bg: 'green.400'}}
-              colorScheme="blue"
+              colorPalette={'green'}
+              variant={'solid'}
               width="full"
               mt={4}>
               회원가입
             </Button>
           </Stack>
-        </form>
-
-        {/* 로그인 페이지 링크 */}
-        <Box mt={4}>
-          <Text fontSize="sm" color="white">
+          {/* 로그인 페이지 링크 */}
+          <Text color="white" fontSize="sm" mt={6} textAlign="center">
             이미 회원이신가요?{' '}
-            <a href="/login" style={{color: 'white', textDecoration: 'none'}}>
+            <Link
+              href="/login"
+              color="green.900"
+              textDecoration="underline"
+              _hover={{color: 'green.800'}}>
               로그인
-            </a>
+            </Link>
           </Text>
-        </Box>
-      </Box>
+        </MotionBox>
+      </MotionFlex>
     </Flex>
   )
 }
