@@ -7,7 +7,7 @@ import {
   ISubsidiary
 } from '@/lib/api/interfaces/retrieveInterfaces'
 import {emissionInfoMapping} from '@/lib/data/mapping'
-import {Table} from '@chakra-ui/react'
+import {Flex, Table, Text} from '@chakra-ui/react'
 import TableCell from './Cell'
 import ActivityTableCell from './ActivityCell'
 
@@ -70,14 +70,6 @@ export const ModifiyHistory = ({data}: {data: ModifyHidtoryProps[]}) => {
               textAlign="center"
               fontWeight="bold"
               textStyle="xs">
-              사업장
-            </Table.ColumnHeader>
-            <Table.ColumnHeader
-              p={2}
-              justifyContent="center"
-              textAlign="center"
-              fontWeight="bold"
-              textStyle="xs">
               연도
             </Table.ColumnHeader>
             <Table.ColumnHeader
@@ -112,15 +104,6 @@ export const ModifiyHistory = ({data}: {data: ModifyHidtoryProps[]}) => {
               textStyle="xs">
               활동자료
             </Table.ColumnHeader>
-
-            <Table.ColumnHeader
-              p={2}
-              justifyContent="center"
-              textAlign="center"
-              fontWeight="bold"
-              textStyle="xs">
-              단위
-            </Table.ColumnHeader>
             <Table.ColumnHeader
               p={2}
               justifyContent="center"
@@ -129,6 +112,15 @@ export const ModifiyHistory = ({data}: {data: ModifyHidtoryProps[]}) => {
               textStyle="xs">
               합계
             </Table.ColumnHeader>
+            <Table.ColumnHeader
+              p={2}
+              justifyContent="center"
+              textAlign="center"
+              fontWeight="bold"
+              textStyle="xs">
+              단위
+            </Table.ColumnHeader>
+
             {/* Monthly columns */}
             {columnNames.map(col => (
               <Table.ColumnHeader
@@ -155,8 +147,6 @@ export const ModifiyHistory = ({data}: {data: ModifyHidtoryProps[]}) => {
         <Table.Body>
           {data.map(data => (
             <Table.Row key={data.data._id}>
-              <Table.Cell textStyle="xs">{data.subsidiary?.name}</Table.Cell>
-
               <TableCell fieldName="year" value={data.data.year} logs={data.logs} />
               <TableCell
                 fieldName="serialNumber"
@@ -179,11 +169,16 @@ export const ModifiyHistory = ({data}: {data: ModifyHidtoryProps[]}) => {
                 logs={data.logs}
               />
               <TableCell
-                fieldName="uncertainty"
-                value={data.data.uncertainty}
+                fieldName="total"
+                value={data.data.total?.toFixed(2)}
                 logs={data.logs}
               />
-              <TableCell fieldName="total" value={data.data.total} logs={data.logs} />
+              <TableCell
+                fieldName="unit"
+                value={data.data.activityData?.unit}
+                logs={data.logs}
+              />
+
               <TableCell fieldName="data1" value={data.data.data1} logs={data.logs} />
               <TableCell fieldName="data2" value={data.data.data2} logs={data.logs} />
               <TableCell fieldName="data3" value={data.data.data3} logs={data.logs} />

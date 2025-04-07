@@ -36,7 +36,7 @@ const Page = () => {
             <Card.Root width="100%" padding={4}>
               <Card.Body gap="2">
                 <Card.Title mt="2">{key}</Card.Title>
-
+                <Card.Description>{value[0].subsidiary.name}</Card.Description>
                 <ModifiyHistory data={value} />
               </Card.Body>
             </Card.Root>
