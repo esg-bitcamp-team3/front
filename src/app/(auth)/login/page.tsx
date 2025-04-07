@@ -8,6 +8,7 @@ import {
   Button,
   Flex,
   Heading,
+  Image,
   Input,
   Link,
   Stack,
@@ -57,18 +58,6 @@ const LoginPage = () => {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
       }}>
-      {/* 오버레이 */}
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        width="100%"
-        height="100%"
-        bg="rgba(0,0,0,0.6)"
-        backdropFilter="blur(6px)"
-        zIndex={0}
-      />
-
       <MotionFlex
         zIndex={1}
         direction="column"
@@ -83,16 +72,19 @@ const LoginPage = () => {
         <MotionBox
           display="flex"
           alignItems="center"
+          justifyContent={'center'}
           gap={4}
           as={motion.div}
           initial={{opacity: 0, y: -10}}
           animate={{opacity: 1, y: 0}}
           transition={{delay: 0.5}}>
-          <Text
-            fontSize={{base: '2xl', md: '4xl'}}
-            fontWeight="bold"
-            color="white"
-            fontFamily="'Lusitana', sans-serif"></Text>
+          <Image
+            src="/project_logo.png"
+            alt="Green Gauge Logo"
+            width="40%"
+            height="auto"
+            paddingTop={2}
+          />
         </MotionBox>
 
         {/* 로그인 카드 */}
@@ -119,10 +111,7 @@ const LoginPage = () => {
               value={username}
               onChange={e => setUsername(e.target.value)}
               color="white"
-              _placeholder={{color: 'gray.300'}}
               bg="transparent"
-              borderBottom="1px solid rgba(255,255,255,0.2)"
-              borderRadius="none"
               _focus={{
                 borderColor: 'green.400',
                 boxShadow: '0 1px 0 0 green.400'
@@ -134,14 +123,7 @@ const LoginPage = () => {
               value={password}
               onChange={e => setPassword(e.target.value)}
               color="white"
-              _placeholder={{color: 'gray.300'}}
               bg="transparent"
-              borderBottom="1px solid rgba(255,255,255,0.2)"
-              borderRadius="none"
-              _focus={{
-                borderColor: 'green.400',
-                boxShadow: '0 1px 0 0 green.400'
-              }}
             />
             {error && (
               <Text color="red.400" fontSize="sm">
@@ -149,27 +131,23 @@ const LoginPage = () => {
               </Text>
             )}
 
-            <MotionButton
-              whileHover={{scale: 1.03}}
-              whileTap={{scale: 0.98}}
+            <Button
               type="submit"
-              size="lg"
-              bgGradient="linear(to-r, green.400, green.600)"
-              color="white"
-              fontWeight="bold"
-              _hover={{bgGradient: 'linear(to-r, green.300, green.500)'}}
-              rounded="md">
+              colorPalette={'green'}
+              variant={'solid'}
+              width="full"
+              mt={4}>
               로그인
-            </MotionButton>
+            </Button>
           </Stack>
 
-          <Text color="gray.300" fontSize="sm" mt={6} textAlign="center">
+          <Text color="white" fontSize="sm" mt={6} textAlign="center">
             아직 회원이 아니신가요?{' '}
             <Link
               href="/signup"
-              color="green.300"
+              color="green.900"
               textDecoration="underline"
-              _hover={{color: 'green.400'}}>
+              _hover={{color: 'green.800'}}>
               회원가입
             </Link>
           </Text>
