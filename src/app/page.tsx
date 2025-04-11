@@ -7,8 +7,25 @@ import {motion} from 'framer-motion'
 
 const MotionBox = motion(Box)
 import {LuArrowRight} from 'react-icons/lu'
+import {useEffect, useState} from 'react'
+import {checkLogin} from '@/lib/api/auth'
 
 export default function Page() {
+  const [checkLog, setCheckLog] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (await checkLogin()) {
+          setCheckLog(true)
+        }
+      } catch (error) {
+        console.error('Error checking login:', error)
+      }
+    }
+    fetchData()
+  }, [])
+
   return (
     <Box
       flexDirection="column"
@@ -65,18 +82,48 @@ export default function Page() {
           <Text mb="3" fontSize="lg" color="white">
             당신의 한 걸음이 지구의 미소가 됩니다.
           </Text>
-          <Link href="/login">
-            <Button
-              as="a"
-              color="white"
-              size="lg"
-              borderRadius="md"
-              fontWeight="bold"
-              padding={4}
-              colorPalette="gray">
-              로그인 <LuArrowRight size="xl" />
-            </Button>
-          </Link>
+          {checkLog ? (
+            <Link href="/dashboard">
+              <Button
+                as="a"
+                color="white"
+                size="lg"
+                borderRadius="md"
+                fontWeight="bold"
+                padding={4}
+                colorPalette="gray">
+                들어가기 <LuArrowRight size="xl" />
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <Button
+                as="a"
+                color="white"
+                size="lg"
+                borderRadius="md"
+                fontWeight="bold"
+                padding={4}
+                colorPalette="gray">
+                로그인 <LuArrowRight size="xl" />
+              </Button>
+            </Link>
+          )}
+
+          {/* {!session && (
+            <Link href="/login">
+              <Button
+                as="a"
+                color="white"
+                size="lg"
+                borderRadius="md"
+                fontWeight="bold"
+                padding={4}
+                colorPalette="gray">
+                로그인 <LuArrowRight size="xl" />
+              </Button>
+            </Link>
+          )} */}
         </Stack>
         <MotionBox
           flex="1"

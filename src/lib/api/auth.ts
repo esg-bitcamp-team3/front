@@ -52,3 +52,9 @@ export const checkEmail = async (email: string) => {
     return false
   }
 }
+
+export async function checkLogin() {
+  return await apiClient.get<Response<string>>(`/auth/check-login`, {
+    withAuth: true
+  })
+}
