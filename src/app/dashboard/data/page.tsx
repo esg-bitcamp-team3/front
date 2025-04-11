@@ -44,7 +44,7 @@ import {PieForOrganization} from './components/pie'
 import {LineChart} from './components/lineChart'
 import {SubsidiaryCard} from './components/subsidiaryCard'
 import {RevenueAndEmission} from './components/revenueAndEmission'
-import {GoalProgress} from './components/goalprogress'
+import {GoalProgress} from './components/Goalprogress'
 
 // Define prop types for components
 interface StatsSectionProps {
