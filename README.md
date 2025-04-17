@@ -21,17 +21,27 @@
 
 
 ### 페이지 상세 설명
-1. **랜딩 페이지**  
+1. **랜딩 페이지**
+
+   ![image](https://github.com/user-attachments/assets/b25f8b05-a95b-4902-8555-e080f2c3f3f8)
+
    
 
-2. **로그인 및 회원가입 페이지**  
-   사용자 인증을 처리하는 페이지로, 기존 유저는 로그인하고, 새로운 유저는 회원가입을 할 수 있습니다.
+3. **로그인 및 회원가입 페이지**  
+   로그인 및 회원가입 페이지입니다.
+
+   ![image](https://github.com/user-attachments/assets/91ad962f-3716-4e60-a7a4-014a49c41668)
+
    회원가입 시에는 제공된 기업 코드를 통해 특정 기업의 관리자로 회원가입 할 수 있습니다.
+
+   ![image](https://github.com/user-attachments/assets/c779f620-db7b-4a6f-ac2a-c7aa87df8281)
+
    
 
-4. **기업 대시보드 페이지**  
+5. **기업 대시보드 페이지**  
    기업별 배출 데이터를 시각화하여 대시보드 형태로 보여주며, 데이터를 빠르게 분석하고 관리할 수 있는 기능을 제공합니다.
-  ![image](https://github.com/user-attachments/assets/e695fa53-a09b-40ff-9a22-129b5213a408)
+   
+   ![image](https://github.com/user-attachments/assets/e695fa53-a09b-40ff-9a22-129b5213a408)
 
    기업 정보와 사업장별 배출량을 조회할 수 있습니다.
 
@@ -46,6 +56,9 @@
    ![image](https://github.com/user-attachments/assets/ed1f3f18-c98e-4ec5-b1b8-aebe368e1681)
 
   목표 감축량을 달성한 경우는 다음과 같이 표시됩니다.
+
+
+   ![image](https://github.com/user-attachments/assets/a3e2ceb0-0780-476a-b732-d62019798403)
 
   
 
@@ -142,8 +155,11 @@
 
 
 ### 프로젝트 특징
+
 - **사용자 친화적인 UI:** Handsontable을 활용하여 데이터를 표 형식으로 직관적으로 관리하고 수정할 수 있습니다.
-- **유연한 데이터 관리:** 배출 데이터를 관리하고 수정 내역을 확인할 수 있습니다. 
+  
+- **유연한 데이터 관리:** 배출 데이터를 관리하고 수정 내역을 확인할 수 있습니다.
+  
 - **확장성:** 프로젝트는 향후 다른 ESG 관련 데이터를 추가하거나, 더 많은 분석 도구를 추가할 수 있도록 설계되었습니다.
 
 
