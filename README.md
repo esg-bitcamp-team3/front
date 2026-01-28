@@ -1,5 +1,9 @@
 # ESG 대시보드 프로젝트
 
+<span height="450">
+<img width="310" height=430 alt="image" src="https://github.com/user-attachments/assets/ccf3fbdf-1946-41f5-a2b1-bec90db67d60" />
+<img width="310" height=430 alt="image" src="https://github.com/user-attachments/assets/5bc2a3c6-9a59-4235-bcc3-05699ea25261" />
+</span>
 
 ### 개요
 이 프로젝트는 기업들이 배출 데이터를 효율적으로 관리하고 분석할 수 있도록 돕는 ESG(환경, 사회, 지배구조) 대시보드를 제공합니다. 배출 데이터의 시각화, 입력 및 수정 기능뿐만 아니라 기업 및 사업장 관리와 관련된 다양한 기능을 제공합니다.
